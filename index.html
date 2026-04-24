@@ -1025,7 +1025,7 @@ function renderSucList(){
       <span class="si-cod">${s.sucCodigo}</span>
       <span class="si-nom">${s.sucNombre}</span>
       <span class="si-rows">${s.filas} filas</span>
-      <span class="si-fecha">${s.fechaCarga}</span>
+      <span class="si-fecha">${String(s.fechaCarga).substring(0,10)}</span>
       <button class="si-del" title="Eliminar esta sucursal" onclick="borrarSucursal('${s.sucCodigo}','${s.sucNombre}')">✕</button>
     </div>`).join('');
 }
@@ -1067,8 +1067,9 @@ async function subirArchivosDesde(files){
         <span style="color:var(--text-dim)">Se intentará subir igual, pero verificá que el código de sucursal sea correcto.</span>
       </div>`;
     }
-    statusEl.innerHTML+=`<div style="font-size:11px;color:var(--text-dim);margin-top:4px">⏳ Procesando ${f.name}…</div>`;
-    showLoading(`Procesando ${f.name}…`);
+    const pctTotal = Math.round((xlsxFiles.indexOf(f) / xlsxFiles.length) * 100);
+    statusEl.innerHTML+=`<div style="font-size:11px;color:var(--text-dim);margin-top:4px">⏳ Procesando ${f.name}… (${xlsxFiles.indexOf(f)+1}/${xlsxFiles.length} — ${pctTotal}%)</div>`;
+    showLoading(`Subiendo archivos… ${xlsxFiles.indexOf(f)+1} de ${xlsxFiles.length} (${pctTotal}%)`);
     try {
       const filas = await leerXlsx(f);
       if(!filas.length){statusEl.innerHTML+=`<div class="msg-err" style="margin-top:4px">Sin filas válidas en ${f.name}</div>`;hideLoading();continue;}
@@ -1100,7 +1101,10 @@ async function subirArchivosDesde(files){
         statusEl.innerHTML+=`<div class="msg-err" style="margin-top:4px">Error: ${res.error}</div>`;
         continue;
       }
-      statusEl.innerHTML+=`<div style="font-size:11px;color:var(--accent2);margin-top:4px">✓ ${f.name} — ${filas.length} filas subidas</div>`;
+      statusEl.innerHTML+=`<div style="font-size:11px;color:var(--accent2);margin-top:4px">✓ ${f.name} — ${filas.length} filas subidas</div>
+      <div style="background:var(--border);border-radius:99px;height:3px;margin-top:4px;overflow:hidden">
+        <div style="width:${Math.round((xlsxFiles.indexOf(f)+1)/xlsxFiles.length*100)}%;height:100%;border-radius:99px;background:var(--accent2)"></div>
+      </div>`;
     } catch(err){
       statusEl.innerHTML+=`<div class="msg-err" style="margin-top:4px">Error en ${f.name}: ${err.message}</div>`;
     }
