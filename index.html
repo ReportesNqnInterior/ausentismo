@@ -486,20 +486,23 @@ async function renderAdminPanel(){
   const curPeriodo = periodos[0] || '';
 
   document.getElementById('admin-body').innerHTML=`
+    <div class="field-lbl">Período activo</div>
+    ${periodos.length ? `
     <div class="periodo-sel-row">
-      <div style="flex:1">
-        <div class="field-lbl">Período activo</div>
-        <select class="fi-text" id="admin-periodo-sel" onchange="renderSucList()" style="margin-bottom:0">
-          ${periodos.map(p=>`<option value="${p}">${p}</option>`).join('')}
-          <option value="__nuevo__">+ Nuevo período…</option>
-        </select>
-      </div>
-      <button class="btn-danger" style="padding:6px 12px;font-size:11px;flex-shrink:0;align-self:flex-end" onclick="confirmarBorrarPeriodo()">Borrar período</button>
+      <select class="fi-text" id="admin-periodo-sel" style="margin-bottom:0;flex:1" onchange="onCambiarPeriodo(this)">
+        ${periodos.map(p=>'<option value="'+p+'">'+p+'</option>').join('')}
+        <option value="__nuevo__">+ Nuevo período…</option>
+      </select>
+      <button class="btn-danger" style="padding:6px 12px;font-size:11px;flex-shrink:0" onclick="confirmarBorrarPeriodo()">Borrar período</button>
     </div>
     <div id="admin-nuevo-periodo" style="display:none;margin-bottom:8px">
-      <div class="field-lbl">Nombre del nuevo período (ej: Abril 2026)</div>
-      <input type="text" class="fi-text" id="admin-nuevo-periodo-txt" placeholder="Abril 2026">
-    </div>
+      <div class="field-lbl">Nombre del nuevo período</div>
+      <input type="text" class="fi-text" id="admin-nuevo-periodo-txt" placeholder="ej: Abril 2026">
+    </div>` : `
+    <div style="margin-bottom:10px">
+      <input type="text" class="fi-text" id="admin-nuevo-periodo-txt" placeholder="ej: Marzo 2026" style="margin-bottom:0">
+      <div style="font-size:10px;color:var(--text-dim);margin-top:4px">No hay períodos todavía. Escribí el nombre y subí los archivos.</div>
+    </div>`}
     <div class="field-lbl" style="margin-top:6px">Sucursales cargadas</div>
     <div class="suc-list" id="admin-suc-list"></div>
     <div class="upload-drop" id="admin-drop" onclick="document.getElementById('file-input-admin').click()">
@@ -515,13 +518,20 @@ async function renderAdminPanel(){
   drop.addEventListener('dragleave',()=>drop.classList.remove('drag-over'));
   drop.addEventListener('drop',e=>{e.preventDefault();drop.classList.remove('drag-over');subirArchivosDesde([...e.dataTransfer.files])});
 
-  // Listener nuevo período
-  document.getElementById('admin-periodo-sel').addEventListener('change', function(){
-    document.getElementById('admin-nuevo-periodo').style.display = this.value==='__nuevo__'?'block':'none';
-    renderSucList();
-  });
+  // Listener nuevo período (manejado por onCambiarPeriodo en el select)
 
   renderSucList();
+}
+
+function onCambiarPeriodo(sel){
+  const isNuevo = sel.value === '__nuevo__';
+  document.getElementById('admin-nuevo-periodo').style.display = isNuevo ? 'block' : 'none';
+  if(isNuevo){
+    setTimeout(()=>{const t=document.getElementById('admin-nuevo-periodo-txt');if(t)t.focus();},50);
+    document.getElementById('admin-suc-list').innerHTML='<div style="font-size:11px;color:var(--text-dim);padding:8px 0">Ingresá el nombre y subí los archivos.</div>';
+  } else {
+    renderSucList();
+  }
 }
 
 function renderSucList(){
@@ -541,7 +551,11 @@ function renderSucList(){
 
 function getPeriodoAdmin(){
   const sel = document.getElementById('admin-periodo-sel');
-  if(!sel) return '';
+  // Si no hay selector (primer uso, sin períodos) usar directo el input
+  if(!sel){
+    const txt = document.getElementById('admin-nuevo-periodo-txt');
+    return txt?txt.value.trim():'';
+  }
   if(sel.value==='__nuevo__'){
     const txt = document.getElementById('admin-nuevo-periodo-txt');
     return txt?txt.value.trim():'';
