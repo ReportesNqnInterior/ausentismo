@@ -1264,7 +1264,7 @@ function applyDetalle(){
   const dia=document.getElementById('d-dia').value;
   const tipo=document.getElementById('d-tipo').value;
   filtDet=allDetalle.filter(r=>{
-    if(suc&&r.sucCodigo!==suc)return false;if(dia&&r.dia!==dia)return false;
+    if(suc&&r.sucCodigo!==suc)return false;if(dia&&r.dia.trim()!==dia.trim())return false;
     if(tipo==='aus'&&!r.ausentismo)return false;if(tipo==='tard'&&(!r.tardanza||r.tardanza==='00:00'))return false;
     if(tipo==='san'&&r.c9SAN<=0)return false;if(tipo==='ext'&&r.c7120<=0)return false;if(tipo==='dom'&&r.c0091<=0)return false;
     if(q){const hay=r.nro+' '+r.nombre.toLowerCase()+' '+r.ausentismo.toLowerCase();if(!hay.includes(q))return false;}
