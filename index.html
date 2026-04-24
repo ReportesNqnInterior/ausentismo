@@ -169,6 +169,34 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
 .empty{text-align:center;padding:50px 20px;color:var(--text-dim)}
 .empty-icon{font-size:26px;margin-bottom:10px;opacity:.35}
 
+/* DRAWER LATERAL */
+.drawer-overlay{display:none;position:fixed;inset:0;z-index:400;pointer-events:none}
+.drawer-overlay.open{display:block;pointer-events:auto}
+.drawer{position:fixed;top:0;right:-420px;width:420px;height:100vh;background:var(--surface2);border-left:2px solid var(--accent);z-index:700;transition:right .3s ease;display:flex;flex-direction:column;overflow:hidden;box-shadow:-8px 0 32px rgba(0,0,0,.6)}
+.drawer.open{right:0}
+.drawer-backdrop{position:fixed;inset:0;background:rgba(13,17,23,.5);z-index:699;display:none;transition:opacity .3s}
+.drawer-backdrop.open{display:block}
+.drawer-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.drawer-title{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--accent)}
+.drawer-body{flex:1;overflow-y:auto;padding:16px 20px}
+.drawer-close{background:none;border:none;color:var(--text-dim);font-size:18px;cursor:pointer;transition:color .15s;line-height:1}
+.drawer-close:hover{color:var(--text)}
+
+/* UPLOAD CARDS */
+.upload-cards{display:flex;flex-direction:column;gap:6px;margin-top:10px;max-height:280px;overflow-y:auto}
+.upload-card-item{background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;transition:border-color .2s}
+.upload-card-item.uploading{border-color:var(--accent)}
+.upload-card-item.done{border-color:var(--accent2)}
+.upload-card-item.error{border-color:var(--accent3)}
+.upload-card-item.waiting{opacity:.5}
+.uci-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.uci-icon{font-size:16px;flex-shrink:0}
+.uci-name{flex:1;font-size:11px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.uci-status{font-size:10px;font-family:var(--mono);flex-shrink:0}
+.uci-bar{background:var(--border);border-radius:99px;height:4px;overflow:hidden}
+.uci-bar-fill{height:100%;border-radius:99px;width:0%;transition:width .3s}
+.uci-meta{font-size:10px;color:var(--text-dim);margin-top:4px;display:flex;justify-content:space-between}
+
 /* CHIPS PERÍODO */
 .per-chip{display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border2);border-radius:6px;padding:8px 12px;cursor:pointer;transition:border-color .15s,background .15s;font-size:12px}
 .per-chip:hover{border-color:var(--accent);background:rgba(240,165,0,.05)}
@@ -351,7 +379,7 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
 <div id="app">
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('resumen')">Resumen por empleado <span class="badge" id="b-res">0</span></button>
-    <button class="tab-btn" onclick="switchTab('detalle')">Detalle diario <span class="badge" id="b-det">0</span></button>
+    <button class="tab-btn" onclick="switchTab('detalle');cargarDetalleSiNecesario()">Detalle diario <span class="badge" id="b-det">0</span></button>
   </div>
   <div class="tab-content active" id="tab-resumen">
     <div class="toolbar">
@@ -437,6 +465,16 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
   </div>
 </div>
 
+<!-- DRAWER UPLOAD -->
+<div class="drawer-backdrop" id="drawer-backdrop" onclick="cerrarDrawer()"></div>
+<div class="drawer" id="drawer-upload">
+  <div class="drawer-header">
+    <span class="drawer-title">Subiendo archivos</span>
+    <button class="drawer-close" onclick="cerrarDrawer()">✕</button>
+  </div>
+  <div class="drawer-body" id="drawer-status"></div>
+</div>
+
 <!-- MODAL ADMIN -->
 <div class="modal-overlay" id="modal-admin" onclick="if(event.target===this)cerrarAdmin()">
   <div class="modal" style="width:500px">
@@ -494,6 +532,15 @@ const PR=500,PD=100;
 
 // ══ INICIO ════════════════════════════════════════════════
 window.addEventListener('load', iniciar);
+
+function abrirDrawer(){
+  document.getElementById('drawer-upload').classList.add('open');
+  document.getElementById('drawer-backdrop').classList.add('open');
+}
+function cerrarDrawer(){
+  document.getElementById('drawer-upload').classList.remove('open');
+  document.getElementById('drawer-backdrop').classList.remove('open');
+}
 
 function setSplashMsg(msg, step) {
   const el = document.getElementById('splash-loading-msg');
@@ -557,11 +604,12 @@ async function iniciar(){
     if(periodos.length === 1){
       setSplashMsg('Cargando ' + periodos[0] + '…', 3);
       periodoActivo = periodos[0];
-      const datos = await gas('getData', {periodo: periodoActivo});
-      setSplashMsg('Procesando ' + datos.rows.length.toLocaleString('es-AR') + ' registros…', 4);
+      // Cargar solo resumen (rápido) — detalle bajo demanda
+      const resumen = await gas('getResumen', {periodo: periodoActivo});
+      setSplashMsg('Procesando ' + resumen.resumen.length.toLocaleString('es-AR') + ' empleados…', 4);
       await new Promise(r=>setTimeout(r,200));
       document.getElementById('splash-loading').style.display='none';
-      procesarRespuesta(datos);
+      procesarResumen(resumen);
     } else {
       setSplashMsg('', 4);
       await new Promise(r=>setTimeout(r,300));
@@ -638,6 +686,40 @@ function procesarRespuesta(res){
 }
 
 // Helper: construir mapa de columnas desde función ci
+let detalleLoaded = false;
+let detalleData = null;
+
+function procesarResumen(res) {
+  // Cargar solo resumen sin detalle
+  allResumen = (res.resumen || []).map(r => ({...r}));
+  allDetalle = [];
+  detalleLoaded = false;
+
+  poblarFiltros();
+  document.getElementById('splash').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('btn-export').style.display='block';
+  document.getElementById('periodo-badge').style.display='flex';
+  document.getElementById('periodo-badge-txt').textContent = periodoActivo;
+  document.getElementById('b-res').textContent = allResumen.length;
+  document.getElementById('b-det').textContent = '...';
+  applyResumen();
+}
+
+async function cargarDetalleSiNecesario() {
+  if (detalleLoaded) return;
+  detalleLoaded = true;
+  document.getElementById('b-det').textContent = '⏳';
+  try {
+    const res = await gas('getData', {periodo: periodoActivo});
+    procesarRespuesta(res);
+    document.getElementById('b-det').textContent = allDetalle.length.toLocaleString('es-AR');
+  } catch(e) {
+    document.getElementById('b-det').textContent = '!';
+    detalleLoaded = false;
+  }
+}
+
 function buildCMap(ci){
   // Busca por nombre exacto o sin ceros adelante
   const cix = (...names) => { for(const n of names){ const i=ci(n); if(i>=0) return i; } return -1; };
@@ -768,8 +850,9 @@ async function cambiarPeriodo(p){
   document.getElementById('periodo-badge-txt').textContent = p;
   showLoading('Cargando '+p+'…');
   try {
-    const res = await gas('getData', {periodo: p});
-    procesarRespuesta(res);
+    const res = await gas('getResumen', {periodo: p});
+    procesarResumen(res);
+    detalleLoaded = false; // resetear flag de detalle
   } catch(e) { alert('Error: '+e.message); }
   hideLoading();
 }
@@ -1055,86 +1138,167 @@ async function subirArchivosDesde(files){
   const periodo = getPeriodoAdmin();
   if(!periodo){alert('Especificá el período antes de subir archivos.');return;}
 
-  const statusEl = document.getElementById('admin-upload-status');
-  statusEl.innerHTML='';
+  const statusEl = document.getElementById('drawer-status');
+  abrirDrawer();
 
-  for(const f of xlsxFiles){
-    // Validar formato del nombre
-    const fmtOk = /^\d{3}\s+[A-Za-z]{3}\s+\d{2}(\s.*)?(\.xlsx?)$/i.test(f.name);
-    if(!fmtOk){
-      statusEl.innerHTML+=`<div style="font-size:11px;color:var(--accent);margin-top:6px;background:rgba(240,165,0,.08);border:1px solid rgba(240,165,0,.2);border-radius:4px;padding:5px 8px">
-        ⚠ <b>${f.name}</b> — el nombre no sigue el formato recomendado <span style="font-family:var(--mono)">050 Mar 26.xlsx</span>.<br>
-        <span style="color:var(--text-dim)">Se intentará subir igual, pero verificá que el código de sucursal sea correcto.</span>
+  // Estado de cada archivo: waiting / uploading / done / error / conflict
+  const estados = xlsxFiles.map(f=>({name:f.name.replace(/\.xlsx?$/i,''), state:'waiting', pct:0, info:'en espera'}));
+
+  function renderStatus(){
+    const done = estados.filter(e=>e.state==='done').length;
+    const total = estados.length;
+    const overallPct = Math.round(done/total*100);
+    statusEl.innerHTML = `
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div style="font-size:11px;color:var(--text-dim);font-family:var(--mono)">${total} archivos seleccionados</div>
+        <div style="font-size:11px;color:var(--text-dim);font-family:var(--mono)" id="overall-pct">${overallPct}% completado</div>
+      </div>
+      <div style="height:3px;background:var(--border);border-radius:99px;margin-bottom:16px;overflow:hidden">
+        <div style="height:100%;width:${overallPct}%;background:var(--accent2);border-radius:99px;transition:width .4s"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0">
+        ${estados.map((e,i)=>{
+          const isLast = i===estados.length-1;
+          const border = isLast?'':'border-bottom:1px solid var(--border);';
+          if(e.state==='waiting') return `
+            <div style="display:flex;align-items:center;gap:12px;padding:8px 0;${border}opacity:.35">
+              <div style="font-size:11px;color:var(--text-dim);width:16px;text-align:center;font-family:var(--mono)">—</div>
+              <div style="flex:1;font-size:12px;color:var(--text-dim)">${e.name}</div>
+              <div style="font-size:11px;color:var(--text-dim)">en espera</div>
+            </div>`;
+          if(e.state==='uploading') return `
+            <div style="display:flex;align-items:center;gap:12px;padding:8px 0;${border}">
+              <div style="width:14px;height:14px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0"></div>
+              <div style="flex:1;min-width:0">
+                <div style="font-size:12px;color:var(--text);margin-bottom:4px">${e.name}</div>
+                <div style="height:2px;background:var(--border);border-radius:99px;overflow:hidden">
+                  <div style="height:100%;width:${e.pct}%;background:var(--accent);border-radius:99px;transition:width .3s"></div>
+                </div>
+              </div>
+              <div style="font-size:11px;color:var(--text-dim);white-space:nowrap;font-family:var(--mono)">${e.info}</div>
+            </div>`;
+          if(e.state==='done') return `
+            <div style="display:flex;align-items:center;gap:12px;padding:8px 0;${border}">
+              <div style="font-size:11px;color:var(--accent2);width:16px;text-align:center">✓</div>
+              <div style="flex:1;font-size:12px;color:var(--text-mid)">${e.name}</div>
+              <div style="font-size:11px;color:var(--accent2);font-family:var(--mono)">${e.info}</div>
+            </div>`;
+          if(e.state==='error') return `
+            <div style="display:flex;align-items:center;gap:12px;padding:8px 0;${border}">
+              <div style="font-size:11px;color:var(--accent3);width:16px;text-align:center">✗</div>
+              <div style="flex:1;min-width:0">
+                <div style="font-size:12px;color:var(--text-mid)">${e.name}</div>
+                <div style="font-size:10px;color:var(--accent3)">${e.info}</div>
+              </div>
+            </div>`;
+          if(e.state==='conflict') return `
+            <div style="display:flex;align-items:center;gap:12px;padding:8px 0;${border}">
+              <div style="font-size:11px;color:var(--accent);width:16px;text-align:center">!</div>
+              <div style="flex:1;min-width:0">
+                <div style="font-size:12px;color:var(--text)">${e.name}</div>
+                <div style="font-size:10px;color:var(--accent);margin-bottom:6px">Ya existe para ${periodo}</div>
+                <div style="display:flex;gap:6px">
+                  <button onclick="window._resolveConflict(${i},true)" style="flex:1;background:var(--accent3);color:#fff;border:none;border-radius:4px;padding:5px;font-family:var(--mono);font-size:10px;font-weight:600;cursor:pointer">Reemplazar</button>
+                  <button onclick="window._resolveConflict(${i},false)" style="flex:1;background:var(--surface2);color:var(--text-dim);border:1px solid var(--border2);border-radius:4px;padding:5px;font-family:var(--mono);font-size:10px;cursor:pointer">Saltar</button>
+                </div>
+              </div>
+            </div>`;
+          return '';
+        }).join('')}
       </div>`;
-    }
-    const pctTotal = Math.round((xlsxFiles.indexOf(f) / xlsxFiles.length) * 100);
-    statusEl.innerHTML+=`<div style="font-size:11px;color:var(--text-dim);margin-top:4px">⏳ Procesando ${f.name}… (${xlsxFiles.indexOf(f)+1}/${xlsxFiles.length} — ${pctTotal}%)</div>`;
-    showLoading(`Subiendo archivos… ${xlsxFiles.indexOf(f)+1} de ${xlsxFiles.length} (${pctTotal}%)`);
+  }
+
+  renderStatus();
+
+  for(let _fi=0; _fi<xlsxFiles.length; _fi++){
+    const f = xlsxFiles[_fi];
+    const fmtOk = /^\d{3}\s+[A-Za-z]{3}\s+\d{2}(\s.*)?(\.(xlsx?))$/i.test(f.name);
+
+    estados[_fi].state = 'uploading';
+    estados[_fi].pct = 0;
+    estados[_fi].info = '0%';
+    renderStatus();
+    showLoading(`Subiendo sucursal ${_fi+1} de ${xlsxFiles.length}…`);
+
     try {
       const filas = await leerXlsx(f);
-      if(!filas.length){statusEl.innerHTML+=`<div class="msg-err" style="margin-top:4px">Sin filas válidas en ${f.name}</div>`;hideLoading();continue;}
+      if(!filas.length){
+        estados[_fi].state='error';
+        estados[_fi].info='Sin filas válidas';
+        renderStatus(); continue;
+      }
       const sucCodigo = filas[0].sucCodigo;
       const sucNombre = filas[0].sucNombre;
-      showLoading(`Subiendo ${f.name} (${filas.length} filas)…`);
 
       // Verificar si ya existe
-      const checkRes = await gas('uploadData',{
-        pass: adminPass, periodo, sucCodigo, sucNombre,
-        replace: false, rows: []
-      });
+      const checkRes = await gas('uploadData',{pass:adminPass,periodo,sucCodigo,sucNombre,replace:false,rows:[]});
       if(!checkRes.ok){
-        if(checkRes.error === 'YA_EXISTE'){
-          const ok = confirm(`La sucursal ${sucCodigo} ya tiene datos para ${periodo}.\n¿Reemplazarlos?`);
-          if(!ok){hideLoading();continue;}
-        } else if(checkRes.error === 'Contraseña incorrecta'){
-          alert('Contraseña incorrecta.');hideLoading();return;
+        if(checkRes.error==='YA_EXISTE'){
+          estados[_fi].state='conflict';
+          renderStatus();
+          const conflictIdx = _fi;
+          const reemplazar = await new Promise(resolve=>{
+            window._resolveConflict=(idx,val)=>{ if(idx===conflictIdx) resolve(val); };
+          });
+          if(!reemplazar){
+            estados[_fi].state='done';
+            estados[_fi].info='saltado';
+            renderStatus(); continue;
+          }
+        } else if(checkRes.error==='Contraseña incorrecta'){
+          alert('Contraseña incorrecta.'); hideLoading(); return;
         }
       }
 
-      // Subir todo de una sola vez con replace=true
-      showLoading(`Subiendo ${f.name} (${filas.length} filas)…`);
-      const res = await gas('uploadData',{
-        pass: adminPass, periodo, sucCodigo, sucNombre,
-        replace: true, rows: filas
-      });
-      if(!res.ok){
-        statusEl.innerHTML+=`<div class="msg-err" style="margin-top:4px">Error: ${res.error}</div>`;
-        continue;
+      // Subir en chunks
+      const CHUNK=500, total=filas.length;
+      let errorChunk=false;
+      estados[_fi].state='uploading';
+      for(let ci=0;ci<total;ci+=CHUNK){
+        const chunk=filas.slice(ci,ci+CHUNK);
+        const isFirst=ci===0;
+        const pct=Math.min(100,Math.round((ci+chunk.length)/total*100));
+        estados[_fi].pct=pct;
+        estados[_fi].info=`${(ci+chunk.length).toLocaleString('es-AR')} / ${total.toLocaleString('es-AR')}`;
+        renderStatus();
+        const res=await gas('uploadData',{pass:adminPass,periodo,sucCodigo,sucNombre,replace:isFirst,isChunk:!isFirst,rows:chunk});
+        if(!res.ok){
+          estados[_fi].state='error';
+          estados[_fi].info=res.error;
+          renderStatus(); errorChunk=true; break;
+        }
       }
-      statusEl.innerHTML+=`<div style="font-size:11px;color:var(--accent2);margin-top:4px">✓ ${f.name} — ${filas.length} filas subidas</div>
-      <div style="background:var(--border);border-radius:99px;height:3px;margin-top:4px;overflow:hidden">
-        <div style="width:${Math.round((xlsxFiles.indexOf(f)+1)/xlsxFiles.length*100)}%;height:100%;border-radius:99px;background:var(--accent2)"></div>
-      </div>`;
+      if(errorChunk) continue;
+      estados[_fi].state='done';
+      estados[_fi].info=`${total.toLocaleString('es-AR')} filas`;
+      renderStatus();
+
     } catch(err){
-      statusEl.innerHTML+=`<div class="msg-err" style="margin-top:4px">Error en ${f.name}: ${err.message}</div>`;
+      estados[_fi].state='error';
+      estados[_fi].info=err.message;
+      renderStatus();
     }
     hideLoading();
   }
 
-  // Refrescar lista de sucursales en el panel
-  const res = await gas('getPeriodos').catch(()=>({periodos:[]}));
-  periodosDisponibles = res.periodos||[];
+  // Refrescar lista de sucursales
+  const res2 = await gas('getPeriodos').catch(()=>({periodos:[]}));
+  periodosDisponibles = res2.periodos||[];
   renderSucList();
 
-  // Si hay archivos subidos exitosamente, cerrar modal y recargar datos
-  const hayExitos = statusEl.querySelector('[style*="accent2"]');
+  const hayExitos = estados.some(e=>e.state==='done'&&e.info!=='saltado');
   if(hayExitos){
-    statusEl.innerHTML += `<div style="font-size:11px;color:var(--text-dim);margin-top:8px;text-align:center">✓ Cargando reporte…</div>`;
-    setTimeout(async ()=>{
+    setTimeout(async()=>{
       cerrarAdmin();
-      // Refrescar lista de períodos
-      const res2 = await gas('getPeriodos').catch(()=>({periodos:[]}));
-      periodosDisponibles = res2.periodos || [];
-      // Si el app ya está visible, recargar datos
-      if(document.getElementById('app').style.display !== 'none'){
+      if(document.getElementById('app').style.display!=='none'){
         await recargarDatos();
       } else {
-        // Volver al inicio y cargar directo
         await iniciar();
       }
     }, 1500);
   }
 }
+
 
 async function borrarSucursal(cod, nom){
   const periodo = getPeriodoAdmin();
