@@ -190,6 +190,9 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
   <div class="header-sep"></div>
   <button class="btn-hdr yellow" id="btn-export" onclick="abrirModalExport()" style="display:none">↓ Exportar</button>
   <button class="btn-hdr green" id="btn-admin" onclick="abrirAdmin()" style="display:none">⚙ Admin</button>
+  <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);white-space:nowrap;flex-shrink:0;letter-spacing:.03em">
+    dev <span style="color:var(--accent)">Jonathan Cheves</span> · RRHH Neuquén Interior
+  </div>
 </div>
 
 <!-- SPLASH -->
@@ -204,6 +207,9 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
   </div>
   <div style="font-size:11px;color:var(--text-dim)">
     ¿Sos responsable de carga? <span style="color:var(--accent);cursor:pointer;text-decoration:underline" onclick="abrirAdmin()">Accedé al panel de administración</span>
+  </div>
+  <div style="font-size:10px;color:var(--text-dim);opacity:.5;margin-top:8px;font-family:var(--mono)">
+    Desarrollado por Jonathan Cheves · RRHH Neuquén Interior
   </div>
 </div>
 
@@ -233,8 +239,8 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
       <div class="res-panel">
         <div class="panel-section">
           <div class="panel-title">⚙ Semáforo Llegadas Tarde</div>
-          <div class="cfg-row"><div class="dot-cfg dot-red"></div><span class="cfg-lbl">Rojo si hs. &gt;</span><input type="number" class="cfg-num" id="cfg-red" value="1" min="0" step="0.5" onchange="applyResumen()"></div>
-          <div class="cfg-row"><div class="dot-cfg dot-yellow"></div><span class="cfg-lbl">Amarillo si hs. &gt;</span><input type="number" class="cfg-num" id="cfg-yellow" value="0.25" min="0" step="0.25" onchange="applyResumen()"></div>
+          <div class="cfg-row"><div class="dot-cfg dot-red"></div><span class="cfg-lbl">Rojo si hs. &gt;</span><input type="number" class="cfg-num" id="cfg-red" value="1" min="0" step="0.25" oninput="renderResumenPage()"></div>
+          <div class="cfg-row"><div class="dot-cfg dot-yellow"></div><span class="cfg-lbl">Amarillo si hs. &gt;</span><input type="number" class="cfg-num" id="cfg-yellow" value="0.1" min="0" step="0.05" oninput="renderResumenPage()"></div>
           <div style="font-size:10px;color:var(--text-dim);margin-top:4px">Aplica sobre total de horas del período</div>
         </div>
         <div id="rankings-wrap"></div>
@@ -330,6 +336,24 @@ const PR=500,PD=100;
 
 // ══ INICIO ════════════════════════════════════════════════
 window.addEventListener('load', iniciar);
+
+async function recargarDatos(){
+  const periodo = periodoActivo || (() => {
+    // Si estamos en splash, tomar el período del selector si existe
+    const sel = document.getElementById('sel-periodo');
+    return sel ? sel.value : '';
+  })();
+  if(!periodo) { location.reload(); return; }
+
+  showLoading('Actualizando datos de '+periodo+'…');
+  try {
+    const res = await gas('getData', {periodo});
+    procesarRespuesta(res);
+  } catch(e) {
+    alert('Error al recargar: '+e.message);
+  }
+  hideLoading();
+}
 
 async function iniciar(){
   showLoading('Conectando con el servidor…');
@@ -433,7 +457,12 @@ function calcularResumen(){
     if(f.ausentismo)e._aus.add(f.fecha);
     if(f.suplencia)e._sup.add(f.fecha);
     ['c0090','c0091','c0100','c0120','c7120','c9IMP','c9LLT','c9SAN'].forEach(k=>e[k]+=f[k]);
-    if(f.tardanza&&f.tardanza!=='00:00')e.tardHs+=parseTard(f.tardanza);
+    // Usar c9LLT (valor numérico en horas) si está disponible, sino parsear tardanza
+    if(f.c9LLT>0){
+      e.tardHs+=f.c9LLT;
+    } else if(f.tardanza&&f.tardanza!=='00:00'&&f.tardanza!=='0'){
+      e.tardHs+=parseTard(f.tardanza);
+    }
   }
   allResumen=Object.values(mapa).map(e=>({...e,aus:e._aus.size,sup:e._sup.size}));
 }
@@ -587,34 +616,40 @@ async function subirArchivosDesde(files){
       const sucNombre = filas[0].sucNombre;
       showLoading(`Subiendo ${f.name} (${filas.length} filas)…`);
 
-      // Subir en chunks de 400 filas
+      // Verificar si ya existe ANTES de subir
       const CHUNK = 400;
+      let debeReemplazar = false;
+      // Chequear existencia solo con el primer chunk (replace=false = solo verifica)
+      const checkRes = await gas('uploadData',{
+        pass: adminPass, periodo, sucCodigo, sucNombre,
+        replace: false, rows: []
+      });
+      if(!checkRes.ok && checkRes.error === 'YA_EXISTE'){
+        const ok = confirm(`La sucursal ${sucCodigo} ya tiene datos para ${periodo}.\n¿Reemplazarlos?`);
+        if(!ok){hideLoading();continue;}
+        debeReemplazar = true;
+      } else if(!checkRes.ok && checkRes.error !== 'YA_EXISTE'){
+        if(checkRes.error === 'Contraseña incorrecta'){alert('Contraseña incorrecta.');hideLoading();return;}
+      }
+
+      // Subir todos los chunks
+      let errorEnChunk = false;
       for(let i=0; i<filas.length; i+=CHUNK){
         const chunk = filas.slice(i, i+CHUNK);
-        const isFirst = i===0;
+        const isFirst = i === 0;
         const res = await gas('uploadData',{
-          pass: adminPass,
-          periodo,
-          sucCodigo,
-          sucNombre,
-          replace: isFirst ? 'true' : 'false',
-          rows: JSON.stringify(chunk)
+          pass: adminPass, periodo, sucCodigo, sucNombre,
+          replace: isFirst && debeReemplazar,
+          isChunk: !isFirst,  // chunks siguientes no registran en Periodos ni borran
+          rows: chunk
         });
         if(!res.ok){
-          if(res.error==='YA_EXISTE'){
-            const ok = confirm(`La sucursal ${sucCodigo} ya tiene datos para ${periodo}.\n¿Reemplazarlos?`);
-            if(!ok){hideLoading();break;}
-            // Reintentar con replace=true
-            const res2 = await gas('uploadData',{pass:adminPass,periodo,sucCodigo,sucNombre,replace:'true',rows:JSON.stringify(chunk)});
-            if(!res2.ok){statusEl.innerHTML+=`<div class="msg-err" style="margin-top:4px">Error en ${f.name}: ${res2.error}</div>`;hideLoading();break;}
-          } else if(res.error==='Contraseña incorrecta'){
-            alert('Contraseña incorrecta.');hideLoading();return;
-          } else {
-            statusEl.innerHTML+=`<div class="msg-err" style="margin-top:4px">Error: ${res.error}</div>`;hideLoading();break;
-          }
+          statusEl.innerHTML+=`<div class="msg-err" style="margin-top:4px">Error en chunk ${i/CHUNK+1}: ${res.error}</div>`;
+          errorEnChunk = true; break;
         }
         showLoading(`Subiendo ${f.name}… ${Math.min(i+CHUNK,filas.length)}/${filas.length} filas`);
       }
+      if(errorEnChunk) continue;
       statusEl.innerHTML+=`<div style="font-size:11px;color:var(--accent2);margin-top:4px">✓ ${f.name} — ${filas.length} filas subidas</div>`;
     } catch(err){
       statusEl.innerHTML+=`<div class="msg-err" style="margin-top:4px">Error en ${f.name}: ${err.message}</div>`;
@@ -622,10 +657,20 @@ async function subirArchivosDesde(files){
     hideLoading();
   }
 
-  // Refrescar lista
+  // Refrescar lista de sucursales en el panel
   const res = await gas('getPeriodos').catch(()=>({periodos:[]}));
   periodosDisponibles = res.periodos||[];
   renderSucList();
+
+  // Si hay archivos subidos exitosamente, cerrar modal y recargar datos después de 1.5s
+  const hayExitos = statusEl.querySelector('[style*="accent2"]');
+  if(hayExitos){
+    statusEl.innerHTML += `<div style="font-size:11px;color:var(--text-dim);margin-top:8px;text-align:center">Cargando reporte en 2 segundos…</div>`;
+    setTimeout(async ()=>{
+      cerrarAdmin();
+      await recargarDatos();
+    }, 2000);
+  }
 }
 
 async function borrarSucursal(cod, nom){
@@ -845,13 +890,26 @@ function exportarExcel(){
 
 // ══ UTILS ══════════════════════════════════════════════════
 async function gas(action, params={}){
-  const url = new URL(GAS_URL);
-  url.searchParams.set('action', action);
-  Object.entries(params).forEach(([k,v]) => url.searchParams.set(k, v));
-  const res = await fetch(url.toString());
-  const data = await res.json();
-  if(!data.ok && data.error) throw new Error(data.error);
-  return data;
+  // GET para lecturas, POST para escrituras (uploadData, clearSucursal, clearPeriodo)
+  const writeActions = ['uploadData','clearSucursal','clearPeriodo'];
+  if(writeActions.includes(action)){
+    const body = { action, ...params };
+    const res = await fetch(GAS_URL, {
+      method: 'POST',
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+    if(!data.ok && data.error) throw new Error(data.error);
+    return data;
+  } else {
+    const url = new URL(GAS_URL);
+    url.searchParams.set('action', action);
+    Object.entries(params).forEach(([k,v]) => url.searchParams.set(k, v));
+    const res = await fetch(url.toString());
+    const data = await res.json();
+    if(!data.ok && data.error) throw new Error(data.error);
+    return data;
+  }
 }
 
 async function sha256(msg){
