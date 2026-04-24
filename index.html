@@ -1238,11 +1238,8 @@ function renderEncabezadoResumen(ms){
 
 function renderResumenPage(ms){
   if(ms===undefined)ms=!document.getElementById('r-suc').value;
-  const cfgRed = document.getElementById('cfg-red');
-  const cfgYellow = document.getElementById('cfg-yellow');
-  if(!cfgRed||!cfgYellow) return; // panel no visible aún
-  const tR=parseFloat(cfgRed.value)||20;
-  const tY=parseFloat(cfgYellow.value)||5;
+  const tR=parseFloat(document.getElementById('cfg-red')?.value)||20;
+  const tY=parseFloat(document.getElementById('cfg-yellow')?.value)||5;
   const body=document.getElementById('r-body'),tfoot=document.getElementById('r-tfoot');
   if(!filtRes.length){body.innerHTML=`<tr><td colspan="13"><div class="empty"><div class="empty-icon">🔎</div>Sin resultados</div></td></tr>`;tfoot.innerHTML='';document.getElementById('r-pag').innerHTML='';return;}
   const T={cantHs:0,c0090:0,c0091:0,c0100:0,c0120:0,c0155:0,c014A:0,c014B:0,c014C:0,c014D:0,c7120:0,c8120:0,c9IMP:0,c9SAN:0,tardHs:0,aus:0,sup:0};
