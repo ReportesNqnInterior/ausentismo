@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ausentismo — La Anónima</title>
+<title>Reporte General de Ausentismo — La Anónima</title>
 <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
@@ -191,6 +191,86 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
 .check-item label{font-size:11px;color:var(--text-mid);cursor:pointer;white-space:nowrap}
 .check-item.checked{border-color:rgba(62,207,142,.3);background:rgba(62,207,142,.05)}
 .check-item.checked label{color:var(--accent2)}
+
+/* ── RESPONSIVE MÓVIL ──────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Header compacto */
+  .header { padding: 0 12px; gap: 8px; }
+  .logo { font-size: 11px; }
+  .periodo-badge { font-size: 10px; padding: 3px 8px; }
+  .btn-hdr { padding: 4px 8px; font-size: 10px; }
+
+  /* KPIs en grilla compacta */
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .kpi .kv { font-size: 16px; }
+  .kpi .kl { font-size: 9px; }
+
+  /* Layout resumen: panel abajo en móvil */
+  .res-layout {
+    flex-direction: column;
+    height: auto;
+    overflow: visible;
+  }
+  .res-main {
+    overflow-x: auto;
+    max-height: 60vh;
+  }
+  .res-panel {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid var(--border);
+    max-height: 400px;
+  }
+
+  /* Tabla más compacta */
+  th { padding: 6px 7px; font-size: 9px; }
+  td { padding: 5px 7px; font-size: 11px; }
+
+  /* Toolbar en columna */
+  .toolbar { flex-direction: column; padding: 10px 12px; }
+  .sw { min-width: 100%; }
+  select.fi { min-width: 100%; }
+
+  /* Tabs compactos */
+  .tab-btn { padding: 9px 12px; font-size: 11px; }
+
+  /* Stats bar compacta */
+  .stats-bar { gap: 10px; padding: 6px 12px; }
+  .sc .v { font-size: 12px; }
+
+  /* Modal full screen en móvil */
+  .modal { width: 96vw !important; max-width: 96vw !important; margin: 0 auto; }
+  .modal-body { padding: 12px 14px; }
+
+  /* Splash */
+  .splash-card { padding: 32px 20px; }
+  .upload-card { padding: 32px 20px; }
+
+  /* Panel admin */
+  .periodo-sel-row { flex-direction: column; }
+  .suc-item { flex-wrap: wrap; gap: 4px; }
+}
+
+@media (max-width: 480px) {
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .res-panel { display: none; } /* Ocultar panel rankings en pantallas muy chicas */
+  .btn-panel-toggle {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    padding: 8px;
+    font-size: 11px;
+    color: var(--text-mid);
+    cursor: pointer;
+    margin: 8px 16px;
+    width: calc(100% - 32px);
+  }
+}
 </style>
 </head>
 <body>
@@ -210,17 +290,35 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
 </div>
 
 <!-- SPLASH DE INICIO (pantalla de carga) -->
-<div id="splash-loading" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 48px);gap:20px;position:relative">
-  <div style="text-align:center">
-    <div style="font-size:48px;margin-bottom:16px">📊</div>
-    <div style="font-family:var(--mono);font-size:22px;font-weight:600;color:var(--accent);letter-spacing:.06em;margin-bottom:6px">RRHH / AUSENTISMO</div>
-    <div style="font-size:13px;color:var(--text-mid);margin-bottom:32px">Neuquén Interior</div>
-    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px">
-      <div class="spinner"></div>
-      <div id="splash-loading-msg" style="font-size:12px;color:var(--text-dim)">Conectando con el servidor…</div>
+<div id="splash-loading" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 48px);gap:0;position:relative">
+  <div style="text-align:center;max-width:380px;width:100%;padding:0 20px">
+    <div style="font-size:44px;margin-bottom:18px;opacity:.7">📊</div>
+    <div style="font-size:20px;font-weight:700;color:var(--text);margin-bottom:4px;letter-spacing:.02em">Reporte General de Ausentismo</div>
+    <div style="font-size:12px;color:var(--text-mid);margin-bottom:32px;font-family:var(--mono)">Neuquén Interior</div>
+
+    <!-- Barra de progreso -->
+    <div style="background:var(--border);border-radius:99px;height:4px;width:100%;margin-bottom:14px;overflow:hidden">
+      <div id="splash-progress-bar" style="height:100%;border-radius:99px;background:var(--accent);width:0%;transition:width .4s ease"></div>
     </div>
+
+    <!-- Steps -->
+    <div id="splash-steps" style="display:flex;flex-direction:column;gap:6px;margin-bottom:8px">
+      <div class="splash-step" id="step-1" style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text-dim);opacity:.4">
+        <span class="step-icon">○</span><span>Conectando con el servidor</span>
+      </div>
+      <div class="splash-step" id="step-2" style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text-dim);opacity:.4">
+        <span class="step-icon">○</span><span>Obteniendo períodos</span>
+      </div>
+      <div class="splash-step" id="step-3" style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text-dim);opacity:.4">
+        <span class="step-icon">○</span><span>Cargando datos</span>
+      </div>
+      <div class="splash-step" id="step-4" style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text-dim);opacity:.4">
+        <span class="step-icon">○</span><span>Procesando registros</span>
+      </div>
+    </div>
+    <div id="splash-loading-msg" style="font-size:10px;color:var(--text-dim);min-height:16px;font-family:var(--mono)"></div>
   </div>
-  <div style="font-size:10px;color:var(--text-dim);opacity:.4;font-family:var(--mono);position:absolute;bottom:24px">
+  <div style="font-size:10px;color:var(--text-dim);opacity:.35;font-family:var(--mono);position:absolute;bottom:24px">
     Desarrollado por Jonathan Cheves · RRHH Neuquén Interior
   </div>
 </div>
@@ -229,7 +327,7 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
 <div id="splash" style="display:none;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 48px);padding:40px;gap:20px">
   <div class="splash-card">
     <div class="splash-icon">📊</div>
-    <div class="splash-title">Reporte de Ausentismo</div>
+    <div class="splash-title">Reporte General de Ausentismo</div>
     <div class="splash-sub">Seleccioná el período que querés consultar.</div>
     <div id="splash-content">
       <div style="color:var(--text-dim);font-size:12px">Conectando…</div>
@@ -261,6 +359,9 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
       <select class="fi" id="r-suc" onchange="applyResumen()"><option value="">Todas las sucursales</option></select>
     </div>
     <div class="kpi-row" id="kpis"></div>
+    <button class="btn-panel-toggle" id="btn-panel-toggle" style="display:none" onclick="togglePanel()">
+      ☰ Ver rankings y semáforo
+    </button>
     <div class="res-layout">
       <div class="res-main">
         <table><thead><tr id="r-thead"></tr></thead><tbody id="r-body"></tbody><tfoot id="r-tfoot"></tfoot></table>
@@ -268,10 +369,27 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
       </div>
       <div class="res-panel">
         <div class="panel-section">
-          <div class="panel-title">⚙ Semáforo Llegadas Tarde</div>
-          <div class="cfg-row"><div class="dot-cfg dot-red"></div><span class="cfg-lbl">Rojo si hs. &gt;</span><input type="number" class="cfg-num" id="cfg-red" value="1" min="0" step="0.25" oninput="renderResumenPage()"></div>
-          <div class="cfg-row"><div class="dot-cfg dot-yellow"></div><span class="cfg-lbl">Amarillo si hs. &gt;</span><input type="number" class="cfg-num" id="cfg-yellow" value="0.1" min="0" step="0.05" oninput="renderResumenPage()"></div>
-          <div style="font-size:10px;color:var(--text-dim);margin-top:4px">Aplica sobre total de horas del período</div>
+          <div class="panel-title">⚙ Semáforo</div>
+          <div class="cfg-row" style="flex-direction:column;align-items:flex-start;gap:5px">
+            <span class="cfg-lbl">Columna a semaforizar</span>
+            <select class="fi" id="cfg-col" style="width:100%;min-width:0;font-size:11px" onchange="renderResumenPage()">
+              <option value="tardHs">Llegadas Tarde 9LLT</option>
+              <option value="c0100" selected>Hs. al 50 FT 0100</option>
+              <option value="c0120">Hs. al 100 FT 0120</option>
+              <option value="c9SAN">Sal. Anticipada 9SAN</option>
+              <option value="c7120">Hs. Extras 7120</option>
+              <option value="c9IMP">Hs. Improduct. 9IMP</option>
+              <option value="c0090">Hs. Norm. PT 0090</option>
+              <option value="c0091">Hs. Feriado PT 0091</option>
+              <option value="c014A">Hs. Sáb FT 014A</option>
+              <option value="c014B">Hs. Dom FT 014B</option>
+              <option value="c014C">Hs. Sáb PT 014C</option>
+              <option value="c0155">Hs. Acu. Dom FT 0155</option>
+            </select>
+          </div>
+          <div class="cfg-row" style="margin-top:8px"><div class="dot-cfg dot-red"></div><span class="cfg-lbl">Rojo si &gt;</span><input type="number" class="cfg-num" id="cfg-red" value="20" min="0" step="1" oninput="renderResumenPage()"></div>
+          <div class="cfg-row"><div class="dot-cfg dot-yellow"></div><span class="cfg-lbl">Amarillo si &gt;</span><input type="number" class="cfg-num" id="cfg-yellow" value="5" min="0" step="1" oninput="renderResumenPage()"></div>
+          <div style="font-size:10px;color:var(--text-dim);margin-top:4px">Aplica sobre total acumulado del período</div>
         </div>
         <div id="rankings-wrap"></div>
       </div>
@@ -392,9 +510,35 @@ const PR=500,PD=100;
 // ══ INICIO ════════════════════════════════════════════════
 window.addEventListener('load', iniciar);
 
-function setSplashMsg(msg) {
+function setSplashMsg(msg, step) {
   const el = document.getElementById('splash-loading-msg');
   if(el) el.textContent = msg;
+
+  // Activar step
+  if(step) {
+    const steps = [1,2,3,4];
+    steps.forEach(s => {
+      const el = document.getElementById('step-'+s);
+      if(!el) return;
+      const icon = el.querySelector('.step-icon');
+      if(s < step) {
+        el.style.opacity = '1';
+        el.style.color = 'var(--accent2)';
+        icon.textContent = '✓';
+      } else if(s === step) {
+        el.style.opacity = '1';
+        el.style.color = 'var(--text)';
+        icon.textContent = '›';
+      } else {
+        el.style.opacity = '.35';
+        el.style.color = 'var(--text-dim)';
+        icon.textContent = '○';
+      }
+    });
+    // Barra de progreso
+    const bar = document.getElementById('splash-progress-bar');
+    if(bar) bar.style.width = (step * 25) + '%';
+  }
 }
 
 async function recargarDatos(){
@@ -416,24 +560,26 @@ async function recargarDatos(){
 }
 
 async function iniciar(){
-  // Mostrar pantalla de carga inicial
   document.getElementById('splash-loading').style.display='flex';
-  setSplashMsg('Conectando con el servidor…');
+  setSplashMsg('Iniciando…', 1);
   try {
-    setSplashMsg('Obteniendo períodos disponibles…');
+    await new Promise(r=>setTimeout(r,300));
+    setSplashMsg('Obteniendo períodos disponibles…', 2);
     const res = await gas('getPeriodos');
     periodosDisponibles = res.periodos || [];
 
-    // Si hay exactamente un período, cargarlo directo sin mostrar selector
     const periodos = [...new Set(periodosDisponibles.map(p=>p.periodo))].sort().reverse();
     if(periodos.length === 1){
-      setSplashMsg('Cargando ' + periodos[0] + '…');
+      setSplashMsg('Cargando ' + periodos[0] + '…', 3);
       periodoActivo = periodos[0];
       const datos = await gas('getData', {periodo: periodoActivo});
+      setSplashMsg('Procesando ' + datos.rows.length.toLocaleString('es-AR') + ' registros…', 4);
+      await new Promise(r=>setTimeout(r,200));
       document.getElementById('splash-loading').style.display='none';
       procesarRespuesta(datos);
     } else {
-      // Múltiples períodos o ninguno: mostrar selector
+      setSplashMsg('', 4);
+      await new Promise(r=>setTimeout(r,300));
       document.getElementById('splash-loading').style.display='none';
       document.getElementById('splash').style.display='flex';
       renderSplash();
@@ -484,7 +630,9 @@ async function cargarPeriodo(){
 
 function procesarRespuesta(res){
   const hdr = res.headers;
-  const ci = name => hdr.indexOf(name);
+  // Convertir encabezados a string y hacer trim — Sheets puede devolver números
+  const hdrStr = hdr.map(h => String(h).trim());
+  const ci = name => hdrStr.indexOf(String(name).trim());
   const C = buildCMap(ci);
   const get=(r,c)=>c>=0?String(r[c]||'').trim():'';
   const getN=(r,c)=>c>=0?(parseFloat(r[c])||0):0;
@@ -506,18 +654,20 @@ function procesarRespuesta(res){
 
 // Helper: construir mapa de columnas desde función ci
 function buildCMap(ci){
+  // Busca por nombre exacto o sin ceros adelante
+  const cix = (...names) => { for(const n of names){ const i=ci(n); if(i>=0) return i; } return -1; };
   return {
     sucCodigo:ci('sucCodigo'),sucNombre:ci('sucNombre'),
     nro:ci('nro'),nombre:ci('nombre'),fecha:ci('fecha'),dia:ci('dia'),
-    phtd:ci('phtd'),horTeo:ci('horTeo'),cantHs:ci('cantHs'),
+    phtd:ci('phtd'),horTeo:ci('horTeo'),cantHs:cix('cantHs','Cant. Hor'),
     entTeo:ci('entTeo'),salTeo:ci('salTeo'),horaEnt:ci('horaEnt'),horaSal:ci('horaSal'),
     tardanza:ci('tardanza'),codAuse:ci('codAuse'),ausentismo:ci('ausentismo'),suplencia:ci('suplencia'),
-    c0090:ci('c0090'),c0091:ci('c0091'),c0100:ci('c0100'),c0120:ci('c0120'),
-    c0125:ci('c0125'),c0155:ci('c0155'),
-    c014A:ci('c014A'),c014B:ci('c014B'),c014C:ci('c014C'),c014D:ci('c014D'),
-    c7120:ci('c7120'),c8120:ci('c8120'),
-    c9IMP:ci('c9IMP'),c9LLT:ci('c9LLT'),c9SAN:ci('c9SAN'),
-    centCost:ci('centCost'),
+    centCost:cix('centCost','Cent.Cost'),
+    c0090:cix('c0090','0090','90'),c0091:cix('c0091','0091','91'),
+    c014A:cix('c014A','014A'),c014B:cix('c014B','014B'),c014C:cix('c014C','014C'),c014D:cix('c014D','014D'),
+    c0155:cix('c0155','0155','155'),c0100:cix('c0100','0100','100'),c0120:cix('c0120','0120','120'),
+    c7120:cix('c7120','7120'),c8120:cix('c8120','8120'),
+    c9IMP:cix('c9IMP','9IMP'),c9LLT:cix('c9LLT','9LLT'),c9SAN:cix('c9SAN','9SAN'),
   };
 }
 
@@ -545,13 +695,17 @@ function calcularResumen(){
     const key=f.nro+'|'+f.sucCodigo;
     if(!mapa[key])mapa[key]={
       nro:f.nro,nombre:f.nombre,sucCodigo:f.sucCodigo,sucNombre:f.sucNombre,
-      tardHs:0,c0090:0,c0091:0,c0100:0,c0120:0,c7120:0,c9IMP:0,c9LLT:0,c9SAN:0,
+      cantHs:0,tardHs:0,
+      c0090:0,c0091:0,c0100:0,c0120:0,c0125:0,c0155:0,
+      c014A:0,c014B:0,c014C:0,c014D:0,
+      c7120:0,c8120:0,c9IMP:0,c9LLT:0,c9SAN:0,
       _aus:new Set(),_sup:new Set()
     };
     const e=mapa[key];
     if(f.ausentismo)e._aus.add(f.fecha);
     if(f.suplencia)e._sup.add(f.fecha);
-    ['c0090','c0091','c0100','c0120','c7120','c9IMP','c9LLT','c9SAN'].forEach(k=>e[k]+=f[k]);
+    e.cantHs+=f.cantHs||0;
+    ['c0090','c0091','c0100','c0120','c0125','c0155','c014A','c014B','c014C','c014D','c7120','c8120','c9IMP','c9LLT','c9SAN'].forEach(k=>e[k]+=f[k]);
     // c9LLT es el valor oficial de 9LLT en horas del sistema
     if(f.c9LLT>0) e.tardHs+=f.c9LLT;
   }
@@ -1047,19 +1201,20 @@ function parsearDetalle(rows,fileName){
   for(let i=0;i<Math.min(rows.length,10);i++){if(rows[i].some(c=>String(c).includes('N° Emple'))){hi=i;break;}}
   if(hi<0)return[];
   const hdr=rows[hi];
-  const ci=name=>hdr.findIndex(h=>String(h).includes(name));
-  const C={nro:ci('N° Emple'),nombre:ci('Nombre'),fecha:ci('Fecha'),dia:ci('Día'),phtd:ci('PHTD'),horTeo:ci('Horario Teórico'),cantHs:ci('Cant. Hor'),entTeo:ci('Entrada Teórica'),salTeo:ci('Salida Teórica'),horaEnt:ci('Hora Entrada'),horaSal:ci('Hora Salida'),tardanza:ci('Llegada Tarde'),codAuse:ci('Cod.Ause'),ausentismo:ci('Ausentismo'),suplencia:ci('Suplencia'),subDiv:ci('Sub-División'),textoSubDiv:ci('Texto Sub-División'),c0090:ci('0090'),c0091:ci('0091'),c0100:ci('0100'),c0120:ci('0120'),c7120:ci('7120'),c9IMP:ci('9IMP'),c9LLT:ci('9LLT'),c9SAN:ci('9SAN')};
+  const ci=name=>hdr.findIndex(h=>String(h).trim().includes(name.trim()));
+  const C={nro:ci('N° Emple'),nombre:ci('Nombre'),fecha:ci('Fecha'),dia:ci('Día'),phtd:ci('PHTD'),horTeo:ci('Horario Teórico'),cantHs:ci('Cant. Hor'),entTeo:ci('Entrada Teórica'),salTeo:ci('Salida Teórica'),horaEnt:ci('Hora Entrada'),horaSal:ci('Hora Salida'),tardanza:ci('Llegada Tarde'),codAuse:ci('Cod.Ause'),ausentismo:ci('Ausentismo'),suplencia:ci('Suplencia'),subDiv:ci('Sub-División'),textoSubDiv:ci('Texto Sub-División'),centCost:ci('Cent.Cost'),c0090:ci('0090'),c0091:ci('0091'),c014A:ci('014A'),c014B:ci('014B'),c014C:ci('014C'),c014D:ci('014D'),c0155:ci('0155'),c0100:ci('0100'),c0120:ci('0120'),c7120:ci('7120'),c8120:ci('8120'),c9IMP:ci('9IMP'),c9LLT:ci('9LLT'),c9SAN:ci('9SAN')};
   const match=fileName.match(/^(\d+)[\s_-]/);const sucFallback=match?match[1].padStart(4,'0'):fileName.replace(/\.xlsx?$/i,'');
   const get=(r,c)=>c>=0?String(r[c]||'').trim():'';const getN=(r,c)=>c>=0?(parseFloat(r[c])||0):0;
   const filas=[];
   for(let i=hi+1;i<rows.length;i++){
     const r=rows[i];const nro=get(r,C.nro);if(!nro||!nro.match(/^\d{5,}/))continue;
-    filas.push({sucCodigo:get(r,C.subDiv)||sucFallback,sucNombre:get(r,C.textoSubDiv)||(get(r,C.subDiv)||sucFallback),nro,nombre:get(r,C.nombre),fecha:get(r,C.fecha),dia:get(r,C.dia),phtd:get(r,C.phtd),horTeo:get(r,C.horTeo),cantHs:getN(r,C.cantHs),entTeo:get(r,C.entTeo),salTeo:get(r,C.salTeo),horaEnt:get(r,C.horaEnt),horaSal:get(r,C.horaSal),tardanza:get(r,C.tardanza),codAuse:get(r,C.codAuse),ausentismo:get(r,C.ausentismo),suplencia:get(r,C.suplencia),c0090:getN(r,C.c0090),c0091:getN(r,C.c0091),c0100:getN(r,C.c0100),c0120:getN(r,C.c0120),
-      c0125:getN(r,C.c0125),c0155:getN(r,C.c0155),
-      c014A:getN(r,C.c014A),c014B:getN(r,C.c014B),c014C:getN(r,C.c014C),c014D:getN(r,C.c014D),c014D:getN(r,C.c014D),
+    filas.push({sucCodigo:get(r,C.subDiv)||sucFallback,sucNombre:get(r,C.textoSubDiv)||(get(r,C.subDiv)||sucFallback),nro,nombre:get(r,C.nombre),fecha:get(r,C.fecha),dia:get(r,C.dia),phtd:get(r,C.phtd),horTeo:get(r,C.horTeo),cantHs:getN(r,C.cantHs),entTeo:get(r,C.entTeo),salTeo:get(r,C.salTeo),horaEnt:get(r,C.horaEnt),horaSal:get(r,C.horaSal),tardanza:get(r,C.tardanza),codAuse:get(r,C.codAuse),ausentismo:get(r,C.ausentismo),suplencia:get(r,C.suplencia),
+      centCost:get(r,C.centCost),
+      c0090:getN(r,C.c0090),c0091:getN(r,C.c0091),
+      c014A:getN(r,C.c014A),c014B:getN(r,C.c014B),c014C:getN(r,C.c014C),c014D:getN(r,C.c014D),
+      c0155:getN(r,C.c0155),c0100:getN(r,C.c0100),c0120:getN(r,C.c0120),
       c7120:getN(r,C.c7120),c8120:getN(r,C.c8120),
-      c9IMP:getN(r,C.c9IMP),c9LLT:getN(r,C.c9LLT),c9SAN:getN(r,C.c9SAN),
-      centCost:get(r,C.centCost)});
+      c9IMP:getN(r,C.c9IMP),c9LLT:getN(r,C.c9LLT),c9SAN:getN(r,C.c9SAN)});
   }
   return filas;
 }
@@ -1078,20 +1233,25 @@ function applyResumen(){
 }
 
 function renderEncabezadoResumen(ms){
-  document.getElementById('r-thead').innerHTML=`<th>N° Emple.</th><th>Nombre</th>${ms?'<th>Sucursal / Zona</th>':''}<th>Cant. Horas</th><th>Hs. al 50 FT 0100</th><th>Hs. al 100 FT 0120</th><th>Ausentismo</th><th>Suplencia</th><th>Llegadas Tarde 9LLT</th><th>Sal. Anticipada 9SAN</th><th>Hs. Norm. PT 0090</th><th>Hs. Feriado PT 0091</th><th>Hs. Acu. Dom FT 0155</th><th>Hs. Sáb FT 014A</th><th>Hs. Dom FT 014B</th><th>Hs. Sáb PT 014C</th><th>Hs. Extras 7120</th><th>Hs. Improduct. 9IMP</th>`;
+  document.getElementById('r-thead').innerHTML=`<th>N° Emple.</th><th>Nombre</th>${ms?'<th>Sucursal / Zona</th>':''}<th>Cant. Horas</th><th>Hs. Norm. PT 0090</th><th>Hs. Feriado PT 0091</th><th>Hs. Sáb FT 014A</th><th>Hs. Dom FT 014B</th><th>Hs. Sáb PT 014C</th><th>Hs. Acu. Dom FT 0155</th><th>Hs. al 50 FT 0100</th><th>Hs. al 100 FT 0120</th><th>Hs. Extras 7120</th><th>8120</th><th>Hs. Improduct. 9IMP</th><th>Llegadas Tarde 9LLT</th><th>Sal. Anticipada 9SAN</th><th>Ausentismo</th><th>Suplencia</th>`;
 }
 
 function renderResumenPage(ms){
   if(ms===undefined)ms=!document.getElementById('r-suc').value;
-  const tR=parseFloat(document.getElementById('cfg-red').value)||1;
-  const tY=parseFloat(document.getElementById('cfg-yellow').value)||0.25;
+  const cfgRed = document.getElementById('cfg-red');
+  const cfgYellow = document.getElementById('cfg-yellow');
+  if(!cfgRed||!cfgYellow) return; // panel no visible aún
+  const tR=parseFloat(cfgRed.value)||20;
+  const tY=parseFloat(cfgYellow.value)||5;
   const body=document.getElementById('r-body'),tfoot=document.getElementById('r-tfoot');
   if(!filtRes.length){body.innerHTML=`<tr><td colspan="13"><div class="empty"><div class="empty-icon">🔎</div>Sin resultados</div></td></tr>`;tfoot.innerHTML='';document.getElementById('r-pag').innerHTML='';return;}
-  const T={c0090:0,c0091:0,c0100:0,c0120:0,c7120:0,c9IMP:0,c9SAN:0,tardHs:0,aus:0,sup:0};
-  filtRes.forEach(r=>{T.c0090+=r.c0090;T.c0091+=r.c0091;T.c0100+=r.c0100;T.c0120+=r.c0120;T.c7120+=r.c7120;T.c9IMP+=r.c9IMP;T.c9SAN+=r.c9SAN;T.tardHs+=r.tardHs;T.aus+=r.aus;T.sup+=r.sup;});
-  const tc=r=>r.tardHs>=tR?'tard-red':r.tardHs>=tY?'tard-yellow':'nr';
-  body.innerHTML=filtRes.map(r=>`<tr><td class="mo">${r.nro}</td><td style="min-width:175px">${r.nombre}</td>${ms?`<td class="dm">${r.sucCodigo} <span style="color:var(--text-mid)">${r.sucNombre}</span></td>`:''}<td class="nr">${fh(r.c0090)}</td><td class="${r.c0100>0?'hy':'nr'}">${r.c0100>0?fh(r.c0100):'—'}</td><td class="${r.c0120>0?'hr':'nr'}">${r.c0120>0?fh(r.c0120):'—'}</td><td class="${r.aus>0?'hr':'nr'}">${r.aus||'—'}</td><td class="${r.sup>0?'hg':'nr'}">${r.sup||'—'}</td><td class="${r.tardHs>0?tc(r):'nr'}">${r.tardHs>0?fh(r.tardHs):'—'}</td><td class="${r.c9SAN>0?'hb':'nr'}">${r.c9SAN>0?fh(r.c9SAN):'—'}</td><td class="${r.c7120>0?'hp':'nr'}">${r.c7120>0?fh(r.c7120):'—'}</td><td class="${r.c0091>0?'hb':'nr'}">${r.c0091>0?fh(r.c0091):'—'}</td><td class="nr">${r.c9IMP>0?fh(r.c9IMP):'—'}</td></tr>`).join('');
-  tfoot.innerHTML=`<tr class="tr-total"><td class="tlbl" colspan="${ms?3:2}">TOTALES (${filtRes.length} emp.)</td><td class="nr">${fh(T.c0090)}</td><td class="nr">${fh(T.c0100)}</td><td class="nr">${fh(T.c0120)}</td><td class="nr">${T.aus}</td><td class="nr">${T.sup}</td><td class="nr">${fh(T.tardHs)}</td><td class="nr">${fh(T.c9SAN)}</td><td class="nr">${fh(T.c7120)}</td><td class="nr">${fh(T.c0091)}</td><td class="nr">${fh(T.c9IMP)}</td></tr>`;
+  const T={cantHs:0,c0090:0,c0091:0,c0100:0,c0120:0,c0155:0,c014A:0,c014B:0,c014C:0,c014D:0,c7120:0,c8120:0,c9IMP:0,c9SAN:0,tardHs:0,aus:0,sup:0};
+  filtRes.forEach(r=>{T.cantHs+=r.cantHs||0;T.c0090+=r.c0090;T.c0091+=r.c0091;T.c0100+=r.c0100;T.c0120+=r.c0120;T.c0155+=r.c0155||0;T.c014A+=r.c014A||0;T.c014B+=r.c014B||0;T.c014C+=r.c014C||0;T.c014D+=r.c014D||0;T.c7120+=r.c7120;T.c8120+=r.c8120||0;T.c9IMP+=r.c9IMP;T.c9SAN+=r.c9SAN;T.tardHs+=r.tardHs;T.aus+=r.aus;T.sup+=r.sup;});
+  const semCol=document.getElementById('cfg-col')?.value||'c0100';
+  const semVal=r=>semCol==='tardHs'?(r.tardHs||0):(r[semCol]||0);
+  const tc=r=>semVal(r)>=tR?'tard-red':semVal(r)>=tY?'tard-yellow':'nr';
+  body.innerHTML=filtRes.map(r=>`<tr><td class="mo">${r.nro}</td><td style="min-width:175px">${r.nombre}</td>${ms?`<td class="dm">${r.sucCodigo} <span style="color:var(--text-mid)">${r.sucNombre}</span></td>`:''}<td class="nr">${r.cantHs>0?fh(r.cantHs):'—'}</td><td class="nr">${r.c0090>0?fh(r.c0090):'—'}</td><td class="${r.c0091>0?'hb':'nr'}">${r.c0091>0?fh(r.c0091):'—'}</td><td class="nr">${(r.c014A||0)>0?fh(r.c014A):'—'}</td><td class="nr">${(r.c014B||0)>0?fh(r.c014B):'—'}</td><td class="nr">${(r.c014C||0)>0?fh(r.c014C):'—'}</td><td class="nr">${(r.c0155||0)>0?fh(r.c0155):'—'}</td><td class="${r.c0100>0?(semCol==='c0100'?tc(r):'hy'):'nr'}">${r.c0100>0?fh(r.c0100):'—'}</td><td class="${r.c0120>0?(semCol==='c0120'?tc(r):'hr'):'nr'}">${r.c0120>0?fh(r.c0120):'—'}</td><td class="${r.c7120>0?(semCol==='c7120'?tc(r):'hp'):'nr'}">${r.c7120>0?fh(r.c7120):'—'}</td><td class="nr">${(r.c8120||0)>0?fh(r.c8120):'—'}</td><td class="${r.c9IMP>0?(semCol==='c9IMP'?tc(r):'nr'):'nr'}">${r.c9IMP>0?fh(r.c9IMP):'—'}</td><td class="${r.tardHs>0?(semCol==='tardHs'?tc(r):'nr'):'nr'}">${r.tardHs>0?fh(r.tardHs):'—'}</td><td class="${r.c9SAN>0?(semCol==='c9SAN'?tc(r):'hb'):'nr'}">${r.c9SAN>0?fh(r.c9SAN):'—'}</td><td class="${r.aus>0?'hr':'nr'}">${r.aus||'—'}</td><td class="${r.sup>0?'hg':'nr'}">${r.sup||'—'}</td></tr>`).join('');
+  tfoot.innerHTML=`<tr class="tr-total"><td class="tlbl" colspan="${ms?3:2}">TOTALES (${filtRes.length} emp.)</td><td class="nr">${fh(T.cantHs)}</td><td class="nr">${fh(T.c0090)}</td><td class="nr">${fh(T.c0091)}</td><td class="nr">${fh(T.c014A)}</td><td class="nr">${fh(T.c014B)}</td><td class="nr">${fh(T.c014C)}</td><td class="nr">${fh(T.c0155)}</td><td class="nr">${fh(T.c0100)}</td><td class="nr">${fh(T.c0120)}</td><td class="nr">${fh(T.c7120)}</td><td class="nr">${fh(T.c8120)}</td><td class="nr">${fh(T.c9IMP)}</td><td class="nr">${fh(T.tardHs)}</td><td class="nr">${fh(T.c9SAN)}</td><td class="nr">${T.aus}</td><td class="nr">${T.sup}</td></tr>`;
   document.getElementById('r-pag').innerHTML=`<span style="font-family:var(--mono);font-size:10px;color:var(--text-dim)">${filtRes.length} empleados</span>`;
 }
 
@@ -1131,7 +1291,7 @@ function renderDetallePage(){
   const start=(pageDet-1)*PD,slice=filtDet.slice(start,start+PD);
   const body=document.getElementById('d-body');
   if(!slice.length){body.innerHTML=`<tr><td colspan="22"><div class="empty"><div class="empty-icon">🔎</div>Sin resultados</div></td></tr>`;document.getElementById('d-pag').innerHTML='';return;}
-  body.innerHTML=slice.map(r=>`<tr style="${r.phtd==='9999'?'opacity:.38':''}"><td class="mo">${r.nro}</td><td style="min-width:170px">${r.nombre}</td><td class="dm">${r.sucCodigo}</td><td class="mo">${r.fecha}</td><td class="dm">${r.dia}</td><td class="dm">${r.horTeo}</td><td class="mo ${r.horaEnt?'':'dm'}">${r.horaEnt||'—'}</td><td class="mo ${r.horaSal?'':'dm'}">${r.horaSal||'—'}</td><td class="${r.tardanza&&r.tardanza!=='00:00'?'hy':'dm'}">${r.tardanza||'—'}</td><td>${r.ausentismo?`<span class="pill pill-r">${r.ausentismo}</span>`:'<span class="pill pill-dim">—</span>'}</td><td>${r.suplencia?`<span class="pill pill-g">${r.suplencia}</span>`:'—'}</td><td class="nr">${r.c0090>0?fh(r.c0090):'—'}</td><td class="${r.c0091>0?'hb':'nr'}">${r.c0091>0?fh(r.c0091):'—'}</td><td class="nr">${(r.c014A||0)>0?fh(r.c014A):'—'}</td><td class="nr">${(r.c014B||0)>0?fh(r.c014B):'—'}</td><td class="nr">${(r.c014C||0)>0?fh(r.c014C):'—'}</td><td class="nr">${(r.c014D||0)>0?fh(r.c014D):'—'}</td><td class="nr">${(r.c0155||0)>0?fh(r.c0155):'—'}</td><td class="nr">${r.c0100>0?fh(r.c0100):'—'}</td><td class="nr">${r.c0120>0?fh(r.c0120):'—'}</td><td class="${r.c7120>0?'hp':'nr'}">${r.c7120>0?fh(r.c7120):'—'}</td><td class="nr">${(r.c8120||0)>0?fh(r.c8120):'—'}</td><td class="${r.c9SAN>0?'hb':'nr'}">${r.c9SAN>0?fh(r.c9SAN):'—'}</td><td class="nr">${r.c9IMP>0?fh(r.c9IMP):'—'}</td></tr>`).join('');
+  body.innerHTML=slice.map(r=>`<tr style="${r.phtd==='9999'?'opacity:.38':''}"><td class="mo">${r.nro}</td><td style="min-width:170px">${r.nombre}</td><td class="dm">${r.sucCodigo}</td><td class="mo">${r.fecha}</td><td class="dm">${r.dia}</td><td class="dm">${r.horTeo}</td><td class="mo ${r.horaEnt?'':'dm'}">${r.horaEnt||'—'}</td><td class="mo ${r.horaSal?'':'dm'}">${r.horaSal||'—'}</td><td class="${r.tardanza&&r.tardanza!=='00:00'?'hy':'dm'}">${r.tardanza||'—'}</td><td>${r.ausentismo?`<span class="pill pill-r">${r.ausentismo}</span>`:'<span class="pill pill-dim">—</span>'}</td><td>${r.suplencia?`<span class="pill pill-g">${r.suplencia}</span>`:'—'}</td><td class="nr">${r.c0090>0?fh(r.c0090):'—'}</td><td class="${r.c0091>0?'hb':'nr'}">${r.c0091>0?fh(r.c0091):'—'}</td><td class="nr">${(r.c014A||0)>0?fh(r.c014A):'—'}</td><td class="nr">${(r.c014B||0)>0?fh(r.c014B):'—'}</td><td class="nr">${(r.c014C||0)>0?fh(r.c014C):'—'}</td><td class="nr">${(r.c014D||0)>0?fh(r.c014D):'—'}</td><td class="nr">${(r.c0155||0)>0?fh(r.c0155):'—'}</td><td class="nr">${r.c0100>0?fh(r.c0100):'—'}</td><td class="nr">${r.c0120>0?fh(r.c0120):'—'}</td><td class="${r.c7120>0?(semCol==='c7120'?tc(r):'hp'):'nr'}">${r.c7120>0?fh(r.c7120):'—'}</td><td class="nr">${(r.c8120||0)>0?fh(r.c8120):'—'}</td><td class="${r.c9SAN>0?'hb':'nr'}">${r.c9SAN>0?fh(r.c9SAN):'—'}</td><td class="nr">${r.c9IMP>0?fh(r.c9IMP):'—'}</td></tr>`).join('');
   renderPag('d-pag',filtDet.length,PD,pageDet,p=>{pageDet=p;renderDetallePage();});
 }
 
@@ -1261,6 +1421,23 @@ function renderPag(id,total,ps,cur,onPage){
   el.innerHTML=h;
 }
 function pgRange(cur,tot){const d=2,r=[];for(let i=Math.max(2,cur-d);i<=Math.min(tot-1,cur+d);i++)r.push(i);r.unshift(1);if(tot>1)r.push(tot);return[...new Set(r)].sort((a,b)=>a-b);}
+
+function togglePanel(){
+  const panel = document.querySelector('.res-panel');
+  const btn = document.getElementById('btn-panel-toggle');
+  if(!panel) return;
+  const visible = panel.style.display !== 'none';
+  panel.style.display = visible ? 'none' : 'flex';
+  btn.textContent = visible ? '☰ Ver rankings y semáforo' : '✕ Ocultar panel';
+}
+
+function isMobile(){ return window.innerWidth <= 480; }
+
+// Mostrar botón panel en móvil
+window.addEventListener('resize', () => {
+  const btn = document.getElementById('btn-panel-toggle');
+  if(btn) btn.style.display = isMobile() ? 'flex' : 'none';
+});
 
 function switchTab(name){
   document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',(name==='resumen'?0:1)===i));
