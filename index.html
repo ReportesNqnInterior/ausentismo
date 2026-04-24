@@ -370,26 +370,11 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
       <div class="res-panel">
         <div class="panel-section">
           <div class="panel-title">⚙ Semáforo</div>
-          <div class="cfg-row" style="flex-direction:column;align-items:flex-start;gap:5px">
-            <span class="cfg-lbl">Columna a semaforizar</span>
-            <select class="fi" id="cfg-col" style="width:100%;min-width:0;font-size:11px" onchange="renderResumenPage()">
-              <option value="tardHs">Llegadas Tarde 9LLT</option>
-              <option value="c0100" selected>Hs. al 50 FT 0100</option>
-              <option value="c0120">Hs. al 100 FT 0120</option>
-              <option value="c9SAN">Sal. Anticipada 9SAN</option>
-              <option value="c7120">Hs. Extras 7120</option>
-              <option value="c9IMP">Hs. Improduct. 9IMP</option>
-              <option value="c0090">Hs. Norm. PT 0090</option>
-              <option value="c0091">Hs. Feriado PT 0091</option>
-              <option value="c014A">Hs. Sáb FT 014A</option>
-              <option value="c014B">Hs. Dom FT 014B</option>
-              <option value="c014C">Hs. Sáb PT 014C</option>
-              <option value="c0155">Hs. Acu. Dom FT 0155</option>
-            </select>
+          <div style="font-size:11px;color:var(--text-mid);margin-bottom:6px">Aplica sobre todas las columnas numéricas</div>
+          <div style="font-size:10px;color:var(--text-dim)">
+            <span style="color:var(--accent3)">●</span> Rojo: top 25% del período<br>
+            <span style="color:var(--accent)">●</span> Amarillo: top 50% del período
           </div>
-          <div class="cfg-row" style="margin-top:8px"><div class="dot-cfg dot-red"></div><span class="cfg-lbl">Rojo si &gt;</span><input type="number" class="cfg-num" id="cfg-red" value="20" min="0" step="1" oninput="renderResumenPage()"></div>
-          <div class="cfg-row"><div class="dot-cfg dot-yellow"></div><span class="cfg-lbl">Amarillo si &gt;</span><input type="number" class="cfg-num" id="cfg-yellow" value="5" min="0" step="1" oninput="renderResumenPage()"></div>
-          <div style="font-size:10px;color:var(--text-dim);margin-top:4px">Aplica sobre total acumulado del período</div>
         </div>
         <div id="rankings-wrap"></div>
       </div>
@@ -1238,16 +1223,22 @@ function renderEncabezadoResumen(ms){
 
 function renderResumenPage(ms){
   if(ms===undefined)ms=!document.getElementById('r-suc').value;
-  const tR=parseFloat(document.getElementById('cfg-red')?.value)||20;
-  const tY=parseFloat(document.getElementById('cfg-yellow')?.value)||5;
+
+  // Definir semáforos al inicio — evita errores si filtRes está vacío
+  const pct=(key)=>{const s=filtRes.map(r=>r[key]||0).filter(v=>v>0).sort((a,b)=>a-b);return{r25:s.length?s[Math.floor(s.length*.75)]:999,r50:s.length?s[Math.floor(s.length*.50)]:999};};
+  const mkSem=(key,base)=>{const p=pct(key);return v=>v>0?(v>=p.r25?'tard-red':v>=p.r50?'tard-yellow':base):'nr';};
+  const tc0090=mkSem('c0090','nr'),tc0091=mkSem('c0091','hb'),tc014A=mkSem('c014A','nr');
+  const tc014B=mkSem('c014B','nr'),tc014C=mkSem('c014C','nr'),tc0155=mkSem('c0155','nr');
+  const tc100=mkSem('c0100','hy'),tc120=mkSem('c0120','hr'),tc7120=mkSem('c7120','hp');
+  const tc8120=mkSem('c8120','nr'),tc9IMP=mkSem('c9IMP','nr');
+  const tcTard=mkSem('tardHs','nr'),tc9SAN=mkSem('c9SAN','hb');
+
   const body=document.getElementById('r-body'),tfoot=document.getElementById('r-tfoot');
   if(!filtRes.length){body.innerHTML=`<tr><td colspan="13"><div class="empty"><div class="empty-icon">🔎</div>Sin resultados</div></td></tr>`;tfoot.innerHTML='';document.getElementById('r-pag').innerHTML='';return;}
   const T={cantHs:0,c0090:0,c0091:0,c0100:0,c0120:0,c0155:0,c014A:0,c014B:0,c014C:0,c014D:0,c7120:0,c8120:0,c9IMP:0,c9SAN:0,tardHs:0,aus:0,sup:0};
   filtRes.forEach(r=>{T.cantHs+=r.cantHs||0;T.c0090+=r.c0090;T.c0091+=r.c0091;T.c0100+=r.c0100;T.c0120+=r.c0120;T.c0155+=r.c0155||0;T.c014A+=r.c014A||0;T.c014B+=r.c014B||0;T.c014C+=r.c014C||0;T.c014D+=r.c014D||0;T.c7120+=r.c7120;T.c8120+=r.c8120||0;T.c9IMP+=r.c9IMP;T.c9SAN+=r.c9SAN;T.tardHs+=r.tardHs;T.aus+=r.aus;T.sup+=r.sup;});
-  const semCol=document.getElementById('cfg-col')?.value||'c0100';
-  const semVal=r=>semCol==='tardHs'?(r.tardHs||0):(r[semCol]||0);
-  const tc=r=>semVal(r)>=tR?'tard-red':semVal(r)>=tY?'tard-yellow':'nr';
-  body.innerHTML=filtRes.map(r=>`<tr><td class="mo">${r.nro}</td><td style="min-width:175px">${r.nombre}</td>${ms?`<td class="dm">${r.sucCodigo} <span style="color:var(--text-mid)">${r.sucNombre}</span></td>`:''}<td class="nr">${r.cantHs>0?fh(r.cantHs):'—'}</td><td class="nr">${r.c0090>0?fh(r.c0090):'—'}</td><td class="${r.c0091>0?'hb':'nr'}">${r.c0091>0?fh(r.c0091):'—'}</td><td class="nr">${(r.c014A||0)>0?fh(r.c014A):'—'}</td><td class="nr">${(r.c014B||0)>0?fh(r.c014B):'—'}</td><td class="nr">${(r.c014C||0)>0?fh(r.c014C):'—'}</td><td class="nr">${(r.c0155||0)>0?fh(r.c0155):'—'}</td><td class="${r.c0100>0?(semCol==='c0100'?tc(r):'hy'):'nr'}">${r.c0100>0?fh(r.c0100):'—'}</td><td class="${r.c0120>0?(semCol==='c0120'?tc(r):'hr'):'nr'}">${r.c0120>0?fh(r.c0120):'—'}</td><td class="${r.c7120>0?(semCol==='c7120'?tc(r):'hp'):'nr'}">${r.c7120>0?fh(r.c7120):'—'}</td><td class="nr">${(r.c8120||0)>0?fh(r.c8120):'—'}</td><td class="${r.c9IMP>0?(semCol==='c9IMP'?tc(r):'nr'):'nr'}">${r.c9IMP>0?fh(r.c9IMP):'—'}</td><td class="${r.tardHs>0?(semCol==='tardHs'?tc(r):'nr'):'nr'}">${r.tardHs>0?fh(r.tardHs):'—'}</td><td class="${r.c9SAN>0?(semCol==='c9SAN'?tc(r):'hb'):'nr'}">${r.c9SAN>0?fh(r.c9SAN):'—'}</td><td class="${r.aus>0?'hr':'nr'}">${r.aus||'—'}</td><td class="${r.sup>0?'hg':'nr'}">${r.sup||'—'}</td></tr>`).join('');
+
+  body.innerHTML=filtRes.map(r=>`<tr><td class="mo">${r.nro}</td><td style="min-width:175px">${r.nombre}</td>${ms?`<td class="dm">${r.sucCodigo} <span style="color:var(--text-mid)">${r.sucNombre}</span></td>`:''}<td class="nr">${r.cantHs>0?fh(r.cantHs):'—'}</td><td class="${tc0090(r.c0090||0)}">${r.c0090>0?fh(r.c0090):'—'}</td><td class="${tc0091(r.c0091||0)}">${r.c0091>0?fh(r.c0091):'—'}</td><td class="${tc014A(r.c014A||0)}">${(r.c014A||0)>0?fh(r.c014A):'—'}</td><td class="${tc014B(r.c014B||0)}">${(r.c014B||0)>0?fh(r.c014B):'—'}</td><td class="${tc014C(r.c014C||0)}">${(r.c014C||0)>0?fh(r.c014C):'—'}</td><td class="${tc0155(r.c0155||0)}">${(r.c0155||0)>0?fh(r.c0155):'—'}</td><td class="${tc100(r.c0100||0)}">${r.c0100>0?fh(r.c0100):'—'}</td><td class="${tc120(r.c0120||0)}">${r.c0120>0?fh(r.c0120):'—'}</td><td class="${tc7120(r.c7120||0)}">${r.c7120>0?fh(r.c7120):'—'}</td><td class="${tc8120(r.c8120||0)}">${(r.c8120||0)>0?fh(r.c8120):'—'}</td><td class="${tc9IMP(r.c9IMP||0)}">${r.c9IMP>0?fh(r.c9IMP):'—'}</td><td class="${tcTard(r.tardHs||0)}">${r.tardHs>0?fh(r.tardHs):'—'}</td><td class="${tc9SAN(r.c9SAN||0)}">${r.c9SAN>0?fh(r.c9SAN):'—'}</td><td class="${r.aus>0?'hr':'nr'}">${r.aus||'—'}</td><td class="${r.sup>0?'hg':'nr'}">${r.sup||'—'}</td></tr>`).join('');
   tfoot.innerHTML=`<tr class="tr-total"><td class="tlbl" colspan="${ms?3:2}">TOTALES (${filtRes.length} emp.)</td><td class="nr">${fh(T.cantHs)}</td><td class="nr">${fh(T.c0090)}</td><td class="nr">${fh(T.c0091)}</td><td class="nr">${fh(T.c014A)}</td><td class="nr">${fh(T.c014B)}</td><td class="nr">${fh(T.c014C)}</td><td class="nr">${fh(T.c0155)}</td><td class="nr">${fh(T.c0100)}</td><td class="nr">${fh(T.c0120)}</td><td class="nr">${fh(T.c7120)}</td><td class="nr">${fh(T.c8120)}</td><td class="nr">${fh(T.c9IMP)}</td><td class="nr">${fh(T.tardHs)}</td><td class="nr">${fh(T.c9SAN)}</td><td class="nr">${T.aus}</td><td class="nr">${T.sup}</td></tr>`;
   document.getElementById('r-pag').innerHTML=`<span style="font-family:var(--mono);font-size:10px;color:var(--text-dim)">${filtRes.length} empleados</span>`;
 }
@@ -1288,7 +1279,7 @@ function renderDetallePage(){
   const start=(pageDet-1)*PD,slice=filtDet.slice(start,start+PD);
   const body=document.getElementById('d-body');
   if(!slice.length){body.innerHTML=`<tr><td colspan="22"><div class="empty"><div class="empty-icon">🔎</div>Sin resultados</div></td></tr>`;document.getElementById('d-pag').innerHTML='';return;}
-  body.innerHTML=slice.map(r=>`<tr style="${r.phtd==='9999'?'opacity:.38':''}"><td class="mo">${r.nro}</td><td style="min-width:170px">${r.nombre}</td><td class="dm">${r.sucCodigo}</td><td class="mo">${r.fecha}</td><td class="dm">${r.dia}</td><td class="dm">${r.horTeo}</td><td class="mo ${r.horaEnt?'':'dm'}">${r.horaEnt||'—'}</td><td class="mo ${r.horaSal?'':'dm'}">${r.horaSal||'—'}</td><td class="${r.tardanza&&r.tardanza!=='00:00'?'hy':'dm'}">${r.tardanza||'—'}</td><td>${r.ausentismo?`<span class="pill pill-r">${r.ausentismo}</span>`:'<span class="pill pill-dim">—</span>'}</td><td>${r.suplencia?`<span class="pill pill-g">${r.suplencia}</span>`:'—'}</td><td class="nr">${r.c0090>0?fh(r.c0090):'—'}</td><td class="${r.c0091>0?'hb':'nr'}">${r.c0091>0?fh(r.c0091):'—'}</td><td class="nr">${(r.c014A||0)>0?fh(r.c014A):'—'}</td><td class="nr">${(r.c014B||0)>0?fh(r.c014B):'—'}</td><td class="nr">${(r.c014C||0)>0?fh(r.c014C):'—'}</td><td class="nr">${(r.c014D||0)>0?fh(r.c014D):'—'}</td><td class="nr">${(r.c0155||0)>0?fh(r.c0155):'—'}</td><td class="nr">${r.c0100>0?fh(r.c0100):'—'}</td><td class="nr">${r.c0120>0?fh(r.c0120):'—'}</td><td class="${r.c7120>0?(semCol==='c7120'?tc(r):'hp'):'nr'}">${r.c7120>0?fh(r.c7120):'—'}</td><td class="nr">${(r.c8120||0)>0?fh(r.c8120):'—'}</td><td class="${r.c9SAN>0?'hb':'nr'}">${r.c9SAN>0?fh(r.c9SAN):'—'}</td><td class="nr">${r.c9IMP>0?fh(r.c9IMP):'—'}</td></tr>`).join('');
+  body.innerHTML=slice.map(r=>`<tr style="${r.phtd==='9999'?'opacity:.38':''}"><td class="mo">${r.nro}</td><td style="min-width:170px">${r.nombre}</td><td class="dm">${r.sucCodigo}</td><td class="mo">${r.fecha}</td><td class="dm">${r.dia}</td><td class="dm">${r.horTeo}</td><td class="mo ${r.horaEnt?'':'dm'}">${r.horaEnt||'—'}</td><td class="mo ${r.horaSal?'':'dm'}">${r.horaSal||'—'}</td><td class="${r.tardanza&&r.tardanza!=='00:00'?'hy':'dm'}">${r.tardanza||'—'}</td><td>${r.ausentismo?`<span class="pill pill-r">${r.ausentismo}</span>`:'<span class="pill pill-dim">—</span>'}</td><td>${r.suplencia?`<span class="pill pill-g">${r.suplencia}</span>`:'—'}</td><td class="nr">${r.c0090>0?fh(r.c0090):'—'}</td><td class="${r.c0091>0?'hb':'nr'}">${r.c0091>0?fh(r.c0091):'—'}</td><td class="nr">${(r.c014A||0)>0?fh(r.c014A):'—'}</td><td class="nr">${(r.c014B||0)>0?fh(r.c014B):'—'}</td><td class="'nr'">${(r.c014C||0)>0?fh(r.c014C):'—'}</td><td class="nr">${(r.c014D||0)>0?fh(r.c014D):'—'}</td><td class="nr">${(r.c0155||0)>0?fh(r.c0155):'—'}</td><td class="nr">${r.c0100>0?fh(r.c0100):'—'}</td><td class="nr">${r.c0120>0?fh(r.c0120):'—'}</td><td class="${r.c7120>0?'hp':'nr'}">${r.c7120>0?fh(r.c7120):'—'}</td><td class="nr">${(r.c8120||0)>0?fh(r.c8120):'—'}</td><td class="${r.c9SAN>0?'hb':'nr'}">${r.c9SAN>0?fh(r.c9SAN):'—'}</td><td class="nr">${r.c9IMP>0?fh(r.c9IMP):'—'}</td></tr>`).join('');
   renderPag('d-pag',filtDet.length,PD,pageDet,p=>{pageDet=p;renderDetallePage();});
 }
 
