@@ -314,9 +314,7 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
   <div class="periodo-badge" id="periodo-badge" style="display:none;cursor:pointer" onclick="abrirModalPeriodos()" title="Cambiar período">
     Período: <b id="periodo-badge-txt"></b> <span style="color:var(--text-dim);font-size:10px">▾</span>
   </div>
-  <select class="fi" id="r-suc" onchange="applyResumen()" style="display:none;min-width:160px;max-width:220px;font-size:11px" id="r-suc-hdr">
-    <option value="">Todas las sucursales</option>
-  </select>
+
   <div class="header-sep"></div>
   <div style="flex:1"></div>
   <button class="btn-hdr yellow" id="btn-export" onclick="abrirModalExport()" style="display:none">↓ Exportar</button>
@@ -390,6 +388,9 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
   </div>
   <div class="tab-content active" id="tab-resumen">
     <div class="toolbar">
+      <select class="fi" id="r-suc" onchange="applyResumen()" style="display:none;font-size:12px;max-width:200px">
+        <option value="">Todas las sucursales</option>
+      </select>
       <div class="sw"><span class="si-ico">🔍</span><input type="text" class="si" id="rs" placeholder="Nombre o N° empleado…" oninput="applyResumen()"></div>
 
     </div>
