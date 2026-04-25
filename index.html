@@ -17,7 +17,7 @@
 body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;font-size:13px}
 
 /* HEADER */
-.header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 20px;height:48px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:200}
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 20px;height:48px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:4px 12px;position:sticky;top:0;z-index:200}@media(max-width:600px){.app-header{min-height:48px;height:auto}}
 .logo{font-family:var(--mono);font-weight:600;font-size:13px;color:var(--accent);letter-spacing:.08em;white-space:nowrap;flex-shrink:0}
 .logo span{color:var(--text-dim);font-weight:400}
 .periodo-badge{background:var(--surface2);border:1px solid var(--border2);border-radius:5px;padding:3px 10px;font-family:var(--mono);font-size:11px;color:var(--text-mid);white-space:nowrap;flex-shrink:0}
@@ -147,7 +147,8 @@ td.hy{color:var(--accent);font-weight:600;font-family:var(--mono);text-align:rig
 td.hg{color:var(--accent2);font-weight:600;font-family:var(--mono);text-align:right}
 td.hb{color:var(--accent4);font-family:var(--mono);text-align:right}
 td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
-.tard-red{background:rgba(240,82,82,.12);color:#f05252;font-weight:700;font-family:var(--mono);font-size:11px;text-align:right}
+.tard-red{background:rgba(240,82,82,.18);color:#e05252;font-weight:700;font-family:var(--mono);font-size:11px;text-align:right}
+.tard-orange{background:rgba(232,125,48,.15);color:#e87d30;font-weight:700;font-family:var(--mono);font-size:11px;text-align:right}
 .tard-yellow{background:rgba(240,165,0,.10);color:#f0a500;font-weight:600;font-family:var(--mono);font-size:11px;text-align:right}
 .tr-total td{background:var(--surface2)!important;font-weight:700;border-top:2px solid var(--border2);font-family:var(--mono);font-size:11px}
 .tr-total td.tlbl{color:var(--text-mid);font-size:10px;letter-spacing:.05em;text-transform:uppercase}
@@ -168,6 +169,9 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
 .tw{overflow:auto;max-height:calc(100vh - 230px)}
 .empty{text-align:center;padding:50px 20px;color:var(--text-dim)}
 .empty-icon{font-size:26px;margin-bottom:10px;opacity:.35}
+
+.dev-credit{font-family:var(--mono);font-size:10px;color:var(--text-dim);white-space:nowrap;flex-shrink:0}
+@media(max-width:900px){.dev-credit{display:none}}
 
 /* DRAWER LATERAL */
 .drawer-overlay{display:none;position:fixed;inset:0;z-index:400;pointer-events:none}
@@ -310,12 +314,14 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
   <div class="periodo-badge" id="periodo-badge" style="display:none;cursor:pointer" onclick="abrirModalPeriodos()" title="Cambiar período">
     Período: <b id="periodo-badge-txt"></b> <span style="color:var(--text-dim);font-size:10px">▾</span>
   </div>
+  <select class="fi" id="r-suc" onchange="applyResumen()" style="display:none;min-width:160px;max-width:220px;font-size:11px" id="r-suc-hdr">
+    <option value="">Todas las sucursales</option>
+  </select>
   <div class="header-sep"></div>
+  <div style="flex:1"></div>
   <button class="btn-hdr yellow" id="btn-export" onclick="abrirModalExport()" style="display:none">↓ Exportar</button>
-  <button class="btn-hdr green" id="btn-admin" onclick="abrirAdmin()" style="display:none">⚙ Admin</button>
-  <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);white-space:nowrap;flex-shrink:0;letter-spacing:.03em">
-    dev <span style="color:var(--accent)">Jonathan Cheves</span> · RRHH Neuquén Interior
-  </div>
+  <button class="btn-hdr green" id="btn-admin" onclick="abrirAdmin()">⚙ Admin</button>
+  <div class="dev-credit">dev <span style="color:var(--accent)">Jonathan Cheves</span></div>
 </div>
 
 <!-- SPLASH DE INICIO (pantalla de carga) -->
@@ -380,12 +386,12 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
 <div id="app">
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('resumen')">Resumen por empleado <span class="badge" id="b-res">0</span></button>
-    <button class="tab-btn" onclick="switchTab('detalle');cargarDetalleSiNecesario()">Detalle diario <span class="badge" id="b-det">0</span></button>
+
   </div>
   <div class="tab-content active" id="tab-resumen">
     <div class="toolbar">
       <div class="sw"><span class="si-ico">🔍</span><input type="text" class="si" id="rs" placeholder="Nombre o N° empleado…" oninput="applyResumen()"></div>
-      <select class="fi" id="r-suc" onchange="applyResumen()"><option value="">Todas las sucursales</option></select>
+
     </div>
     <div class="kpi-row" id="kpis"></div>
     <button class="btn-panel-toggle" id="btn-panel-toggle" style="display:none" onclick="togglePanel()">
@@ -399,49 +405,29 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
       <div class="res-panel">
         <div class="panel-section">
           <div class="panel-title">⚙ Semáforo</div>
-          <div style="font-size:11px;color:var(--text-mid);margin-bottom:6px">Aplica sobre todas las columnas numéricas</div>
-          <div style="font-size:10px;color:var(--text-dim)">
-            <span style="color:var(--accent3)">●</span> Rojo: top 25% del período<br>
-            <span style="color:var(--accent)">●</span> Amarillo: top 50% del período
+          <div style="font-size:11px;color:var(--text-mid);margin-bottom:10px">Aplica sobre todas las columnas numéricas</div>
+          <div style="display:flex;flex-direction:column;gap:8px;font-size:11px;color:var(--text-dim)">
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="color:#e05252;font-size:13px">●</span>
+              <span>Rojo — más del doble del promedio</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="color:#e87d30;font-size:13px">●</span>
+              <span>Naranja — entre el promedio y el doble</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="color:#f0c040;font-size:13px">●</span>
+              <span>Amarillo — por debajo del promedio</span>
+            </div>
+            <div style="margin-top:4px;color:var(--text-dim);opacity:.6">Calculado por columna · excluye ceros</div>
           </div>
         </div>
         <div id="rankings-wrap"></div>
       </div>
     </div>
   </div>
-  <div class="tab-content" id="tab-detalle">
-    <div class="toolbar">
-      <div class="sw"><span class="si-ico">🔍</span><input type="text" class="si" id="ds" placeholder="Nombre, N° empleado, tipo ausentismo…" oninput="applyDetalle()"></div>
-      <select class="fi" id="d-suc" onchange="applyDetalle()"><option value="">Todas las sucursales</option></select>
-      
-      <select class="fi" id="d-tipo" onchange="applyDetalle()">
-        <option value="">Todos los registros</option>
-        <option value="aus">Con ausentismo</option>
-        <option value="tard">Con llegada tarde</option>
-        <option value="san">Con salida anticipada</option>
-        <option value="ext">Con horas extras</option>
-        <option value="dom">Con horas domingo</option>
-      </select>
-    </div>
-    <div class="stats-bar" id="d-stats"></div>
-    <div class="tw"><table><thead><tr>
-      <th>N° Emple.</th><th>Nombre</th><th>Suc.</th>
-      <th>Fecha</th><th>Día</th><th>Horario</th>
-      <th>H. Entrada</th><th>H. Salida</th>
-      <th>Llegadas Tarde 9LLT</th><th>Ausentismo</th><th>Suplencia</th>
-      <th>Hs. Norm. PT 0090</th><th>Hs. Feriado PT 0091</th>
-      <th>Hs. Sáb FT 014A</th><th>Hs. Dom FT 014B</th><th>Hs. Sáb PT 014C</th><th>Hs. Dom PT 014D</th>
-      <th>Hs. Acu. Dom FT 0155</th>
-      <th>Hs. al 50 FT 0100</th><th>Hs. al 100 FT 0120</th>
-      <th>Hs. Extras 7120</th><th>Hs. Improduct. 9IMP</th>
-      <th>Sal. Anticipada 9SAN</th>
-    </tr></thead><tbody id="d-body"></tbody></table></div>
-    <div class="pag" id="d-pag"></div>
-  </div>
-</div>
 
-<!-- MODAL PERÍODOS -->
-<div class="modal-overlay" id="modal-periodos" onclick="if(event.target===this)cerrarModalPeriodos()">
+  <div class="modal-overlay" id="modal-periodos" onclick="if(event.target===this)cerrarModalPeriodos()">
   <div class="modal" style="width:480px">
     <div class="modal-header">
       <span class="modal-title" style="color:var(--accent)">Seleccionar períodos</span>
@@ -470,6 +456,7 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
     <button class="drawer-close" onclick="cerrarDrawer()">✕</button>
   </div>
   <div class="drawer-body" id="drawer-status"></div>
+</div>
 </div>
 
 <!-- MODAL ADMIN -->
@@ -682,8 +669,7 @@ function procesarRespuesta(res){
   document.getElementById('periodo-badge').style.display='block';
   document.getElementById('periodo-badge-txt').textContent=periodoActivo;
   document.getElementById('b-res').textContent=allResumen.length;
-  document.getElementById('b-det').textContent=allDetalle.length.toLocaleString('es-AR');
-  applyResumen(); applyDetalle();
+  applyResumen();
 }
 
 // Helper: construir mapa de columnas desde función ci
@@ -701,22 +687,19 @@ function procesarResumen(res) {
   document.getElementById('app').style.display='block';
   document.getElementById('btn-export').style.display='block';
   document.getElementById('periodo-badge').style.display='flex';
+  document.getElementById('r-suc').style.display='block';
   document.getElementById('periodo-badge-txt').textContent = periodoActivo;
   document.getElementById('b-res').textContent = allResumen.length;
-  document.getElementById('b-det').textContent = '...';
   applyResumen();
 }
 
 async function cargarDetalleSiNecesario() {
   if (detalleLoaded) return;
   detalleLoaded = true;
-  document.getElementById('b-det').textContent = '⏳';
   try {
     const res = await gas('getData', {periodo: periodoActivo});
     procesarRespuesta(res);
-    document.getElementById('b-det').textContent = allDetalle.length.toLocaleString('es-AR');
   } catch(e) {
-    document.getElementById('b-det').textContent = '!';
     detalleLoaded = false;
   }
 }
@@ -781,9 +764,12 @@ function calcularResumen(){
 }
 
 function poblarFiltros(){
-  const sucs=[...new Map(allDetalle.map(f=>[f.sucCodigo,f.sucNombre])).entries()].sort((a,b)=>a[0].localeCompare(b[0]));
-  ['r-suc','d-suc'].forEach(id=>{
+  // Usar allResumen si allDetalle está vacío
+  const src = allResumen.length ? allResumen : allDetalle;
+  const sucs=[...new Map(src.map(f=>[f.sucCodigo,f.sucNombre])).entries()].sort((a,b)=>a[0].localeCompare(b[0]));
+  ['r-suc'].forEach(id=>{
     const sel=document.getElementById(id);
+    if(!sel) return;
     while(sel.options.length>1)sel.remove(1);
     sucs.forEach(([cod,nom])=>{const o=document.createElement('option');o.value=cod;o.textContent=cod+' — '+nom;sel.appendChild(o);});
   });
@@ -928,9 +914,7 @@ function procesarAcumulado(resultados, periodos){
   document.getElementById('btn-export').style.display='block';
   document.getElementById('periodo-badge').style.display='block';
   document.getElementById('b-res').textContent = allResumen.length;
-  document.getElementById('b-det').textContent = allDetalle.length.toLocaleString('es-AR');
   applyResumenAcumulado();
-  applyDetalle();
 }
 
 function applyResumenAcumulado(){
@@ -1395,8 +1379,19 @@ function renderResumenPage(ms){
   if(ms===undefined)ms=!document.getElementById('r-suc').value;
 
   // Definir semáforos al inicio — evita errores si filtRes está vacío
-  const pct=(key)=>{const s=filtRes.map(r=>r[key]||0).filter(v=>v>0).sort((a,b)=>a-b);return{r25:s.length?s[Math.floor(s.length*.75)]:999,r50:s.length?s[Math.floor(s.length*.50)]:999};};
-  const mkSem=(key,base)=>{const p=pct(key);return v=>v>0?(v>=p.r25?'tard-red':v>=p.r50?'tard-yellow':base):'nr';};
+  // Semáforo basado en promedio por columna
+  const mkSem=(key,base)=>{
+    const vals = filtRes.map(r=>r[key]||0).filter(v=>v>0);
+    if(!vals.length) return ()=>base;
+    const avg = vals.reduce((s,v)=>s+v,0) / vals.length;
+    const tRojo   = avg * 2;  // más del doble del promedio → rojo
+    const tNaranja = avg;      // entre promedio y doble → naranja
+    return v => v > 0
+      ? (v >= tRojo   ? 'tard-red'
+       : v >= tNaranja ? 'tard-orange'
+       : 'tard-yellow')
+      : base;
+  };
   const tc0090=mkSem('c0090','nr'),tc0091=mkSem('c0091','hb'),tc014A=mkSem('c014A','nr');
   const tc014B=mkSem('c014B','nr'),tc014C=mkSem('c014C','nr'),tc0155=mkSem('c0155','nr');
   const tc100=mkSem('c0100','hy'),tc120=mkSem('c0120','hr'),tc7120=mkSem('c7120','hp');
@@ -1428,6 +1423,7 @@ function renderRankings(){
 
 // ══ DETALLE ════════════════════════════════════════════════
 function applyDetalle(){
+  if(!document.getElementById('d-suc')) return; // tab detalle eliminado
   pageDet=1;
   const q=document.getElementById('ds').value.toLowerCase();
   const suc=document.getElementById('d-suc').value;
@@ -1600,7 +1596,7 @@ window.addEventListener('resize', () => {
 function switchTab(name){
   document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',(name==='resumen'?0:1)===i));
   document.getElementById('tab-resumen').classList.toggle('active',name==='resumen');
-  document.getElementById('tab-detalle').classList.toggle('active',name==='detalle');
+
 }
 </script>
 </body>
