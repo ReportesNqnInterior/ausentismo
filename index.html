@@ -172,7 +172,8 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
 /* DRAWER LATERAL */
 .drawer-overlay{display:none;position:fixed;inset:0;z-index:400;pointer-events:none}
 .drawer-overlay.open{display:block;pointer-events:auto}
-.drawer{position:fixed;top:0;right:-420px;width:420px;height:100vh;background:var(--surface2);border-left:2px solid var(--accent);z-index:700;transition:right .3s ease;display:flex;flex-direction:column;overflow:hidden;box-shadow:-8px 0 32px rgba(0,0,0,.6)}
+.drawer{position:fixed;top:0;right:-100vw;width:min(420px,100vw);height:100vh;background:var(--surface2);border-left:2px solid var(--accent);z-index:700;transition:right .3s ease;display:flex;flex-direction:column;overflow:hidden;box-shadow:-8px 0 32px rgba(0,0,0,.6)}
+.drawer.open{right:0!important}
 .drawer.open{right:0}
 .drawer-backdrop{position:fixed;inset:0;background:rgba(13,17,23,.5);z-index:699;display:none;transition:opacity .3s}
 .drawer-backdrop.open{display:block}
@@ -412,11 +413,7 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
     <div class="toolbar">
       <div class="sw"><span class="si-ico">🔍</span><input type="text" class="si" id="ds" placeholder="Nombre, N° empleado, tipo ausentismo…" oninput="applyDetalle()"></div>
       <select class="fi" id="d-suc" onchange="applyDetalle()"><option value="">Todas las sucursales</option></select>
-      <select class="fi" id="d-dia" onchange="applyDetalle()">
-        <option value="">Todos los días</option>
-        <option>Lunes</option><option>Martes</option><option>Miércoles</option>
-        <option>Jueves</option><option>Viernes</option><option>Sábado</option><option>Domingo</option>
-      </select>
+      
       <select class="fi" id="d-tipo" onchange="applyDetalle()">
         <option value="">Todos los registros</option>
         <option value="aus">Con ausentismo</option>
@@ -466,8 +463,8 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
 </div>
 
 <!-- DRAWER UPLOAD -->
-<div class="drawer-backdrop" id="drawer-backdrop" onclick="cerrarDrawer()"></div>
-<div class="drawer" id="drawer-upload">
+<div class="drawer-backdrop" id="drawer-backdrop" onclick="cerrarDrawer()" style="display:none"></div>
+<div class="drawer" id="drawer-upload" style="right:-420px">
   <div class="drawer-header">
     <span class="drawer-title">Subiendo archivos</span>
     <button class="drawer-close" onclick="cerrarDrawer()">✕</button>
@@ -531,15 +528,19 @@ let adminLogueado=false;
 const PR=500,PD=100;
 
 // ══ INICIO ════════════════════════════════════════════════
-window.addEventListener('load', iniciar);
+window.addEventListener('load', ()=>{ cerrarDrawer(); iniciar(); });
 
 function abrirDrawer(){
-  document.getElementById('drawer-upload').classList.add('open');
-  document.getElementById('drawer-backdrop').classList.add('open');
+  const d = document.getElementById('drawer-upload');
+  const b = document.getElementById('drawer-backdrop');
+  if(d){ d.classList.add('open'); d.style.right='0'; }
+  if(b){ b.classList.add('open'); b.style.display='block'; }
 }
 function cerrarDrawer(){
-  document.getElementById('drawer-upload').classList.remove('open');
-  document.getElementById('drawer-backdrop').classList.remove('open');
+  const d = document.getElementById('drawer-upload');
+  const b = document.getElementById('drawer-backdrop');
+  if(d){ d.classList.remove('open'); d.style.right='-100vw'; }
+  if(b){ b.classList.remove('open'); b.style.display='none'; }
 }
 
 function setSplashMsg(msg, step) {
@@ -1235,10 +1236,10 @@ async function subirArchivosDesde(files){
       if(!checkRes.ok){
         if(checkRes.error==='YA_EXISTE'){
           estados[_fi].state='conflict';
-          renderStatus();
           const conflictIdx = _fi;
           const reemplazar = await new Promise(resolve=>{
             window._resolveConflict=(idx,val)=>{ if(idx===conflictIdx) resolve(val); };
+            renderStatus(); // renderizar después de setear el handler
           });
           if(!reemplazar){
             estados[_fi].state='done';
@@ -1287,16 +1288,17 @@ async function subirArchivosDesde(files){
   renderSucList();
 
   const hayExitos = estados.some(e=>e.state==='done'&&e.info!=='saltado');
-  if(hayExitos){
-    setTimeout(async()=>{
-      cerrarAdmin();
+  setTimeout(async()=>{
+    cerrarDrawer();
+    cerrarAdmin();
+    if(hayExitos){
       if(document.getElementById('app').style.display!=='none'){
         await recargarDatos();
       } else {
         await iniciar();
       }
-    }, 1500);
-  }
+    }
+  }, hayExitos ? 1500 : 500);
 }
 
 
@@ -1429,7 +1431,7 @@ function applyDetalle(){
   pageDet=1;
   const q=document.getElementById('ds').value.toLowerCase();
   const suc=document.getElementById('d-suc').value;
-  const dia=document.getElementById('d-dia').value;
+
   const tipo=document.getElementById('d-tipo').value;
   filtDet=allDetalle.filter(r=>{
     if(suc&&r.sucCodigo!==suc)return false;if(dia&&r.dia.trim()!==dia.trim())return false;
