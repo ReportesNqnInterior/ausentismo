@@ -116,7 +116,7 @@ select.fi:focus{border-color:var(--accent)}
 .kpi .kv{font-family:var(--mono);font-size:20px;font-weight:600;line-height:1}
 .kpi .kl{font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.05em;margin-top:3px}
 .res-layout{display:flex;height:calc(100vh - 190px);overflow:hidden}
-.res-main{flex:1;overflow:auto;min-width:0}
+.res-main{flex:1;overflow:hidden;min-width:0}
 .res-panel{width:300px;flex-shrink:0;background:var(--surface);border-left:1px solid var(--border);overflow-y:auto;display:flex;flex-direction:column}
 .panel-section{padding:12px 14px;border-bottom:1px solid var(--border)}
 .panel-title{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-mid);margin-bottom:10px}
@@ -139,10 +139,10 @@ thead{position:sticky;top:0;z-index:10}
 th{background:var(--surface2);color:var(--text-mid);font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:8px 10px;border-bottom:1px solid var(--border2);white-space:nowrap;user-select:none}
 td{padding:6px 10px;border-bottom:1px solid rgba(37,45,66,.5);color:var(--text);white-space:nowrap}
 tr:hover td{background:var(--surface)}
-td.mo{font-family:var(--mono);font-size:11px;position:sticky;left:0;background:var(--surface);z-index:2}
-td.tn{position:sticky;left:48px;background:var(--surface);z-index:2;min-width:170px}
-th.th-mo{position:sticky;left:0;background:var(--surface2);z-index:3}
-th.th-tn{position:sticky;left:48px;background:var(--surface2);z-index:3;min-width:170px}
+td.mo{font-family:var(--mono);font-size:11px;position:sticky;left:0;width:60px;min-width:60px;max-width:60px;background:var(--surface);z-index:2;box-shadow:2px 0 4px rgba(0,0,0,.2)}
+td.tn{position:sticky;left:60px;width:180px;min-width:180px;max-width:180px;background:var(--surface);z-index:2;box-shadow:2px 0 4px rgba(0,0,0,.2)}
+th.th-mo{position:sticky;left:0;width:60px;min-width:60px;max-width:60px;background:var(--surface2);z-index:3;box-shadow:2px 0 4px rgba(0,0,0,.2)}
+th.th-tn{position:sticky;left:60px;width:180px;min-width:180px;max-width:180px;background:var(--surface2);z-index:3;box-shadow:2px 0 4px rgba(0,0,0,.2)}
 td.nr{font-family:var(--mono);text-align:right}
 td.dm{color:var(--text-dim);font-size:11px}
 td.hr{color:var(--accent3);font-weight:600;font-family:var(--mono);text-align:right}
@@ -153,6 +153,8 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
 .tard-red{background:rgba(240,82,82,.18);color:#e05252;font-weight:700;font-family:var(--mono);font-size:11px;text-align:right}
 .tard-orange{background:rgba(232,125,48,.15);color:#e87d30;font-weight:700;font-family:var(--mono);font-size:11px;text-align:right}
 .tard-yellow{background:rgba(240,165,0,.10);color:#f0a500;font-weight:600;font-family:var(--mono);font-size:11px;text-align:right}
+.tr-total td:first-child{position:sticky;left:0;z-index:4}
+.tr-total td:nth-child(2){position:sticky;left:60px;z-index:4}
 .tr-total td{position:sticky;bottom:0;background:var(--surface2)!important;font-weight:700;border-top:2px solid var(--border2);font-family:var(--mono);font-size:11px}
 .tr-total td.tlbl{color:var(--text-mid);font-size:10px;letter-spacing:.05em;text-transform:uppercase}
 .pill{display:inline-block;padding:2px 7px;border-radius:4px;font-family:var(--mono);font-size:10px;font-weight:600}
@@ -403,7 +405,21 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
     </button>
     <div class="res-layout">
       <div class="res-main">
-        <table><thead><tr id="r-thead"></tr></thead><tbody id="r-body"></tbody><tfoot id="r-tfoot" style="position:sticky;bottom:0;z-index:3"></tfoot></table>
+        <div style="display:flex;flex-direction:column;max-height:calc(100vh - 220px);overflow:hidden">
+          <!-- Thead + Tbody con scroll -->
+          <div style="overflow:auto;flex:1">
+            <table style="width:100%;border-collapse:collapse" id="r-main-table">
+              <thead><tr id="r-thead"></tr></thead>
+              <tbody id="r-body"></tbody>
+            </table>
+          </div>
+          <!-- Tfoot fijo abajo, sin scroll -->
+          <div style="overflow:auto;flex-shrink:0;border-top:2px solid var(--border2)">
+            <table style="width:100%;border-collapse:collapse" id="r-foot-table">
+              <tfoot id="r-tfoot"></tfoot>
+            </table>
+          </div>
+        </div>
         <div class="pag" id="r-pag"></div>
       </div>
       <div class="res-panel">
@@ -994,6 +1010,7 @@ function applyResumenAcumulado(){
     `<span style="font-family:var(--mono);font-size:10px;color:var(--text-dim)">${filtRes.length} empleados · ${periodos.length} períodos</span>`;
 
   renderRankings();
+  setTimeout(syncTableWidths, 50);
 }
 
 // ══ ADMIN ══════════════════════════════════════════════════
@@ -1414,6 +1431,25 @@ function renderResumenPage(ms){
 
 // ══ RANKINGS ══════════════════════════════════════════════
 const RANK_DEFS=[{key:'c0100',label:'Top 10 — Hs. al 50 FT 0100',color:'#e87d30'},{key:'c0120',label:'Top 10 — Hs. al 100 FT 0120',color:'#f05252'},{key:'aus',label:'Top 10 — Ausentismo',color:'#f05252'},{key:'sup',label:'Top 10 — Suplencias',color:'#3ecf8e'},{key:'tardHs',label:'Top 10 — Llegadas Tarde 9LLT',color:'#f0a500'},{key:'c9SAN',label:'Top 10 — Sal. Anticipada 9SAN',color:'#4d9de0'}];
+
+function syncTableWidths(){
+  const main = document.getElementById('r-main-table');
+  const foot = document.getElementById('r-foot-table');
+  if(!main || !foot) return;
+  // Copiar anchos de columnas del thead al tfoot
+  const ths = main.querySelectorAll('thead th');
+  const tds = foot.querySelectorAll('tfoot td');
+  ths.forEach((th, i) => {
+    if(tds[i]) tds[i].style.minWidth = th.offsetWidth + 'px';
+  });
+  // Sincronizar scroll horizontal
+  const mainDiv = main.closest('div[style*="overflow:auto"]');
+  const footDiv = foot.closest('div[style*="overflow:auto"]');
+  if(mainDiv && footDiv){
+    mainDiv.onscroll = () => { footDiv.scrollLeft = mainDiv.scrollLeft; };
+    footDiv.onscroll = () => { mainDiv.scrollLeft = footDiv.scrollLeft; };
+  }
+}
 
 function renderRankings(){
   const wrap=document.getElementById('rankings-wrap');
