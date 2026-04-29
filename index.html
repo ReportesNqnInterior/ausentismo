@@ -1303,9 +1303,22 @@ async function subirArchivosDesde(files){
 async function borrarSucursal(cod, nom){
   const periodo = getPeriodoAdmin();
   if(!confirm(`¿Borrar los datos de ${cod} — ${nom} del período ${periodo}?`)) return;
-  showLoading('Eliminando…');
+
+  // Mostrar progreso en el panel Admin
+  const statusEl = document.getElementById('admin-upload-status');
+  if(statusEl) statusEl.innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 0;font-family:var(--mono);font-size:12px">
+      <div style="width:14px;height:14px;border:2px solid var(--border2);border-top-color:var(--accent3);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0"></div>
+      <span style="color:var(--text)">Eliminando <b>${cod} — ${nom}</b>…</span>
+    </div>`;
+
+  showLoading(`Eliminando ${cod} — ${nom}…`);
   const res = await gas('clearSucursal',{pass:adminPass,periodo,sucCodigo:cod});
   hideLoading();
+
+  if(statusEl) statusEl.innerHTML = res.ok
+    ? `<div style="font-family:var(--mono);font-size:12px;color:var(--accent2);padding:8px 0">✓ ${cod} — ${nom} eliminado correctamente</div>`
+    : `<div style="font-family:var(--mono);font-size:12px;color:var(--accent3);padding:8px 0">✗ Error: ${res.error}</div>`;
   if(!res.ok){alert('Error: '+res.error);return;}
   const res2 = await gas('getPeriodos').catch(()=>({periodos:[]}));
   periodosDisponibles = res2.periodos||[];
