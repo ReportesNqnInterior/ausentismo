@@ -308,6 +308,7 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
   <div class="header-sep"></div>
   <div style="flex:1"></div>
   <button class="btn-hdr yellow" id="btn-export" onclick="abrirModalExport()" style="display:none">↓ Exportar</button>
+  <button class="btn-hdr" id="btn-volver" onclick="volverAWelcome()" style="display:none;background:var(--surface2);color:var(--text-dim);border:1px solid var(--border2)">← Volver</button>
   <button class="btn-hdr green" id="btn-admin" onclick="abrirAdmin()">⚙ Admin</button>
   <div class="dev-credit">dev <span style="color:var(--accent)">Jonathan Cheves</span></div>
 </div>
@@ -544,6 +545,19 @@ window.addEventListener('load', ()=>{  iniciar(); });
 // ── ZONAS ──────────────────────────────────────────────────
 const ZONAS = ['Neuquén Ciudad','Neuquén Interior','Río Negro'];
 let zonaActiva = '';
+
+function volverAWelcome(){
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('welcome').style.display = 'flex';
+  document.getElementById('btn-volver').style.display = 'none';
+  document.getElementById('btn-export').style.display = 'none';
+  document.getElementById('periodo-badge').style.display = 'none';
+  document.getElementById('r-suc').style.display = 'none';
+  // Resetear selectores
+  document.getElementById('welcome-zona').value = '';
+  document.getElementById('welcome-periodo').innerHTML = '<option value="">Seleccioná un período…</option>';
+  onWelcomeChange();
+}
 
 function onWelcomeChange(){
   const zona = document.getElementById('welcome-zona').value;
@@ -793,6 +807,7 @@ function procesarResumen(res) {
   document.getElementById('splash').style.display='none';
   document.getElementById('app').style.display='block';
   document.getElementById('btn-export').style.display='block';
+  document.getElementById('btn-volver').style.display='block';
   document.getElementById('periodo-badge').style.display='flex';
   document.getElementById('r-suc').style.display='block';
   document.getElementById('periodo-badge-txt').textContent = periodoActivo;
@@ -1646,9 +1661,9 @@ function syncCheck(wrapId,cbId){document.getElementById(wrapId).classList.toggle
 function validarExp(){document.getElementById('btn-confirm-exp').disabled=!['exp-resumen','exp-detalle','exp-rankings','exp-kpis'].some(id=>document.getElementById(id).checked);}
 
 function exportarExcel(){
-  const incRes=document.getElementById('exp-resumen').checked,incDet=document.getElementById('exp-detalle').checked,incRank=document.getElementById('exp-rankings').checked,incKpi=document.getElementById('exp-kpis').checked;
+  const incRes=document.getElementById('exp-resumen')?.checked??true,incDet=false,incRank=document.getElementById('exp-rankings')?.checked??true,incKpi=document.getElementById('exp-kpis')?.checked??true;
   const ms=!document.getElementById('r-suc').value;
-  const tR=parseFloat(document.getElementById('cfg-red').value)||1,tY=parseFloat(document.getElementById('cfg-yellow').value)||0.25;
+  const tR=parseFloat(document.getElementById('cfg-red')?.value)||1,tY=parseFloat(document.getElementById('cfg-yellow')?.value)||0.25;
   const wb=XLSX.utils.book_new();
 
   const XS={
