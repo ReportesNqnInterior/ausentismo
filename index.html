@@ -177,20 +177,6 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
 .dev-credit{font-family:var(--mono);font-size:10px;color:var(--text-dim);white-space:nowrap;flex-shrink:0}
 @media(max-width:900px){.dev-credit{display:none}}
 
-/* DRAWER LATERAL */
-.drawer-overlay{display:none;position:fixed;inset:0;z-index:400;pointer-events:none}
-.drawer-overlay.open{display:block;pointer-events:auto}
-.drawer{position:fixed;top:0;right:-100vw;width:min(420px,100vw);height:100vh;background:var(--surface2);border-left:2px solid var(--accent);z-index:700;transition:right .3s ease;display:flex;flex-direction:column;overflow:hidden;box-shadow:-8px 0 32px rgba(0,0,0,.6)}
-.drawer.open{right:0!important}
-.drawer.open{right:0}
-.drawer-backdrop{position:fixed;inset:0;background:rgba(13,17,23,.5);z-index:699;display:none;transition:opacity .3s}
-.drawer-backdrop.open{display:block}
-.drawer-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.drawer-title{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--accent)}
-.drawer-body{flex:1;overflow-y:auto;padding:16px 20px}
-.drawer-close{background:none;border:none;color:var(--text-dim);font-size:18px;cursor:pointer;transition:color .15s;line-height:1}
-.drawer-close:hover{color:var(--text)}
-
 /* UPLOAD CARDS */
 .upload-cards{display:flex;flex-direction:column;gap:6px;margin-top:10px;max-height:280px;overflow-y:auto}
 .upload-card-item{background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;transition:border-color .2s}
@@ -367,7 +353,7 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
   <div style="display:flex;flex-direction:column;gap:14px;width:100%;max-width:320px">
     <div>
       <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-bottom:5px;letter-spacing:.08em">ZONA</div>
-      <select id="welcome-zona" class="fi" style="width:100%;font-size:13px;padding:8px 12px" onchange="onWelcomeChange()">
+      <select id="welcome-zona" class="fi" style="width:100%;font-size:13px;padding:8px 12px" onchange="filtrarPeriodosPorZona()">
         <option value="">Seleccioná una zona…</option>
         <option value="Neuquén Ciudad">Neuquén Ciudad</option>
         <option value="Neuquén Interior">Neuquén Interior</option>
@@ -553,7 +539,7 @@ let adminLogueado=false;
 const PR=500,PD=100;
 
 // ══ INICIO ════════════════════════════════════════════════
-window.addEventListener('load', ()=>{ cerrarDrawer(); iniciar(); });
+window.addEventListener('load', ()=>{  iniciar(); });
 
 // ── ZONAS ──────────────────────────────────────────────────
 const ZONAS = ['Neuquén Ciudad','Neuquén Interior','Río Negro'];
@@ -592,23 +578,35 @@ function poblarWelcomePeriodos(periodos){
     unicos.map(p=>`<option value="${p}">${p}</option>`).join('');
 }
 
+function filtrarPeriodosPorZona(){
+  const zona = document.getElementById('welcome-zona').value;
+  const sel = document.getElementById('welcome-periodo');
+  if(!sel) return;
+  sel.value = '';
+  if(!zona){
+    sel.innerHTML = '<option value="">Seleccioná un período…</option>';
+    onWelcomeChange();
+    return;
+  }
+  // Solo períodos que tienen sucursales en esa zona
+  const periodosDeZona = [...new Set(
+    periodosDisponibles.filter(p=>p.zona===zona).map(p=>p.periodo)
+  )].sort().reverse();
+  if(periodosDeZona.length){
+    sel.innerHTML = '<option value="">Seleccioná un período…</option>' +
+      periodosDeZona.map(p=>`<option value="${p}">${p}</option>`).join('');
+  } else {
+    sel.innerHTML = '<option value="">Sin períodos cargados para esta zona</option>';
+  }
+  onWelcomeChange();
+}
+
 function getZonaAdmin(){
   const sel = document.getElementById('admin-zona');
   return sel ? sel.value : '';
 }
 
-function abrirDrawer(){
-  const d = document.getElementById('drawer-upload');
-  const b = document.getElementById('drawer-backdrop');
-  if(d){ d.classList.add('open'); d.style.right='0'; d.style.display='flex'; }
-  if(b){ b.classList.add('open'); b.style.display='block'; }
-}
-function cerrarDrawer(){
-  const d = document.getElementById('drawer-upload');
-  const b = document.getElementById('drawer-backdrop');
-  if(d){ d.classList.remove('open'); d.style.right='-100vw'; }
-  if(b){ b.classList.remove('open'); b.style.display='none'; }
-}
+
 
 function setSplashMsg(msg, step) {
   const el = document.getElementById('splash-loading-msg');
@@ -672,11 +670,15 @@ async function iniciarConDatos(zona, periodo){
     const sucsDeLaZona = periodosDisponibles
       .filter(p => p.periodo===periodo && p.zona===zona)
       .map(p => p.sucCodigo);
-    if(sucsDeLaZona.length){
+    // Filtrar siempre — si no hay sucursales de esa zona, mostrar vacío
+    const codsZona = sucsDeLaZona.map(s => String(s).replace(/^0+/,''));
+    if(codsZona.length){
       resumen.resumen = resumen.resumen.filter(r => {
         const cod = String(r.sucCodigo).replace(/^0+/,'');
-        return sucsDeLaZona.some(s => String(s).replace(/^0+/,'') === cod);
+        return codsZona.includes(cod);
       });
+    } else {
+      resumen.resumen = []; // Sin sucursales asignadas a esta zona
     }
     procesarResumen(resumen);
     zonaActiva = zona;
@@ -1169,14 +1171,14 @@ async function renderAdminPanel(){
       <div class="upload-drop-txt">📂 Arrastrá o hacé clic para subir archivos .xlsx</div>
       <button class="btn-secondary" style="font-size:11px;padding:5px 16px">Seleccionar archivos</button>
     </div>
-    <input type="file" id="file-input-admin" accept=".xlsx,.xls" multiple onchange="abrirDrawer();subirArchivos(event)">
+    <input type="file" id="file-input-admin" accept=".xlsx,.xls" multiple onchange="subirArchivos(event)">
     <div id="admin-upload-status"></div>`;
 
   // Drag & drop admin
   const drop = document.getElementById('admin-drop');
   drop.addEventListener('dragover',e=>{e.preventDefault();drop.classList.add('drag-over')});
   drop.addEventListener('dragleave',()=>drop.classList.remove('drag-over'));
-  drop.addEventListener('drop',e=>{e.preventDefault();drop.classList.remove('drag-over');abrirDrawer();subirArchivosDesde([...e.dataTransfer.files])});
+  drop.addEventListener('drop',e=>{e.preventDefault();drop.classList.remove('drag-over');subirArchivosDesde([...e.dataTransfer.files])});
 
   // Listener nuevo período (manejado por onCambiarPeriodo en el select)
 
@@ -1234,74 +1236,69 @@ async function subirArchivosDesde(files){
   const periodo = getPeriodoAdmin();
   if(!periodo){alert('Especificá el período antes de subir archivos.');return;}
 
-  const statusEl = document.getElementById('drawer-status');
-  abrirDrawer();
+  const statusEl = document.getElementById('admin-upload-status');
 
   // Estado de cada archivo: waiting / uploading / done / error / conflict
   const estados = xlsxFiles.map(f=>({name:f.name.replace(/\.xlsx?$/i,''), state:'waiting', pct:0, info:'en espera'}));
 
   function renderStatus(){
-    const done = estados.filter(e=>e.state==='done').length;
+    const done = estados.filter(e=>e.state==='done'||e.state==='error').length;
     const total = estados.length;
     const overallPct = Math.round(done/total*100);
-    statusEl.innerHTML = `
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-        <div style="font-size:11px;color:var(--text-dim);font-family:var(--mono)">${total} archivos seleccionados</div>
-        <div style="font-size:11px;color:var(--text-dim);font-family:var(--mono)" id="overall-pct">${overallPct}% completado</div>
+    const activo = estados.find(e=>e.state==='uploading');
+    const conflicto = estados.find((e,i)=>e.state==='conflict' && i===estados.findIndex(x=>x.state==='conflict'));
+
+    let html = `<div style="margin-top:8px">`;
+
+    // Barra global
+    html += `<div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-bottom:4px">
+      <span>${total} archivo${total>1?'s':''}</span>
+      <span>${overallPct}% completado</span>
+    </div>
+    <div style="height:4px;background:var(--border);border-radius:99px;overflow:hidden;margin-bottom:10px">
+      <div style="height:100%;width:${overallPct}%;background:var(--accent2);border-radius:99px;transition:width .4s"></div>
+    </div>`;
+
+    // Archivo activo
+    if(activo){
+      html += `<div style="font-family:var(--mono);font-size:11px;color:var(--text);margin-bottom:4px">
+        <span style="color:var(--accent)">↑</span> ${activo.name}
       </div>
-      <div style="height:3px;background:var(--border);border-radius:99px;margin-bottom:16px;overflow:hidden">
-        <div style="height:100%;width:${overallPct}%;background:var(--accent2);border-radius:99px;transition:width .4s"></div>
+      <div style="height:3px;background:var(--border);border-radius:99px;overflow:hidden;margin-bottom:6px">
+        <div style="height:100%;width:${activo.pct}%;background:var(--accent);border-radius:99px;transition:width .3s"></div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:0">
-        ${estados.map((e,i)=>{
-          const isLast = i===estados.length-1;
-          const border = isLast?'':'border-bottom:1px solid var(--border);';
-          if(e.state==='waiting') return `
-            <div style="display:flex;align-items:center;gap:12px;padding:8px 0;${border}opacity:.35">
-              <div style="font-size:11px;color:var(--text-dim);width:16px;text-align:center;font-family:var(--mono)">—</div>
-              <div style="flex:1;font-size:12px;color:var(--text-dim)">${e.name}</div>
-              <div style="font-size:11px;color:var(--text-dim)">en espera</div>
-            </div>`;
-          if(e.state==='uploading') return `
-            <div style="display:flex;align-items:center;gap:12px;padding:8px 0;${border}">
-              <div style="width:14px;height:14px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0"></div>
-              <div style="flex:1;min-width:0">
-                <div style="font-size:12px;color:var(--text);margin-bottom:4px">${e.name}</div>
-                <div style="height:2px;background:var(--border);border-radius:99px;overflow:hidden">
-                  <div style="height:100%;width:${e.pct}%;background:var(--accent);border-radius:99px;transition:width .3s"></div>
-                </div>
-              </div>
-              <div style="font-size:11px;color:var(--text-dim);white-space:nowrap;font-family:var(--mono)">${e.info}</div>
-            </div>`;
-          if(e.state==='done') return `
-            <div style="display:flex;align-items:center;gap:12px;padding:8px 0;${border}">
-              <div style="font-size:11px;color:var(--accent2);width:16px;text-align:center">✓</div>
-              <div style="flex:1;font-size:12px;color:var(--text-mid)">${e.name}</div>
-              <div style="font-size:11px;color:var(--accent2);font-family:var(--mono)">${e.info}</div>
-            </div>`;
-          if(e.state==='error') return `
-            <div style="display:flex;align-items:center;gap:12px;padding:8px 0;${border}">
-              <div style="font-size:11px;color:var(--accent3);width:16px;text-align:center">✗</div>
-              <div style="flex:1;min-width:0">
-                <div style="font-size:12px;color:var(--text-mid)">${e.name}</div>
-                <div style="font-size:10px;color:var(--accent3)">${e.info}</div>
-              </div>
-            </div>`;
-          if(e.state==='conflict') return `
-            <div style="display:flex;align-items:center;gap:12px;padding:8px 0;${border}">
-              <div style="font-size:11px;color:var(--accent);width:16px;text-align:center">!</div>
-              <div style="flex:1;min-width:0">
-                <div style="font-size:12px;color:var(--text)">${e.name}</div>
-                <div style="font-size:10px;color:var(--accent);margin-bottom:6px">Ya existe para ${periodo}</div>
-                <div style="display:flex;gap:6px">
-                  <button onclick="window._resolveConflict(${i},true)" style="flex:1;background:var(--accent3);color:#fff;border:none;border-radius:4px;padding:5px;font-family:var(--mono);font-size:10px;font-weight:600;cursor:pointer">Reemplazar</button>
-                  <button onclick="window._resolveConflict(${i},false)" style="flex:1;background:var(--surface2);color:var(--text-dim);border:1px solid var(--border2);border-radius:4px;padding:5px;font-family:var(--mono);font-size:10px;cursor:pointer">Saltar</button>
-                </div>
-              </div>
-            </div>`;
-          return '';
-        }).join('')}
+      <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-bottom:8px">${activo.info}</div>`;
+    }
+
+    // Conflicto
+    if(conflicto){
+      const ci = estados.indexOf(conflicto);
+      html += `<div style="background:rgba(240,165,0,.1);border:1px solid var(--accent);border-radius:6px;padding:10px;margin-bottom:8px">
+        <div style="font-size:11px;color:var(--accent);margin-bottom:6px">⚠ <b>${conflicto.name}</b> ya existe</div>
+        <div style="display:flex;gap:6px">
+          <button onclick="window._resolveConflict(${ci},true)" style="flex:1;background:var(--accent3);color:#fff;border:none;border-radius:4px;padding:6px;font-family:var(--mono);font-size:11px;font-weight:600;cursor:pointer">Reemplazar</button>
+          <button onclick="window._resolveConflict(${ci},false)" style="flex:1;background:var(--surface2);color:var(--text-dim);border:1px solid var(--border2);border-radius:4px;padding:6px;font-family:var(--mono);font-size:11px;cursor:pointer">Saltar</button>
+        </div>
       </div>`;
+    }
+
+    // Lista de estados
+    html += estados.map(e=>{
+      const icon = e.state==='done'?'<span style="color:var(--accent2)">✓</span>'
+        : e.state==='error'?'<span style="color:var(--accent3)">✗</span>'
+        : e.state==='uploading'?'<span style="color:var(--accent)">↑</span>'
+        : e.state==='conflict'?'<span style="color:var(--accent)">!</span>'
+        : '<span style="color:var(--text-dim)">○</span>';
+      const nameColor = e.state==='done'?'color:var(--text-dim)':'color:var(--text)';
+      return `<div style="display:flex;align-items:center;gap:8px;padding:3px 0;font-size:11px">
+        ${icon}
+        <span style="flex:1;font-family:var(--mono);${nameColor};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${e.name}</span>
+        <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim)">${e.info}</span>
+      </div>`;
+    }).join('');
+
+    html += `</div>`;
+    if(statusEl) statusEl.innerHTML = html;
   }
 
   renderStatus();
@@ -1385,7 +1382,7 @@ async function subirArchivosDesde(files){
 
   const hayExitos = estados.some(e=>e.state==='done'&&e.info!=='saltado');
   setTimeout(async()=>{
-    cerrarDrawer();
+    
     cerrarAdmin();
     if(hayExitos){
       if(document.getElementById('app').style.display!=='none'){
