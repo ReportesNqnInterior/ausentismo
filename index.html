@@ -540,7 +540,7 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
 
 <script>
 // ══ CONFIG ════════════════════════════════════════════════
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbxeZp7gEOO6N7pFOdv7S4HQ0AJh-u-bS4imeEdqv1aBA3yGV5dCPn96YeoobqYOHpyQVA/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycby4_Zm8GO4_ee1sOHd6-XDg5EhUcwQpKEOD_8WUwFl5u_5YyVDIvqh-adURKo5oGHPaZw/exec';
 
 // ══ ESTADO ════════════════════════════════════════════════
 let allDetalle=[],allResumen=[];
@@ -1169,14 +1169,14 @@ async function renderAdminPanel(){
       <div class="upload-drop-txt">📂 Arrastrá o hacé clic para subir archivos .xlsx</div>
       <button class="btn-secondary" style="font-size:11px;padding:5px 16px">Seleccionar archivos</button>
     </div>
-    <input type="file" id="file-input-admin" accept=".xlsx,.xls" multiple onchange="subirArchivos(event)">
+    <input type="file" id="file-input-admin" accept=".xlsx,.xls" multiple onchange="abrirDrawer();subirArchivos(event)">
     <div id="admin-upload-status"></div>`;
 
   // Drag & drop admin
   const drop = document.getElementById('admin-drop');
   drop.addEventListener('dragover',e=>{e.preventDefault();drop.classList.add('drag-over')});
   drop.addEventListener('dragleave',()=>drop.classList.remove('drag-over'));
-  drop.addEventListener('drop',e=>{e.preventDefault();drop.classList.remove('drag-over');subirArchivosDesde([...e.dataTransfer.files])});
+  drop.addEventListener('drop',e=>{e.preventDefault();drop.classList.remove('drag-over');abrirDrawer();subirArchivosDesde([...e.dataTransfer.files])});
 
   // Listener nuevo período (manejado por onCambiarPeriodo en el select)
 
@@ -1348,6 +1348,7 @@ async function subirArchivosDesde(files){
 
       // Subir en chunks
       const CHUNK=500, total=filas.length;
+      const zona = getZonaAdmin();
       let errorChunk=false;
       estados[_fi].state='uploading';
       for(let ci=0;ci<total;ci+=CHUNK){
@@ -1357,8 +1358,7 @@ async function subirArchivosDesde(files){
         estados[_fi].pct=pct;
         estados[_fi].info=`${(ci+chunk.length).toLocaleString('es-AR')} / ${total.toLocaleString('es-AR')}`;
         renderStatus();
-        const zona = getZonaAdmin();
-      const res=await gas('uploadData',{pass:adminPass,periodo,sucCodigo,sucNombre,zona,replace:isFirst,isChunk:!isFirst,rows:chunk});
+        const res=await gas('uploadData',{pass:adminPass,periodo,sucCodigo,sucNombre,zona,replace:isFirst,isChunk:!isFirst,rows:chunk});
         if(!res.ok){
           estados[_fi].state='error';
           estados[_fi].info=res.error;
