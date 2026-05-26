@@ -140,10 +140,10 @@ th{background:var(--surface2);color:var(--text-mid);font-family:var(--mono);font
 td{padding:6px 10px;border-bottom:1px solid rgba(37,45,66,.5);color:var(--text);white-space:nowrap}
 tr:hover td{background:var(--surface)}
 td.mo{font-family:var(--mono);font-size:11px;position:sticky;left:0;width:60px;min-width:60px;max-width:60px;background:var(--surface);z-index:2;box-shadow:2px 0 4px rgba(0,0,0,.2)}
-td.tn{position:sticky;left:60px;width:220px;min-width:220px;max-width:220px;background:var(--surface);z-index:2}
+td.tn{position:sticky;left:60px;width:260px;min-width:260px;max-width:260px;background:var(--surface);z-index:2}
 td.ts{position:sticky;left:280px;width:140px;min-width:140px;max-width:140px;background:var(--surface);z-index:2;box-shadow:2px 0 4px rgba(0,0,0,.2)}
 th.th-mo{position:sticky;left:0;width:60px;min-width:60px;max-width:60px;background:var(--surface2);z-index:3;box-shadow:2px 0 4px rgba(0,0,0,.2)}
-th.th-tn{position:sticky;left:60px;width:220px;min-width:220px;max-width:220px;background:var(--surface2);z-index:3}
+th.th-tn{position:sticky;left:60px;width:260px;min-width:260px;max-width:260px;background:var(--surface2);z-index:3}
 th.th-ts{position:sticky;left:280px;width:140px;min-width:140px;max-width:140px;background:var(--surface2);z-index:3;box-shadow:2px 0 4px rgba(0,0,0,.2)}
 td.nr{font-family:var(--mono);text-align:right}
 td.dm{color:var(--text-dim);font-size:11px}
@@ -155,12 +155,8 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
 .tard-red{background:rgba(240,82,82,.18);color:#e05252;font-weight:700;font-family:var(--mono);font-size:11px;text-align:right}
 .tard-orange{background:rgba(232,125,48,.15);color:#e87d30;font-weight:700;font-family:var(--mono);font-size:11px;text-align:right}
 .tard-yellow{background:rgba(240,165,0,.10);color:#f0a500;font-weight:600;font-family:var(--mono);font-size:11px;text-align:right}
-.tr-total td:first-child{position:sticky;left:0;bottom:0;background:var(--surface2)!important;z-index:5;box-shadow:2px 0 4px rgba(0,0,0,.2)}
-.tr-total td:nth-child(2){position:sticky;left:60px;bottom:0;background:var(--surface2)!important;z-index:5}
 .tr-total td:nth-child(3){position:sticky;left:280px;bottom:0;background:var(--surface2)!important;z-index:5;box-shadow:2px 0 4px rgba(0,0,0,.2)}
-.tr-total td{position:sticky;bottom:0;background:var(--surface2)!important;font-weight:700;border-top:2px solid var(--border2);font-family:var(--mono);font-size:11px}
-.tr-total td.tlbl{color:var(--text-mid);font-size:10px;letter-spacing:.05em;text-transform:uppercase}
-.pill{display:inline-block;padding:2px 7px;border-radius:4px;font-family:var(--mono);font-size:10px;font-weight:600}
+.tr-total td.pill{display:inline-block;padding:2px 7px;border-radius:4px;font-family:var(--mono);font-size:10px;font-weight:600}
 .pill-r{background:rgba(240,82,82,.14);color:var(--accent3)}
 .pill-g{background:rgba(62,207,142,.12);color:var(--accent2)}
 .pill-dim{background:rgba(37,45,66,.5);color:var(--text-dim)}
@@ -365,6 +361,33 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
 </div>
 
 <!-- SPLASH SELECTOR DE PERÍODO -->
+<div id="welcome" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 48px);padding:40px;gap:20px">
+  <div style="font-family:var(--mono);font-size:20px;font-weight:700;color:var(--accent);letter-spacing:.1em">RRHH / AUSENTISMO</div>
+  <div style="font-size:12px;color:var(--text-dim);margin-bottom:4px">Seleccioná zona y período para consultar</div>
+  <div style="display:flex;flex-direction:column;gap:14px;width:100%;max-width:320px">
+    <div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-bottom:5px;letter-spacing:.08em">ZONA</div>
+      <select id="welcome-zona" class="fi" style="width:100%;font-size:13px;padding:8px 12px" onchange="onWelcomeChange()">
+        <option value="">Seleccioná una zona…</option>
+        <option value="Neuquén Ciudad">Neuquén Ciudad</option>
+        <option value="Neuquén Interior">Neuquén Interior</option>
+        <option value="Río Negro">Río Negro</option>
+      </select>
+    </div>
+    <div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-bottom:5px;letter-spacing:.08em">PERÍODO</div>
+      <select id="welcome-periodo" class="fi" style="width:100%;font-size:13px;padding:8px 12px" onchange="onWelcomeChange()">
+        <option value="">Cargando períodos…</option>
+      </select>
+    </div>
+    <button id="welcome-btn" onclick="cargarDesdeWelcome()" disabled
+      style="background:var(--accent);color:#000;border:none;border-radius:6px;padding:10px 16px;font-family:var(--mono);font-size:13px;font-weight:700;cursor:not-allowed;opacity:.35;transition:opacity .2s;margin-top:4px">
+      Ver reporte →
+    </button>
+  </div>
+  <button onclick="abrirAdmin()" style="margin-top:12px;background:none;border:1px solid var(--border2);color:var(--text-dim);border-radius:4px;padding:6px 16px;font-family:var(--mono);font-size:11px;cursor:pointer">⚙ Admin</button>
+</div>
+
 <div id="splash" style="display:none;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 48px);padding:40px;gap:20px">
   <div class="splash-card">
     <div class="splash-icon">📊</div>
@@ -412,7 +435,7 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
           <table style="width:100%;border-collapse:collapse" id="r-main-table">
             <thead><tr id="r-thead"></tr></thead>
             <tbody id="r-body"></tbody>
-            <tfoot id="r-tfoot" style="position:sticky;bottom:0;z-index:3"></tfoot>
+            
           </table>
         </div>
         
@@ -532,6 +555,48 @@ const PR=500,PD=100;
 // ══ INICIO ════════════════════════════════════════════════
 window.addEventListener('load', ()=>{ cerrarDrawer(); iniciar(); });
 
+// ── ZONAS ──────────────────────────────────────────────────
+const ZONAS = ['Neuquén Ciudad','Neuquén Interior','Río Negro'];
+let zonaActiva = '';
+
+function onWelcomeChange(){
+  const zona = document.getElementById('welcome-zona').value;
+  const periodo = document.getElementById('welcome-periodo').value;
+  const btn = document.getElementById('welcome-btn');
+  if(zona && periodo){
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.style.cursor = 'pointer';
+  } else {
+    btn.disabled = true;
+    btn.style.opacity = '.35';
+    btn.style.cursor = 'not-allowed';
+  }
+}
+
+async function cargarDesdeWelcome(){
+  const zona = document.getElementById('welcome-zona').value;
+  const periodo = document.getElementById('welcome-periodo').value;
+  if(!zona || !periodo) return;
+  zonaActiva = zona;
+  periodoActivo = periodo;
+  document.getElementById('welcome').style.display = 'none';
+  await iniciarConDatos(zona, periodo);
+}
+
+function poblarWelcomePeriodos(periodos){
+  const sel = document.getElementById('welcome-periodo');
+  if(!sel) return;
+  const unicos = [...new Set(periodos.map(p=>p.periodo))].sort().reverse();
+  sel.innerHTML = '<option value="">Seleccioná un período…</option>' +
+    unicos.map(p=>`<option value="${p}">${p}</option>`).join('');
+}
+
+function getZonaAdmin(){
+  const sel = document.getElementById('admin-zona');
+  return sel ? sel.value : '';
+}
+
 function abrirDrawer(){
   const d = document.getElementById('drawer-upload');
   const b = document.getElementById('drawer-backdrop');
@@ -594,6 +659,36 @@ async function recargarDatos(){
   hideLoading();
 }
 
+async function iniciarConDatos(zona, periodo){
+  document.getElementById('welcome').style.display='none';
+  document.getElementById('splash-loading').style.display='flex';
+  setSplashMsg('Cargando ' + periodo + '…', 3);
+  try {
+    const resumen = await gas('getResumen', {periodo});
+    setSplashMsg('Procesando datos…', 4);
+    await new Promise(r=>setTimeout(r,200));
+    document.getElementById('splash-loading').style.display='none';
+    // Filtrar solo sucursales de la zona seleccionada
+    const sucsDeLaZona = periodosDisponibles
+      .filter(p => p.periodo===periodo && p.zona===zona)
+      .map(p => p.sucCodigo);
+    if(sucsDeLaZona.length){
+      resumen.resumen = resumen.resumen.filter(r => {
+        const cod = String(r.sucCodigo).replace(/^0+/,'');
+        return sucsDeLaZona.some(s => String(s).replace(/^0+/,'') === cod);
+      });
+    }
+    procesarResumen(resumen);
+    zonaActiva = zona;
+    periodoActivo = periodo;
+    document.getElementById('periodo-badge-txt').textContent = zona + ' · ' + periodo;
+  } catch(e){
+    document.getElementById('splash-loading').style.display='none';
+    document.getElementById('welcome').style.display='flex';
+    alert('Error al cargar: ' + e.message);
+  }
+}
+
 async function iniciar(){
   document.getElementById('splash-loading').style.display='flex';
   setSplashMsg('Iniciando…', 1);
@@ -604,16 +699,11 @@ async function iniciar(){
     periodosDisponibles = res.periodos || [];
 
     const periodos = [...new Set(periodosDisponibles.map(p=>p.periodo))].sort().reverse();
-    if(periodos.length === 1){
-      setSplashMsg('Cargando ' + periodos[0] + '…', 3);
-      periodoActivo = periodos[0];
-      // Cargar solo resumen (rápido) — detalle bajo demanda
-      const resumen = await gas('getResumen', {periodo: periodoActivo});
-      setSplashMsg('Procesando ' + resumen.resumen.length.toLocaleString('es-AR') + ' empleados…', 4);
-      await new Promise(r=>setTimeout(r,200));
-      document.getElementById('splash-loading').style.display='none';
-      procesarResumen(resumen);
-    } else {
+    // Poblar welcome screen con períodos disponibles
+    poblarWelcomePeriodos(periodosDisponibles);
+    document.getElementById('splash-loading').style.display='none';
+    document.getElementById('welcome').style.display='flex';
+    if(false){
       setSplashMsg('', 4);
       await new Promise(r=>setTimeout(r,300));
       document.getElementById('splash-loading').style.display='none';
@@ -1000,7 +1090,7 @@ function applyResumenAcumulado(){
     </tr>`;
   }).join('');
 
-  document.getElementById('r-tfoot').innerHTML = '';
+  
 
   renderRankings();
 
@@ -1045,6 +1135,13 @@ async function renderAdminPanel(){
   const curPeriodo = periodos[0] || '';
 
   document.getElementById('admin-body').innerHTML=`
+    <div class="field-lbl">Zona</div>
+    <select id="admin-zona" class="fi" style="width:100%;margin-bottom:14px;font-size:12px">
+      <option value="">Seleccioná una zona…</option>
+      <option value="Neuquén Ciudad">Neuquén Ciudad</option>
+      <option value="Neuquén Interior">Neuquén Interior</option>
+      <option value="Río Negro">Río Negro</option>
+    </select>
     <div class="field-lbl">Período activo</div>
     ${periodos.length ? `
     <div class="periodo-sel-row">
@@ -1260,7 +1357,8 @@ async function subirArchivosDesde(files){
         estados[_fi].pct=pct;
         estados[_fi].info=`${(ci+chunk.length).toLocaleString('es-AR')} / ${total.toLocaleString('es-AR')}`;
         renderStatus();
-        const res=await gas('uploadData',{pass:adminPass,periodo,sucCodigo,sucNombre,replace:isFirst,isChunk:!isFirst,rows:chunk});
+        const zona = getZonaAdmin();
+      const res=await gas('uploadData',{pass:adminPass,periodo,sucCodigo,sucNombre,zona,replace:isFirst,isChunk:!isFirst,rows:chunk});
         if(!res.ok){
           estados[_fi].state='error';
           estados[_fi].info=res.error;
@@ -1393,13 +1491,13 @@ function applyResumen(){
   const multiSuc=!suc;
   filtRes=allResumen.filter(r=>{if(suc&&r.sucCodigo!==suc)return false;if(q&&!(r.nro.includes(q)||r.nombre.toLowerCase().includes(q)))return false;return true;});
   filtRes.sort((a,b)=>(b.c0100-a.c0100)||(b.c0120-a.c0120)||(b.aus-a.aus)||(b.sup-a.sup)||(b.tardHs-a.tardHs)||(b.c9SAN-a.c9SAN));
-  const tAus=filtRes.reduce((s,r)=>s+r.aus,0),tSup=filtRes.reduce((s,r)=>s+r.sup,0),tTard=filtRes.reduce((s,r)=>s+r.tardHs,0),tExt=filtRes.reduce((s,r)=>s+r.c7120,0),tDom=filtRes.reduce((s,r)=>s+r.c0091,0),t50=filtRes.reduce((s,r)=>s+r.c0100,0),t100=filtRes.reduce((s,r)=>s+r.c0120,0);
+  const tAus=filtRes.reduce((s,r)=>s+r.aus,0),tSup=filtRes.reduce((s,r)=>s+r.sup,0),tTard=filtRes.reduce((s,r)=>s+(r.tardHs||r.c9LLT||0),0),tExt=filtRes.reduce((s,r)=>s+r.c7120,0),tDom=filtRes.reduce((s,r)=>s+r.c0091,0),t50=filtRes.reduce((s,r)=>s+r.c0100,0),t100=filtRes.reduce((s,r)=>s+r.c0120,0);
   document.getElementById('kpis').innerHTML=`<div class="kpi"><div class="kv cy">${filtRes.length}</div><div class="kl">Empleados</div></div><div class="kpi"><div class="kv" style="color:#e87d30">${fh(t50)}</div><div class="kl">FT 0100</div></div><div class="kpi"><div class="kv cr">${fh(t100)}</div><div class="kl">FT 0120</div></div><div class="kpi"><div class="kv cr">${tAus}</div><div class="kl">Días ausentes</div></div><div class="kpi"><div class="kv cg">${tSup}</div><div class="kl">Suplencias</div></div><div class="kpi"><div class="kv" style="color:var(--accent)">${fh(tTard)}</div><div class="kl">9LLT</div></div><div class="kpi"><div class="kv cp">${fh(tExt)}</div><div class="kl">7120</div></div><div class="kpi"><div class="kv cb">${fh(tDom)}</div><div class="kl">PT 0091</div></div>`;
   renderEncabezadoResumen(multiSuc);renderResumenPage(multiSuc);renderRankings();
 }
 
 function renderEncabezadoResumen(ms){
-  document.getElementById('r-thead').innerHTML=`<th class="th-mo">N° Emple.</th><th class="th-tn">Nombre</th>${ms?'<th class="th-ts">Sucursal / Zona</th>':''}<th>Cant. Horas</th><th>Hs. Norm. PT 0090</th><th>Hs. Feriado PT 0091</th><th>Hs. Sáb FT 014A</th><th>Hs. Dom FT 014B</th><th>Hs. Sáb PT 014C</th><th>Hs. Acu. Dom FT 0155</th><th>Hs. al 50 FT 0100</th><th>Hs. al 100 FT 0120</th><th>Exc. Hs. Extras 7120</th><th>Hs. Fines de Semana 8120</th><th>Hs. Improduct. 9IMP</th><th>Llegadas Tarde 9LLT</th><th>Sal. Anticipada 9SAN</th><th>Ausentismo</th><th>Suplencia</th>`;
+  document.getElementById('r-thead').innerHTML=`<th class="th-mo">N° Emple.</th><th class="th-tn">Nombre</th>${ms?'<th class="th-ts">Sucursal / Zona</th>':''}<th>Cant. Horas</th><th>Hs. Norm. PT 0090</th><th>Hs. Feriado PT 0091</th><th>Hs. Sáb FT 014A</th><th>Hs. Dom FT 014B</th><th>Hs. Sáb PT 014C</th><th>Hs. Acu. Dom FT 0155</th><th>Hs. al 50 FT 0100</th><th>Hs. al 100 FT 0120</th><th>Hs. Extras 7120</th><th>8120</th><th>Hs. Improduct. 9IMP</th><th>Llegadas Tarde 9LLT</th><th>Sal. Anticipada 9SAN</th><th>Ausentismo</th><th>Suplencia</th>`;
 }
 
 function renderResumenPage(ms){
@@ -1423,15 +1521,34 @@ function renderResumenPage(ms){
   const tc014B=mkSem('c014B','nr'),tc014C=mkSem('c014C','nr'),tc0155=mkSem('c0155','nr');
   const tc100=mkSem('c0100','hy'),tc120=mkSem('c0120','hr'),tc7120=mkSem('c7120','hp');
   const tc8120=mkSem('c8120','nr'),tc9IMP=mkSem('c9IMP','nr');
-  const tcTard=mkSem('tardHs','nr'),tc9SAN=mkSem('c9SAN','hb');
+  const tcTard=mkSem('c9LLT','nr'),tc9SAN=mkSem('c9SAN','hb');
 
-  const body=document.getElementById('r-body'),tfoot=document.getElementById('r-tfoot');
-  if(!filtRes.length){body.innerHTML=`<tr><td colspan="13"><div class="empty"><div class="empty-icon">🔎</div>Sin resultados</div></td></tr>`;tfoot.innerHTML='';return;}
-  const T={cantHs:0,c0090:0,c0091:0,c0100:0,c0120:0,c0155:0,c014A:0,c014B:0,c014C:0,c014D:0,c7120:0,c8120:0,c9IMP:0,c9SAN:0,tardHs:0,aus:0,sup:0};
-  filtRes.forEach(r=>{T.cantHs+=r.cantHs||0;T.c0090+=r.c0090;T.c0091+=r.c0091;T.c0100+=r.c0100;T.c0120+=r.c0120;T.c0155+=r.c0155||0;T.c014A+=r.c014A||0;T.c014B+=r.c014B||0;T.c014C+=r.c014C||0;T.c014D+=r.c014D||0;T.c7120+=r.c7120;T.c8120+=r.c8120||0;T.c9IMP+=r.c9IMP;T.c9SAN+=r.c9SAN;T.tardHs+=r.tardHs;T.aus+=r.aus;T.sup+=r.sup;});
+  const body=document.getElementById('r-body');
+  if(!filtRes.length){body.innerHTML=`<tr><td colspan="20"><div class="empty"><div class="empty-icon">🔎</div>Sin resultados</div></td></tr>`;return;}
 
-  body.innerHTML=filtRes.map(r=>`<tr><td class="mo">${r.nro}</td><td class="tn">${r.nombre}</td>${ms?`<td class="dm ts">${r.sucCodigo} <span style="color:var(--text-mid)">${r.sucNombre}</span></td>`:''}<td class="nr">${r.cantHs>0?fh(r.cantHs):'—'}</td><td class="${tc0090(r.c0090||0)}">${r.c0090>0?fh(r.c0090):'—'}</td><td class="${tc0091(r.c0091||0)}">${r.c0091>0?fh(r.c0091):'—'}</td><td class="${tc014A(r.c014A||0)}">${(r.c014A||0)>0?fh(r.c014A):'—'}</td><td class="${tc014B(r.c014B||0)}">${(r.c014B||0)>0?fh(r.c014B):'—'}</td><td class="${tc014C(r.c014C||0)}">${(r.c014C||0)>0?fh(r.c014C):'—'}</td><td class="${tc0155(r.c0155||0)}">${(r.c0155||0)>0?fh(r.c0155):'—'}</td><td class="${tc100(r.c0100||0)}">${r.c0100>0?fh(r.c0100):'—'}</td><td class="${tc120(r.c0120||0)}">${r.c0120>0?fh(r.c0120):'—'}</td><td class="${tc7120(r.c7120||0)}">${r.c7120>0?fh(r.c7120):'—'}</td><td class="${tc8120(r.c8120||0)}">${(r.c8120||0)>0?fh(r.c8120):'—'}</td><td class="${tc9IMP(r.c9IMP||0)}">${r.c9IMP>0?fh(r.c9IMP):'—'}</td><td class="${tcTard(r.tardHs||0)}">${r.tardHs>0?fh(r.tardHs):'—'}</td><td class="${tc9SAN(r.c9SAN||0)}">${r.c9SAN>0?fh(r.c9SAN):'—'}</td><td class="${r.aus>0?'hr':'nr'}">${r.aus||'—'}</td><td class="${r.sup>0?'hg':'nr'}">${r.sup||'—'}</td></tr>`).join('');
-  tfoot.innerHTML=`<tr class="tr-total"><td class="tlbl th-mo" style="position:sticky;left:0;z-index:5;background:var(--surface2)">TOTALES</td><td class="tlbl th-tn" style="position:sticky;left:60px;z-index:5;background:var(--surface2)">${filtRes.length} emp.</td>${ms?'<td></td>':''}<td class="nr">${fh(T.cantHs)}</td><td class="nr">${fh(T.c0090)}</td><td class="nr">${fh(T.c0091)}</td><td class="nr">${fh(T.c014A)}</td><td class="nr">${fh(T.c014B)}</td><td class="nr">${fh(T.c014C)}</td><td class="nr">${fh(T.c0155)}</td><td class="nr">${fh(T.c0100)}</td><td class="nr">${fh(T.c0120)}</td><td class="nr">${fh(T.c7120)}</td><td class="nr">${fh(T.c8120)}</td><td class="nr">${fh(T.c9IMP)}</td><td class="nr">${fh(T.tardHs)}</td><td class="nr">${fh(T.c9SAN)}</td><td class="nr">${T.aus}</td><td class="nr">${T.sup}</td></tr>`;
+  const fh = v => v ? v.toLocaleString('es-AR',{minimumFractionDigits:0,maximumFractionDigits:2}) : '—';
+  const page = filtRes.slice((pageRes-1)*PR, pageRes*PR);
+  body.innerHTML=page.map(r=>`<tr>
+    <td class="mo">${r.nro}</td>
+    <td class="tn">${r.nombre}</td>
+    ${ms?`<td class="dm ts">${r.sucCodigo} <span style="color:var(--text-mid)">${r.sucNombre}</span></td>`:''}
+    <td class="nr">${r.cantHs>0?fh(r.cantHs):'—'}</td>
+    <td class="${tc0090(r.c0090||0)}">${r.c0090>0?fh(r.c0090):'—'}</td>
+    <td class="${tc0091(r.c0091||0)}">${r.c0091>0?fh(r.c0091):'—'}</td>
+    <td class="${tc014A(r.c014A||0)}">${(r.c014A||0)>0?fh(r.c014A):'—'}</td>
+    <td class="${tc014B(r.c014B||0)}">${(r.c014B||0)>0?fh(r.c014B):'—'}</td>
+    <td class="${tc014C(r.c014C||0)}">${(r.c014C||0)>0?fh(r.c014C):'—'}</td>
+    <td class="${tc0155(r.c0155||0)}">${(r.c0155||0)>0?fh(r.c0155):'—'}</td>
+    <td class="${tc100(r.c0100||0)}">${r.c0100>0?fh(r.c0100):'—'}</td>
+    <td class="${tc120(r.c0120||0)}">${r.c0120>0?fh(r.c0120):'—'}</td>
+    <td class="${tc7120(r.c7120||0)}">${r.c7120>0?fh(r.c7120):'—'}</td>
+    <td class="${tc8120(r.c8120||0)}">${(r.c8120||0)>0?fh(r.c8120):'—'}</td>
+    <td class="${tc9IMP(r.c9IMP||0)}">${r.c9IMP>0?fh(r.c9IMP):'—'}</td>
+    <td class="${tcTard(r.c9LLT||0)}">${r.c9LLT>0?fh(r.c9LLT):'—'}</td>
+    <td class="${tc9SAN(r.c9SAN||0)}">${r.c9SAN>0?fh(r.c9SAN):'—'}</td>
+    <td class="${r.aus>0?'hr':'nr'}">${r.aus||'—'}</td>
+    <td class="${r.sup>0?'hg':'nr'}">${r.sup||'—'}</td>
+  </tr>`).join('');
 }
 
 // ══ RANKINGS ══════════════════════════════════════════════
