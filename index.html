@@ -15,8 +15,6 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;font-size:13px}
-
-/* HEADER */
 .header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 20px;height:48px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:4px 12px;position:sticky;top:0;z-index:200}@media(max-width:600px){.app-header{min-height:48px;height:auto}}
 .logo{font-family:var(--mono);font-weight:600;font-size:13px;color:var(--accent);letter-spacing:.08em;white-space:nowrap;flex-shrink:0}
 .logo span{color:var(--text-dim);font-weight:400}
@@ -30,8 +28,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .btn-hdr.yellow:hover{border-color:var(--accent);background:rgba(240,165,0,.06)}
 .btn-hdr.dim{color:var(--text-dim)}
 .btn-hdr.dim:hover{color:var(--text);border-color:var(--text-dim)}
-
-/* SPLASH */
 #splash{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 48px);gap:20px;padding:40px}
 .splash-card{background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:40px 50px;text-align:center;max-width:460px;width:100%}
 .splash-icon{font-size:40px;margin-bottom:14px;opacity:.6}
@@ -42,14 +38,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .btn-secondary{background:none;border:1px solid var(--border2);color:var(--text-mid);border-radius:6px;padding:9px 24px;font-family:var(--mono);font-size:12px;cursor:pointer;transition:border-color .15s,color .15s;display:inline-block}
 .btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
 .splash-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-
-/* LOADING */
 #loading{display:none;position:fixed;inset:0;background:rgba(13,17,23,.85);z-index:500;align-items:center;justify-content:center;flex-direction:column;gap:14px}
 .spinner{width:32px;height:32px;border:3px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 #loading-msg{color:var(--text-dim);font-size:12px;max-width:300px;text-align:center}
-
-/* MODAL GENÉRICO */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(13,17,23,.75);z-index:600;align-items:center;justify-content:center}
 .modal-overlay.open{display:flex}
 .modal{background:var(--surface);border:1px solid var(--border2);border-radius:10px;width:440px;max-width:94vw;overflow:hidden}
@@ -74,8 +66,6 @@ input.fi-text::placeholder{color:var(--text-dim)}
 .msg-info{font-size:11px;color:var(--text-mid);line-height:1.7;background:var(--surface2);border-radius:5px;padding:8px 10px;margin-bottom:0}
 .msg-warn{font-size:11px;color:#e87d30;line-height:1.7;background:rgba(232,125,48,.08);border:1px solid rgba(232,125,48,.2);border-radius:5px;padding:8px 10px;margin-top:10px}
 .msg-err{font-size:11px;color:var(--accent3);line-height:1.7;background:rgba(240,82,82,.08);border:1px solid rgba(240,82,82,.2);border-radius:5px;padding:8px 10px;margin-top:10px}
-
-/* ADMIN PANEL — lista de sucursales cargadas */
 .suc-list{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;max-height:260px;overflow-y:auto}
 .suc-item{display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:11px}
 .suc-item .si-cod{font-family:var(--mono);color:var(--accent);font-weight:600;width:42px;flex-shrink:0}
@@ -86,14 +76,10 @@ input.fi-text::placeholder{color:var(--text-dim)}
 .suc-item .si-del:hover{color:var(--accent3)}
 .periodo-sel-row{display:flex;gap:8px;align-items:flex-end;margin-bottom:10px}
 .periodo-sel-row select.fi-text{margin-bottom:0;min-width:160px}
-
-/* UPLOAD ZONA (dentro del modal admin) */
 .upload-drop{border:2px dashed var(--border2);border-radius:8px;padding:24px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;margin-bottom:10px}
 .upload-drop:hover,.upload-drop.drag-over{border-color:var(--accent);background:rgba(240,165,0,.04)}
 .upload-drop-txt{font-size:12px;color:var(--text-dim);margin-bottom:10px}
 #file-input-admin{display:none}
-
-/* TABS + APP (igual que antes) */
 #app{display:none}
 .tabs{display:flex;border-bottom:1px solid var(--border);background:var(--surface);padding:0 20px}
 .tab-btn{background:none;border:none;border-bottom:2px solid transparent;padding:11px 18px;font-family:var(--sans);font-size:12px;font-weight:600;color:var(--text-dim);cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap}
@@ -173,11 +159,8 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
 .tw{overflow:auto;max-height:calc(100vh - 230px)}
 .empty{text-align:center;padding:50px 20px;color:var(--text-dim)}
 .empty-icon{font-size:26px;margin-bottom:10px;opacity:.35}
-
 .dev-credit{font-family:var(--mono);font-size:10px;color:var(--text-dim);white-space:nowrap;flex-shrink:0}
 @media(max-width:900px){.dev-credit{display:none}}
-
-/* UPLOAD CARDS */
 .upload-cards{display:flex;flex-direction:column;gap:6px;margin-top:10px;max-height:280px;overflow-y:auto}
 .upload-card-item{background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;transition:border-color .2s}
 .upload-card-item.uploading{border-color:var(--accent)}
@@ -191,8 +174,6 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
 .uci-bar{background:var(--border);border-radius:99px;height:4px;overflow:hidden}
 .uci-bar-fill{height:100%;border-radius:99px;width:0%;transition:width .3s}
 .uci-meta{font-size:10px;color:var(--text-dim);margin-top:4px;display:flex;justify-content:space-between}
-
-/* CHIPS PERÍODO */
 .per-chip{display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border2);border-radius:6px;padding:8px 12px;cursor:pointer;transition:border-color .15s,background .15s;font-size:12px}
 .per-chip:hover{border-color:var(--accent);background:rgba(240,165,0,.05)}
 .per-chip.active{border-color:var(--accent);background:rgba(240,165,0,.08)}
@@ -201,10 +182,7 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
 .per-chip-multi{display:inline-flex;align-items:center;gap:6px;background:var(--surface2);border:1px solid var(--border2);border-radius:20px;padding:5px 12px;cursor:pointer;transition:border-color .15s,background .15s;font-size:11px}
 .per-chip-multi:hover{border-color:var(--accent2)}
 .per-chip-multi.sel{border-color:var(--accent2);background:rgba(62,207,142,.08);color:var(--accent2)}
-/* TAG PERÍODO en tabla */
 .per-tag{display:inline-block;font-size:9px;font-family:var(--mono);padding:1px 5px;border-radius:3px;font-weight:600;margin-right:4px;vertical-align:middle}
-
-/* EXPORTAR */
 .btn-export{flex-shrink:0;background:none;border:1px solid var(--border2);border-radius:5px;padding:4px 12px;font-family:var(--mono);font-size:11px;color:var(--accent2);cursor:pointer;white-space:nowrap;transition:border-color .15s,background .15s;display:none}
 .btn-export:hover{border-color:var(--accent2);background:rgba(62,207,142,.07)}
 .check-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
@@ -214,97 +192,50 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
 .check-item label{font-size:11px;color:var(--text-mid);cursor:pointer;white-space:nowrap}
 .check-item.checked{border-color:rgba(62,207,142,.3);background:rgba(62,207,142,.05)}
 .check-item.checked label{color:var(--accent2)}
-
-/* ── RESPONSIVE MÓVIL ──────────────────────────────────────── */
 @media (max-width: 768px) {
-  /* Header compacto */
   .header { padding: 0 12px; gap: 8px; }
   .logo { font-size: 11px; }
   .periodo-badge { font-size: 10px; padding: 3px 8px; }
   .btn-hdr { padding: 4px 8px; font-size: 10px; }
-
-  /* KPIs en grilla compacta */
   .kpi-row { grid-template-columns: repeat(2, 1fr); }
   .kpi .kv { font-size: 16px; }
   .kpi .kl { font-size: 9px; }
-
-  /* Layout resumen: panel abajo en móvil */
-  .res-layout {
-    flex-direction: column;
-    height: auto;
-    overflow: visible;
-  }
-  .res-main {
-    overflow-x: auto;
-    max-height: 60vh;
-  }
-  .res-panel {
-    width: 100%;
-    border-left: none;
-    border-top: 1px solid var(--border);
-    max-height: 400px;
-  }
-
-  /* Tabla más compacta */
+  .res-layout { flex-direction: column; height: auto; overflow: visible; }
+  .res-main { overflow-x: auto; max-height: 60vh; }
+  .res-panel { width: 100%; border-left: none; border-top: 1px solid var(--border); max-height: 400px; }
   th { padding: 6px 7px; font-size: 9px; }
   td { padding: 5px 7px; font-size: 11px; }
-
-  /* Toolbar en columna */
   .toolbar { flex-direction: column; padding: 10px 12px; }
   .sw { min-width: 100%; }
   select.fi { min-width: 100%; }
-
-  /* Tabs compactos */
   .tab-btn { padding: 9px 12px; font-size: 11px; }
-
-  /* Stats bar compacta */
   .stats-bar { gap: 10px; padding: 6px 12px; }
   .sc .v { font-size: 12px; }
-
-  /* Modal full screen en móvil */
   .modal { width: 96vw !important; max-width: 96vw !important; margin: 0 auto; }
   .modal-body { padding: 12px 14px; }
-
-  /* Splash */
   .splash-card { padding: 32px 20px; }
   .upload-card { padding: 32px 20px; }
-
-  /* Panel admin */
   .periodo-sel-row { flex-direction: column; }
   .suc-item { flex-wrap: wrap; gap: 4px; }
 }
-
 @media (max-width: 480px) {
   .kpi-row { grid-template-columns: repeat(2, 1fr); }
-  .res-panel { display: none; } /* Ocultar panel rankings en pantallas muy chicas */
+  .res-panel { display: none; }
   .btn-panel-toggle {
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    width: 100%;
-    background: var(--surface2);
-    border: 1px solid var(--border2);
-    border-radius: 6px;
-    padding: 8px;
-    font-size: 11px;
-    color: var(--text-mid);
-    cursor: pointer;
-    margin: 8px 16px;
-    width: calc(100% - 32px);
+    display: flex !important; align-items: center; justify-content: center; gap: 6px;
+    width: 100%; background: var(--surface2); border: 1px solid var(--border2);
+    border-radius: 6px; padding: 8px; font-size: 11px; color: var(--text-mid);
+    cursor: pointer; margin: 8px 16px; width: calc(100% - 32px);
   }
 }
 </style>
 </head>
 <body>
-
-<!-- HEADER -->
 <div class="header">
   <div class="logo">RRHH<span>/</span>AUSENTISMO</div>
   <div class="periodo-badge" id="periodo-badge" style="display:none;cursor:pointer" onclick="abrirModalPeriodos()" title="Cambiar período">
     Período: <b id="periodo-badge-txt"></b> <span style="color:var(--text-dim);font-size:10px">▾</span>
   </div>
-
   <div class="header-sep"></div>
   <div style="flex:1"></div>
   <button class="btn-hdr yellow" id="btn-export" onclick="abrirModalExport()" style="display:none">↓ Exportar</button>
@@ -313,41 +244,25 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
   <div class="dev-credit">dev <span style="color:var(--accent)">Jonathan Cheves</span></div>
 </div>
 
-<!-- SPLASH DE INICIO (pantalla de carga) -->
 <div id="splash-loading" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 48px);gap:0;position:relative">
   <div style="text-align:center;max-width:380px;width:100%;padding:0 20px">
     <div style="font-size:44px;margin-bottom:18px;opacity:.7">📊</div>
     <div style="font-size:20px;font-weight:700;color:var(--text);margin-bottom:4px;letter-spacing:.02em">Reporte General de Ausentismo</div>
     <div style="font-size:12px;color:var(--text-mid);margin-bottom:32px;font-family:var(--mono)">Neuquén y Río Negro</div>
-
-    <!-- Barra de progreso -->
     <div style="background:var(--border);border-radius:99px;height:4px;width:100%;margin-bottom:14px;overflow:hidden">
       <div id="splash-progress-bar" style="height:100%;border-radius:99px;background:var(--accent);width:0%;transition:width .4s ease"></div>
     </div>
-
-    <!-- Steps -->
     <div id="splash-steps" style="display:flex;flex-direction:column;gap:6px;margin-bottom:8px">
-      <div class="splash-step" id="step-1" style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text-dim);opacity:.4">
-        <span class="step-icon">○</span><span>Conectando con el servidor</span>
-      </div>
-      <div class="splash-step" id="step-2" style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text-dim);opacity:.4">
-        <span class="step-icon">○</span><span>Obteniendo períodos</span>
-      </div>
-      <div class="splash-step" id="step-3" style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text-dim);opacity:.4">
-        <span class="step-icon">○</span><span>Cargando datos</span>
-      </div>
-      <div class="splash-step" id="step-4" style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text-dim);opacity:.4">
-        <span class="step-icon">○</span><span>Procesando registros</span>
-      </div>
+      <div class="splash-step" id="step-1" style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text-dim);opacity:.4"><span class="step-icon">○</span><span>Conectando con el servidor</span></div>
+      <div class="splash-step" id="step-2" style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text-dim);opacity:.4"><span class="step-icon">○</span><span>Obteniendo períodos</span></div>
+      <div class="splash-step" id="step-3" style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text-dim);opacity:.4"><span class="step-icon">○</span><span>Cargando datos</span></div>
+      <div class="splash-step" id="step-4" style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text-dim);opacity:.4"><span class="step-icon">○</span><span>Procesando registros</span></div>
     </div>
     <div id="splash-loading-msg" style="font-size:10px;color:var(--text-dim);min-height:16px;font-family:var(--mono)"></div>
   </div>
-  <div style="font-size:10px;color:var(--text-dim);opacity:.35;font-family:var(--mono);position:absolute;bottom:24px">
-    · Desarrollado por Jonathan Cheves ·
-  </div>
+  <div style="font-size:10px;color:var(--text-dim);opacity:.35;font-family:var(--mono);position:absolute;bottom:24px">· Desarrollado por Jonathan Cheves ·</div>
 </div>
 
-<!-- SPLASH SELECTOR DE PERÍODO -->
 <div id="welcome" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 48px);padding:40px;gap:20px">
   <div style="font-family:var(--mono);font-size:20px;font-weight:700;color:var(--accent);letter-spacing:.1em">RRHH / AUSENTISMO</div>
   <div style="font-size:12px;color:var(--text-dim);margin-bottom:4px">Seleccioná zona y período para consultar</div>
@@ -380,29 +295,20 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
     <div class="splash-icon">📊</div>
     <div class="splash-title">Reporte General de Ausentismo</div>
     <div class="splash-sub">Seleccioná el período que querés consultar.</div>
-    <div id="splash-content">
-      <div style="color:var(--text-dim);font-size:12px">Conectando…</div>
-    </div>
+    <div id="splash-content"><div style="color:var(--text-dim);font-size:12px">Conectando…</div></div>
   </div>
-  <div style="font-size:11px;color:var(--text-dim)">
-    ¿Sos responsable de carga? <span style="color:var(--accent);cursor:pointer;text-decoration:underline" onclick="abrirAdmin()">Accedé al panel de administración</span>
-  </div>
-  <div style="font-size:10px;color:var(--text-dim);opacity:.5;margin-top:8px;font-family:var(--mono)">
-    · Desarrollado por Jonathan Cheves ·
-  </div>
+  <div style="font-size:11px;color:var(--text-dim)">¿Sos responsable de carga? <span style="color:var(--accent);cursor:pointer;text-decoration:underline" onclick="abrirAdmin()">Accedé al panel de administración</span></div>
+  <div style="font-size:10px;color:var(--text-dim);opacity:.5;margin-top:8px;font-family:var(--mono)">· Desarrollado por Jonathan Cheves ·</div>
 </div>
 
-<!-- LOADING -->
 <div id="loading">
   <div class="spinner"></div>
   <div id="loading-msg" style="color:var(--text-dim);font-size:12px;max-width:300px;text-align:center">Cargando…</div>
 </div>
 
-<!-- APP -->
 <div id="app">
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('resumen')">Resumen por empleado <span class="badge" id="b-res">0</span></button>
-
   </div>
   <div class="tab-content active" id="tab-resumen">
     <div class="toolbar">
@@ -410,41 +316,27 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
         <option value="">Todas las sucursales</option>
       </select>
       <div class="sw"><span class="si-ico">🔍</span><input type="text" class="si" id="rs" placeholder="Nombre o N° empleado…" oninput="applyResumen()"></div>
-
     </div>
     <div class="kpi-row" id="kpis"></div>
-    <button class="btn-panel-toggle" id="btn-panel-toggle" style="display:none" onclick="togglePanel()">
-      ☰ Ver rankings y semáforo
-    </button>
+    <button class="btn-panel-toggle" id="btn-panel-toggle" style="display:none" onclick="togglePanel()">☰ Ver rankings y semáforo</button>
     <div class="res-layout">
       <div class="res-main">
         <div style="overflow:auto;max-height:calc(100vh - 220px)">
           <table style="width:100%;border-collapse:collapse" id="r-main-table">
             <thead><tr id="r-thead"></tr></thead>
             <tbody id="r-body"></tbody>
-            
           </table>
         </div>
-        
       </div>
       <div class="res-panel">
         <div class="panel-section">
           <div class="panel-title">⚙ Semáforo</div>
-          <div style="font-size:11px;color:var(--text-mid);margin-bottom:10px">Aplica sobre todas las columnas numéricas</div>
+          <div style="font-size:11px;color:var(--text-mid);margin-bottom:10px">Aplica sobre columnas HH:MM (9LLTHS, 9IMPHS) con umbral fijo de 10 min</div>
           <div style="display:flex;flex-direction:column;gap:8px;font-size:11px;color:var(--text-dim)">
-            <div style="display:flex;align-items:center;gap:8px">
-              <span style="color:#e05252;font-size:13px">●</span>
-              <span>Rojo — más del doble del promedio</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:8px">
-              <span style="color:#e87d30;font-size:13px">●</span>
-              <span>Naranja — entre el promedio y el doble</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:8px">
-              <span style="color:#f0c040;font-size:13px">●</span>
-              <span>Amarillo — por debajo del promedio</span>
-            </div>
-            <div style="margin-top:4px;color:var(--text-dim);opacity:.6">Calculado por columna · excluye ceros</div>
+            <div style="display:flex;align-items:center;gap:8px"><span style="color:#e05252;font-size:13px">●</span><span>Rojo — 20 min o más</span></div>
+            <div style="display:flex;align-items:center;gap:8px"><span style="color:#e87d30;font-size:13px">●</span><span>Naranja — entre 10 y 20 min</span></div>
+            <div style="display:flex;align-items:center;gap:8px"><span style="color:#f0c040;font-size:13px">●</span><span>Amarillo — menos de 10 min</span></div>
+            <div style="margin-top:4px;color:var(--text-dim);opacity:.6">Demás columnas: semáforo por promedio</div>
           </div>
         </div>
         <div id="rankings-wrap"></div>
@@ -453,51 +345,43 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
   </div>
 
   <div class="modal-overlay" id="modal-periodos" onclick="if(event.target===this)cerrarModalPeriodos()">
-  <div class="modal" style="width:480px">
-    <div class="modal-header">
-      <span class="modal-title" style="color:var(--accent)">Seleccionar períodos</span>
-      <button class="modal-close" onclick="cerrarModalPeriodos()">✕</button>
+    <div class="modal" style="width:480px">
+      <div class="modal-header">
+        <span class="modal-title" style="color:var(--accent)">Seleccionar períodos</span>
+        <button class="modal-close" onclick="cerrarModalPeriodos()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="field-lbl">Un período</div>
+        <div id="per-single-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px"></div>
+        <hr class="modal-sep">
+        <div class="field-lbl">Acumulado — seleccioná varios</div>
+        <div id="per-multi-list" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px"></div>
+        <div id="per-acum-info" style="font-size:11px;color:var(--text-dim);min-height:18px"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="cerrarModalPeriodos()">Cancelar</button>
+        <button class="btn-confirm" id="btn-ver-acum" onclick="verAcumulado()" disabled>Ver acumulado</button>
+      </div>
     </div>
-    <div class="modal-body">
-      <div class="field-lbl">Un período</div>
-      <div id="per-single-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px"></div>
-      <hr class="modal-sep">
-      <div class="field-lbl">Acumulado — seleccioná varios</div>
-      <div id="per-multi-list" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px"></div>
-      <div id="per-acum-info" style="font-size:11px;color:var(--text-dim);min-height:18px"></div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="cerrarModalPeriodos()">Cancelar</button>
-      <button class="btn-confirm" id="btn-ver-acum" onclick="verAcumulado()" disabled>Ver acumulado</button>
-    </div>
+  </div>
+
+  <div class="drawer-backdrop" id="drawer-backdrop" onclick="cerrarDrawer()" style="display:none"></div>
+  <div class="drawer" id="drawer-upload" style="right:-420px">
+    <div class="drawer-header"><span class="drawer-title">Subiendo archivos</span><button class="drawer-close" onclick="cerrarDrawer()">✕</button></div>
+    <div class="drawer-body" id="drawer-status"></div>
   </div>
 </div>
 
-<!-- DRAWER UPLOAD -->
-<div class="drawer-backdrop" id="drawer-backdrop" onclick="cerrarDrawer()" style="display:none"></div>
-<div class="drawer" id="drawer-upload" style="right:-420px">
-  <div class="drawer-header">
-    <span class="drawer-title">Subiendo archivos</span>
-    <button class="drawer-close" onclick="cerrarDrawer()">✕</button>
-  </div>
-  <div class="drawer-body" id="drawer-status"></div>
-</div>
-</div>
-
-<!-- MODAL ADMIN -->
 <div class="modal-overlay" id="modal-admin" onclick="if(event.target===this)cerrarAdmin()">
   <div class="modal" style="width:500px">
     <div class="modal-header">
       <span class="modal-title" style="color:var(--accent)">Panel de Administración</span>
       <button class="modal-close" onclick="cerrarAdmin()">✕</button>
     </div>
-    <div class="modal-body" id="admin-body">
-      <!-- Estado: login / panel -->
-    </div>
+    <div class="modal-body" id="admin-body"></div>
   </div>
 </div>
 
-<!-- MODAL EXPORTAR -->
 <div class="modal-overlay" id="modal-export" onclick="if(event.target===this)cerrarModalExport()">
   <div class="modal">
     <div class="modal-header">
@@ -526,10 +410,7 @@ td.hp{color:#b44be8;font-family:var(--mono);text-align:right}
 </div>
 
 <script>
-// ══ CONFIG ════════════════════════════════════════════════
-const GAS_URL = 'https://script.google.com/macros/s/AKfycby4_Zm8GO4_ee1sOHd6-XDg5EhUcwQpKEOD_8WUwFl5u_5YyVDIvqh-adURKo5oGHPaZw/exec';
-
-// ══ ESTADO ════════════════════════════════════════════════
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbzv3RAcONEbsgXAWmz139GrRD0Jz-Qm1uKXZ5DgrgjQOUk7VppVYKKhpxM4Bl3H0DxrZA/exec';
 let allDetalle=[],allResumen=[];
 let filtRes=[],filtDet=[];
 let pageRes=1,pageDet=1;
@@ -538,195 +419,120 @@ let periodosDisponibles=[];
 let adminPass='';
 let adminLogueado=false;
 const PR=500,PD=100;
-
-// ══ INICIO ════════════════════════════════════════════════
-window.addEventListener('load', ()=>{  iniciar(); });
-
-// ── ZONAS ──────────────────────────────────────────────────
+window.addEventListener('load', ()=>{ iniciar(); });
 const ZONAS = ['Neuquén Ciudad','Neuquén Interior','Río Negro'];
 let zonaActiva = '';
 
 function volverAWelcome(){
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('welcome').style.display = 'flex';
-  document.getElementById('btn-volver').style.display = 'none';
-  document.getElementById('btn-export').style.display = 'none';
-  document.getElementById('periodo-badge').style.display = 'none';
-  document.getElementById('r-suc').style.display = 'none';
-  // Resetear selectores
-  document.getElementById('welcome-zona').value = '';
-  document.getElementById('welcome-periodo').innerHTML = '<option value="">Seleccioná un período…</option>';
+  document.getElementById('app').style.display='none';
+  document.getElementById('welcome').style.display='flex';
+  document.getElementById('btn-volver').style.display='none';
+  document.getElementById('btn-export').style.display='none';
+  document.getElementById('periodo-badge').style.display='none';
+  document.getElementById('r-suc').style.display='none';
+  document.getElementById('welcome-zona').value='';
+  document.getElementById('welcome-periodo').innerHTML='<option value="">Seleccioná un período…</option>';
   onWelcomeChange();
 }
 
 function onWelcomeChange(){
-  const zona = document.getElementById('welcome-zona').value;
-  const periodo = document.getElementById('welcome-periodo').value;
-  const btn = document.getElementById('welcome-btn');
-  if(zona && periodo){
-    btn.disabled = false;
-    btn.style.opacity = '1';
-    btn.style.cursor = 'pointer';
-  } else {
-    btn.disabled = true;
-    btn.style.opacity = '.35';
-    btn.style.cursor = 'not-allowed';
-  }
+  const zona=document.getElementById('welcome-zona').value;
+  const periodo=document.getElementById('welcome-periodo').value;
+  const btn=document.getElementById('welcome-btn');
+  if(zona&&periodo){btn.disabled=false;btn.style.opacity='1';btn.style.cursor='pointer';}
+  else{btn.disabled=true;btn.style.opacity='.35';btn.style.cursor='not-allowed';}
 }
 
 async function cargarDesdeWelcome(){
-  const zona = document.getElementById('welcome-zona').value;
-  const periodo = document.getElementById('welcome-periodo').value;
-  if(!zona || !periodo) return;
-  zonaActiva = zona;
-  periodoActivo = periodo;
-  document.getElementById('welcome').style.display = 'none';
-  await iniciarConDatos(zona, periodo);
+  const zona=document.getElementById('welcome-zona').value;
+  const periodo=document.getElementById('welcome-periodo').value;
+  if(!zona||!periodo)return;
+  zonaActiva=zona;periodoActivo=periodo;
+  document.getElementById('welcome').style.display='none';
+  await iniciarConDatos(zona,periodo);
 }
 
 function poblarWelcomePeriodos(periodos){
-  const sel = document.getElementById('welcome-periodo');
-  if(!sel) return;
-  const unicos = [...new Set(periodos.map(p=>p.periodo))].sort().reverse();
-  sel.innerHTML = '<option value="">Seleccioná un período…</option>' +
-    unicos.map(p=>`<option value="${p}">${p}</option>`).join('');
+  const sel=document.getElementById('welcome-periodo');
+  if(!sel)return;
+  const unicos=[...new Set(periodos.map(p=>p.periodo))].sort().reverse();
+  sel.innerHTML='<option value="">Seleccioná un período…</option>'+unicos.map(p=>`<option value="${p}">${p}</option>`).join('');
 }
 
 function filtrarPeriodosPorZona(){
-  const zona = document.getElementById('welcome-zona').value;
-  const sel = document.getElementById('welcome-periodo');
-  if(!sel) return;
-  sel.value = '';
-  if(!zona){
-    sel.innerHTML = '<option value="">Seleccioná un período…</option>';
-    onWelcomeChange();
-    return;
-  }
-  // Solo períodos que tienen sucursales en esa zona
-  const periodosDeZona = [...new Set(
-    periodosDisponibles.filter(p=>p.zona===zona).map(p=>p.periodo)
-  )].sort().reverse();
-  if(periodosDeZona.length){
-    sel.innerHTML = '<option value="">Seleccioná un período…</option>' +
-      periodosDeZona.map(p=>`<option value="${p}">${p}</option>`).join('');
-  } else {
-    sel.innerHTML = '<option value="">Sin períodos cargados para esta zona</option>';
-  }
+  const zona=document.getElementById('welcome-zona').value;
+  const sel=document.getElementById('welcome-periodo');
+  if(!sel)return;
+  sel.value='';
+  if(!zona){sel.innerHTML='<option value="">Seleccioná un período…</option>';onWelcomeChange();return;}
+  const periodosDeZona=[...new Set(periodosDisponibles.filter(p=>p.zona===zona).map(p=>p.periodo))].sort().reverse();
+  if(periodosDeZona.length){sel.innerHTML='<option value="">Seleccioná un período…</option>'+periodosDeZona.map(p=>`<option value="${p}">${p}</option>`).join('');}
+  else{sel.innerHTML='<option value="">Sin períodos cargados para esta zona</option>';}
   onWelcomeChange();
 }
 
-function getZonaAdmin(){
-  const sel = document.getElementById('admin-zona');
-  return sel ? sel.value : '';
-}
+function getZonaAdmin(){const sel=document.getElementById('admin-zona');return sel?sel.value:'';}
 
-
-
-function setSplashMsg(msg, step) {
-  const el = document.getElementById('splash-loading-msg');
-  if(el) el.textContent = msg;
-
-  // Activar step
-  if(step) {
-    const steps = [1,2,3,4];
-    steps.forEach(s => {
-      const el = document.getElementById('step-'+s);
-      if(!el) return;
-      const icon = el.querySelector('.step-icon');
-      if(s < step) {
-        el.style.opacity = '1';
-        el.style.color = 'var(--accent2)';
-        icon.textContent = '✓';
-      } else if(s === step) {
-        el.style.opacity = '1';
-        el.style.color = 'var(--text)';
-        icon.textContent = '›';
-      } else {
-        el.style.opacity = '.35';
-        el.style.color = 'var(--text-dim)';
-        icon.textContent = '○';
-      }
+function setSplashMsg(msg,step){
+  const el=document.getElementById('splash-loading-msg');
+  if(el)el.textContent=msg;
+  if(step){
+    [1,2,3,4].forEach(s=>{
+      const e=document.getElementById('step-'+s);if(!e)return;
+      const icon=e.querySelector('.step-icon');
+      if(s<step){e.style.opacity='1';e.style.color='var(--accent2)';icon.textContent='✓';}
+      else if(s===step){e.style.opacity='1';e.style.color='var(--text)';icon.textContent='›';}
+      else{e.style.opacity='.35';e.style.color='var(--text-dim)';icon.textContent='○';}
     });
-    // Barra de progreso
-    const bar = document.getElementById('splash-progress-bar');
-    if(bar) bar.style.width = (step * 25) + '%';
+    const bar=document.getElementById('splash-progress-bar');
+    if(bar)bar.style.width=(step*25)+'%';
   }
 }
 
 async function recargarDatos(){
-  const periodo = periodoActivo || (() => {
-    // Si estamos en splash, tomar el período del selector si existe
-    const sel = document.getElementById('sel-periodo');
-    return sel ? sel.value : '';
-  })();
-  if(!periodo) { location.reload(); return; }
-
+  const periodo=periodoActivo||'';
+  if(!periodo){location.reload();return;}
   showLoading('Actualizando datos de '+periodo+'…');
-  try {
-    const res = await gas('getData', {periodo});
-    procesarRespuesta(res);
-  } catch(e) {
-    alert('Error al recargar: '+e.message);
-  }
+  try{const res=await gas('getData',{periodo});procesarRespuesta(res);}
+  catch(e){alert('Error al recargar: '+e.message);}
   hideLoading();
 }
 
-async function iniciarConDatos(zona, periodo){
+async function iniciarConDatos(zona,periodo){
   document.getElementById('welcome').style.display='none';
   document.getElementById('splash-loading').style.display='flex';
-  setSplashMsg('Cargando ' + periodo + '…', 3);
-  try {
-    const resumen = await gas('getResumen', {periodo});
-    setSplashMsg('Procesando datos…', 4);
+  setSplashMsg('Cargando '+periodo+'…',3);
+  try{
+    const resumen=await gas('getResumen',{periodo});
+    setSplashMsg('Procesando datos…',4);
     await new Promise(r=>setTimeout(r,200));
     document.getElementById('splash-loading').style.display='none';
-    // Filtrar solo sucursales de la zona seleccionada
-    const sucsDeLaZona = periodosDisponibles
-      .filter(p => p.periodo===periodo && p.zona===zona)
-      .map(p => p.sucCodigo);
-    // Filtrar siempre — si no hay sucursales de esa zona, mostrar vacío
-    const codsZona = sucsDeLaZona.map(s => String(s).replace(/^0+/,''));
-    if(codsZona.length){
-      resumen.resumen = resumen.resumen.filter(r => {
-        const cod = String(r.sucCodigo).replace(/^0+/,'');
-        return codsZona.includes(cod);
-      });
-    } else {
-      resumen.resumen = []; // Sin sucursales asignadas a esta zona
-    }
+    const sucsDeLaZona=periodosDisponibles.filter(p=>p.periodo===periodo&&p.zona===zona).map(p=>p.sucCodigo);
+    const codsZona=sucsDeLaZona.map(s=>String(s).replace(/^0+/,''));
+    if(codsZona.length){resumen.resumen=resumen.resumen.filter(r=>{const cod=String(r.sucCodigo).replace(/^0+/,'');return codsZona.includes(cod);});}
+    else{resumen.resumen=[];}
     procesarResumen(resumen);
-    zonaActiva = zona;
-    periodoActivo = periodo;
-    document.getElementById('periodo-badge-txt').textContent = zona + ' · ' + periodo;
-  } catch(e){
+    zonaActiva=zona;periodoActivo=periodo;
+    document.getElementById('periodo-badge-txt').textContent=zona+' · '+periodo;
+  }catch(e){
     document.getElementById('splash-loading').style.display='none';
     document.getElementById('welcome').style.display='flex';
-    alert('Error al cargar: ' + e.message);
+    alert('Error al cargar: '+e.message);
   }
 }
 
 async function iniciar(){
   document.getElementById('splash-loading').style.display='flex';
-  setSplashMsg('Iniciando…', 1);
-  try {
+  setSplashMsg('Iniciando…',1);
+  try{
     await new Promise(r=>setTimeout(r,300));
-    setSplashMsg('Obteniendo períodos disponibles…', 2);
-    const res = await gas('getPeriodos');
-    periodosDisponibles = res.periodos || [];
-
-    const periodos = [...new Set(periodosDisponibles.map(p=>p.periodo))].sort().reverse();
-    // Poblar welcome screen con períodos disponibles
+    setSplashMsg('Obteniendo períodos disponibles…',2);
+    const res=await gas('getPeriodos');
+    periodosDisponibles=res.periodos||[];
     poblarWelcomePeriodos(periodosDisponibles);
     document.getElementById('splash-loading').style.display='none';
     document.getElementById('welcome').style.display='flex';
-    if(false){
-      setSplashMsg('', 4);
-      await new Promise(r=>setTimeout(r,300));
-      document.getElementById('splash-loading').style.display='none';
-      document.getElementById('splash').style.display='flex';
-      renderSplash();
-    }
-  } catch(e) {
+  }catch(e){
     document.getElementById('splash-loading').style.display='none';
     document.getElementById('splash').style.display='flex';
     renderSplashError(e.message);
@@ -734,55 +540,33 @@ async function iniciar(){
 }
 
 function renderSplash(){
-  const el = document.getElementById('splash-content');
-  // Períodos únicos
-  const periodos = [...new Set(periodosDisponibles.map(p=>p.periodo))].sort().reverse();
-  if(!periodos.length){
-    el.innerHTML=`<div class="msg-info">No hay datos cargados todavía.<br>Accedé al panel de administración para subir archivos.</div>`;
-    return;
-  }
-  el.innerHTML=`
-    <div class="field-lbl" style="text-align:left">Seleccioná el período</div>
-    <select class="fi-text" id="sel-periodo">
-      ${periodos.map(p=>`<option value="${p}">${p}</option>`).join('')}
-    </select>
-    <div class="splash-btns" style="margin-top:4px">
-      <button class="btn-primary" onclick="cargarPeriodo()">Ver reporte</button>
-    </div>`;
+  const el=document.getElementById('splash-content');
+  const periodos=[...new Set(periodosDisponibles.map(p=>p.periodo))].sort().reverse();
+  if(!periodos.length){el.innerHTML=`<div class="msg-info">No hay datos cargados todavía.</div>`;return;}
+  el.innerHTML=`<div class="field-lbl" style="text-align:left">Seleccioná el período</div><select class="fi-text" id="sel-periodo">${periodos.map(p=>`<option value="${p}">${p}</option>`).join('')}</select><div class="splash-btns" style="margin-top:4px"><button class="btn-primary" onclick="cargarPeriodo()">Ver reporte</button></div>`;
   document.getElementById('btn-admin').style.display='block';
 }
 
-function renderSplashError(msg){
-  document.getElementById('splash-content').innerHTML=`<div class="msg-err">Error al conectar: ${msg}<br><small>Verificá que el Apps Script esté publicado correctamente.</small></div>`;
-}
+function renderSplashError(msg){document.getElementById('splash-content').innerHTML=`<div class="msg-err">Error al conectar: ${msg}</div>`;}
 
 async function cargarPeriodo(){
-  const sel = document.getElementById('sel-periodo');
-  if(!sel) return;
-  periodoActivo = sel.value;
+  const sel=document.getElementById('sel-periodo');if(!sel)return;
+  periodoActivo=sel.value;
   showLoading('Cargando datos de '+periodoActivo+'…');
-  try {
-    const res = await gas('getData', {periodo: periodoActivo});
-    procesarRespuesta(res);
-  } catch(e) {
-    alert('Error al cargar datos: '+e.message);
-  }
+  try{const res=await gas('getData',{periodo:periodoActivo});procesarRespuesta(res);}
+  catch(e){alert('Error al cargar datos: '+e.message);}
   hideLoading();
 }
 
 function procesarRespuesta(res){
-  const hdr = res.headers;
-  // Convertir encabezados a string y hacer trim — Sheets puede devolver números
-  const hdrStr = hdr.map(h => String(h).trim());
-  const ci = name => hdrStr.indexOf(String(name).trim());
-  const C = buildCMap(ci);
+  const hdr=res.headers;
+  const hdrStr=hdr.map(h=>String(h).trim());
+  const ci=name=>hdrStr.indexOf(String(name).trim());
+  const C=buildCMap(ci);
   const get=(r,c)=>c>=0?String(r[c]||'').trim():'';
   const getN=(r,c)=>c>=0?(parseFloat(r[c])||0):0;
-  allDetalle = res.rows.map(r => mapRow(r, C, get, getN));
-
-  calcularResumen();
-  poblarFiltros();
-
+  allDetalle=res.rows.map(r=>mapRow(r,C,get,getN));
+  calcularResumen();poblarFiltros();
   document.getElementById('splash').style.display='none';
   document.getElementById('app').style.display='block';
   document.getElementById('btn-export').style.display='block';
@@ -793,16 +577,11 @@ function procesarRespuesta(res){
   applyResumen();
 }
 
-// Helper: construir mapa de columnas desde función ci
-let detalleLoaded = false;
-let detalleData = null;
+let detalleLoaded=false,detalleData=null;
 
-function procesarResumen(res) {
-  // Cargar solo resumen sin detalle
-  allResumen = (res.resumen || []).map(r => ({...r}));
-  allDetalle = [];
-  detalleLoaded = false;
-
+function procesarResumen(res){
+  allResumen=(res.resumen||[]).map(r=>({...r}));
+  allDetalle=[];detalleLoaded=false;
   poblarFiltros();
   document.getElementById('splash').style.display='none';
   document.getElementById('app').style.display='block';
@@ -810,25 +589,19 @@ function procesarResumen(res) {
   document.getElementById('btn-volver').style.display='block';
   document.getElementById('periodo-badge').style.display='flex';
   document.getElementById('r-suc').style.display='block';
-  document.getElementById('periodo-badge-txt').textContent = periodoActivo;
-  document.getElementById('b-res').textContent = allResumen.length;
+  document.getElementById('periodo-badge-txt').textContent=periodoActivo;
+  document.getElementById('b-res').textContent=allResumen.length;
   applyResumen();
 }
 
-async function cargarDetalleSiNecesario() {
-  if (detalleLoaded) return;
-  detalleLoaded = true;
-  try {
-    const res = await gas('getData', {periodo: periodoActivo});
-    procesarRespuesta(res);
-  } catch(e) {
-    detalleLoaded = false;
-  }
+async function cargarDetalleSiNecesario(){
+  if(detalleLoaded)return;detalleLoaded=true;
+  try{const res=await gas('getData',{periodo:periodoActivo});procesarRespuesta(res);}
+  catch(e){detalleLoaded=false;}
 }
 
 function buildCMap(ci){
-  // Busca por nombre exacto o sin ceros adelante
-  const cix = (...names) => { for(const n of names){ const i=ci(n); if(i>=0) return i; } return -1; };
+  const cix=(...names)=>{for(const n of names){const i=ci(n);if(i>=0)return i;}return -1;};
   return {
     sucCodigo:ci('sucCodigo'),sucNombre:ci('sucNombre'),
     nro:ci('nro'),nombre:ci('nombre'),fecha:ci('fecha'),dia:ci('dia'),
@@ -840,12 +613,11 @@ function buildCMap(ci){
     c014A:cix('c014A','014A'),c014B:cix('c014B','014B'),c014C:cix('c014C','014C'),c014D:cix('c014D','014D'),
     c0155:cix('c0155','0155','155'),c0100:cix('c0100','0100','100'),c0120:cix('c0120','0120','120'),
     c7120:cix('c7120','7120'),c8120:cix('c8120','8120'),
-    c9IMP:cix('c9IMP','9IMP'),c9LLT:cix('c9LLT','9LLT'),c9SAN:cix('c9SAN','9SAN'),
+    c9IMPHS:cix('c9IMPHS','9IMPHS','9IMP','c9IMP'),c9LLTHS:cix('c9LLTHS','9LLTHS','9LLT','c9LLT'),c9SAN:cix('c9SAN','9SAN'),
   };
 }
 
-// Helper: mapear una fila a objeto
-function mapRow(r, C, get, getN){
+function mapRow(r,C,get,getN){
   return {
     sucCodigo:get(r,C.sucCodigo),sucNombre:get(r,C.sucNombre),
     nro:get(r,C.nro),nombre:get(r,C.nombre),
@@ -857,10 +629,14 @@ function mapRow(r, C, get, getN){
     c0125:getN(r,C.c0125),c0155:getN(r,C.c0155),
     c014A:getN(r,C.c014A),c014B:getN(r,C.c014B),c014C:getN(r,C.c014C),c014D:getN(r,C.c014D),
     c7120:getN(r,C.c7120),c8120:getN(r,C.c8120),
-    c9IMP:getN(r,C.c9IMP),c9LLT:getN(r,C.c9LLT),c9SAN:getN(r,C.c9SAN),
+    c9IMPHS:get(r,C.c9IMPHS),c9LLTHS:get(r,C.c9LLTHS),c9SAN:getN(r,C.c9SAN),
     centCost:get(r,C.centCost),
   };
 }
+
+function addHM(a,b){const toMin=v=>{if(!v||v==='00:00'||v==='—')return 0;const s=String(v);const m=s.match(/(\d+):(\d+)/);if(m)return parseInt(m[1])*60+parseInt(m[2]);return Math.round((parseFloat(v)||0)*60);};const tot=toMin(a)+toMin(b);const h=Math.floor(tot/60),mm=tot%60;return String(h).padStart(2,'0')+':'+String(mm).padStart(2,'0');}
+function hmToH(v){if(!v||v==='00:00'||v==='—')return 0;const m=String(v).match(/(\d+):(\d+)/);if(m)return parseInt(m[1])+parseInt(m[2])/60;return parseFloat(v)||0;}
+function fhm(v){if(!v||v==='00:00')return'—';return String(v);}
 
 function calcularResumen(){
   const mapa={};
@@ -868,252 +644,170 @@ function calcularResumen(){
     const key=f.nro+'|'+f.sucCodigo;
     if(!mapa[key])mapa[key]={
       nro:f.nro,nombre:f.nombre,sucCodigo:f.sucCodigo,sucNombre:f.sucNombre,
-      cantHs:0,tardHs:0,
+      cantHs:0,
       c0090:0,c0091:0,c0100:0,c0120:0,c0125:0,c0155:0,
       c014A:0,c014B:0,c014C:0,c014D:0,
-      c7120:0,c8120:0,c9IMP:0,c9LLT:0,c9SAN:0,
+      c7120:0,c8120:0,c9IMPHS:'00:00',c9LLTHS:'00:00',c9SAN:0,
       _aus:new Set(),_sup:new Set()
     };
     const e=mapa[key];
     if(f.ausentismo)e._aus.add(f.fecha);
     if(f.suplencia)e._sup.add(f.fecha);
     e.cantHs+=f.cantHs||0;
-    ['c0090','c0091','c0100','c0120','c0125','c0155','c014A','c014B','c014C','c014D','c7120','c8120','c9IMP','c9LLT','c9SAN'].forEach(k=>e[k]+=f[k]);
-    // c9LLT es el valor oficial de 9LLT en horas del sistema
-    if(f.c9LLT>0) e.tardHs+=f.c9LLT;
+    ['c0090','c0091','c0100','c0120','c0125','c0155','c014A','c014B','c014C','c014D','c7120','c8120','c9SAN'].forEach(k=>e[k]+=f[k]);
+    e.c9LLTHS=addHM(e.c9LLTHS,f.c9LLTHS);e.c9IMPHS=addHM(e.c9IMPHS,f.c9IMPHS);
+    // c9LLTHS ya acumulado arriba como HH:MM
   }
   allResumen=Object.values(mapa).map(e=>({...e,aus:e._aus.size,sup:e._sup.size}));
 }
 
 function poblarFiltros(){
-  // Usar allResumen si allDetalle está vacío
-  const src = allResumen.length ? allResumen : allDetalle;
+  const src=allResumen.length?allResumen:allDetalle;
   const sucs=[...new Map(src.map(f=>[f.sucCodigo,f.sucNombre])).entries()].sort((a,b)=>parseInt(a[0])-parseInt(b[0]));
   ['r-suc'].forEach(id=>{
-    const sel=document.getElementById(id);
-    if(!sel) return;
+    const sel=document.getElementById(id);if(!sel)return;
     while(sel.options.length>1)sel.remove(1);
     sucs.forEach(([cod,nom])=>{const o=document.createElement('option');o.value=cod;o.textContent=cod+' — '+nom;sel.appendChild(o);});
   });
 }
 
-// ══ MODAL PERÍODOS ════════════════════════════════════════
-
-let periodosSeleccionados = [];  // para acumulado
+let periodosSeleccionados=[];
 
 function abrirModalPeriodos(){
-  const periodos = [...new Set(periodosDisponibles.map(p=>p.periodo))].sort().reverse();
-  // Lista single
-  const singleEl = document.getElementById('per-single-list');
-  singleEl.innerHTML = periodos.map(p => {
-    const sucs = periodosDisponibles.filter(x=>x.periodo===p);
-    const totalFilas = sucs.reduce((s,x)=>s+x.filas,0);
-    const isActive = p === periodoActivo && !esAcumulado;
-    return `<div class="per-chip ${isActive?'active':''}" onclick="cambiarPeriodo('${p}')">
-      <span class="per-name">${p}</span>
-      <span class="per-meta">${sucs.length} suc · ${totalFilas.toLocaleString('es-AR')} filas</span>
-    </div>`;
+  const periodos=[...new Set(periodosDisponibles.map(p=>p.periodo))].sort().reverse();
+  const singleEl=document.getElementById('per-single-list');
+  singleEl.innerHTML=periodos.map(p=>{
+    const sucs=periodosDisponibles.filter(x=>x.periodo===p);
+    const totalFilas=sucs.reduce((s,x)=>s+x.filas,0);
+    const isActive=p===periodoActivo&&!esAcumulado;
+    return `<div class="per-chip ${isActive?'active':''}" onclick="cambiarPeriodo('${p}')"><span class="per-name">${p}</span><span class="per-meta">${sucs.length} suc · ${totalFilas.toLocaleString('es-AR')} filas</span></div>`;
   }).join('');
-
-  // Lista multi (para acumulado)
-  periodosSeleccionados = [];
-  const multiEl = document.getElementById('per-multi-list');
-  multiEl.innerHTML = periodos.map(p => `
-    <div class="per-chip-multi" id="pmc-${p.replace(/ /g,'_')}" onclick="togglePerMulti('${p}')">
-      ${p}
-    </div>`).join('');
-  document.getElementById('per-acum-info').textContent = '';
-  document.getElementById('btn-ver-acum').disabled = true;
+  periodosSeleccionados=[];
+  const multiEl=document.getElementById('per-multi-list');
+  multiEl.innerHTML=periodos.map(p=>`<div class="per-chip-multi" id="pmc-${p.replace(/ /g,'_')}" onclick="togglePerMulti('${p}')">${p}</div>`).join('');
+  document.getElementById('per-acum-info').textContent='';
+  document.getElementById('btn-ver-acum').disabled=true;
   document.getElementById('modal-periodos').classList.add('open');
 }
 
-function cerrarModalPeriodos(){
-  document.getElementById('modal-periodos').classList.remove('open');
-}
+function cerrarModalPeriodos(){document.getElementById('modal-periodos').classList.remove('open');}
 
 function togglePerMulti(p){
-  const id = 'pmc-'+p.replace(/ /g,'_');
-  const el = document.getElementById(id);
-  if(periodosSeleccionados.includes(p)){
-    periodosSeleccionados = periodosSeleccionados.filter(x=>x!==p);
-    el.classList.remove('sel');
-  } else {
-    periodosSeleccionados.push(p);
-    el.classList.add('sel');
-  }
-  const n = periodosSeleccionados.length;
-  document.getElementById('per-acum-info').textContent =
-    n > 1 ? `${n} períodos seleccionados — se mostrarán columnas por mes` :
-    n === 1 ? '1 período seleccionado' : '';
-  document.getElementById('btn-ver-acum').disabled = n < 2;
+  const id='pmc-'+p.replace(/ /g,'_');const el=document.getElementById(id);
+  if(periodosSeleccionados.includes(p)){periodosSeleccionados=periodosSeleccionados.filter(x=>x!==p);el.classList.remove('sel');}
+  else{periodosSeleccionados.push(p);el.classList.add('sel');}
+  const n=periodosSeleccionados.length;
+  document.getElementById('per-acum-info').textContent=n>1?`${n} períodos seleccionados`:n===1?'1 período seleccionado':'';
+  document.getElementById('btn-ver-acum').disabled=n<2;
 }
 
-let esAcumulado = false;
-let periodosActivos = []; // array cuando es acumulado
+let esAcumulado=false,periodosActivos=[];
 
 async function cambiarPeriodo(p){
-  cerrarModalPeriodos();
-  esAcumulado = false;
-  periodosActivos = [p];
-  periodoActivo = p;
-  document.getElementById('periodo-badge-txt').textContent = p;
+  cerrarModalPeriodos();esAcumulado=false;periodosActivos=[p];periodoActivo=p;
+  document.getElementById('periodo-badge-txt').textContent=p;
   showLoading('Cargando '+p+'…');
-  try {
-    const res = await gas('getResumen', {periodo: p});
-    procesarResumen(res);
-    detalleLoaded = false; // resetear flag de detalle
-  } catch(e) { alert('Error: '+e.message); }
+  try{const res=await gas('getResumen',{periodo:p});procesarResumen(res);detalleLoaded=false;}
+  catch(e){alert('Error: '+e.message);}
   hideLoading();
 }
 
 async function verAcumulado(){
-  if(periodosSeleccionados.length < 2) return;
-  cerrarModalPeriodos();
-  esAcumulado = true;
-  periodosActivos = [...periodosSeleccionados].sort();
-  const label = periodosActivos.join(' + ');
-  document.getElementById('periodo-badge-txt').textContent = label;
+  if(periodosSeleccionados.length<2)return;
+  cerrarModalPeriodos();esAcumulado=true;periodosActivos=[...periodosSeleccionados].sort();
+  const label=periodosActivos.join(' + ');
+  document.getElementById('periodo-badge-txt').textContent=label;
   showLoading('Cargando acumulado…');
-  try {
-    // Cargar todos los períodos en paralelo
-    const resultados = await Promise.all(
-      periodosActivos.map(p => gas('getData', {periodo: p}))
-    );
-    procesarAcumulado(resultados, periodosActivos);
-  } catch(e) { alert('Error: '+e.message); }
+  try{
+    const resultados=await Promise.all(periodosActivos.map(p=>gas('getData',{periodo:p})));
+    procesarAcumulado(resultados,periodosActivos);
+  }catch(e){alert('Error: '+e.message);}
   hideLoading();
 }
 
-function procesarAcumulado(resultados, periodos){
-  // Combinar todos los detalles con campo periodo
-  allDetalle = [];
-  resultados.forEach((res, idx) => {
-    const hdr = res.headers;
-    const ci = name => hdr.indexOf(name);
-    const C = buildCMap(ci);
+function procesarAcumulado(resultados,periodos){
+  allDetalle=[];
+  resultados.forEach((res,idx)=>{
+    const hdr=res.headers;const ci=name=>hdr.indexOf(name);
+    const C=buildCMap(ci);
     const get=(r,c)=>c>=0?String(r[c]||'').trim():'';
     const getN=(r,c)=>c>=0?(parseFloat(r[c])||0):0;
-    res.rows.forEach(r => {
-      allDetalle.push({...mapRow(r, C, get, getN), _periodo: periodos[idx]});
-    });
+    res.rows.forEach(r=>{allDetalle.push({...mapRow(r,C,get,getN),_periodo:periodos[idx]});});
   });
-
-  // Resumen: agrupar por empleado — pero con columnas por período
-  const mapa = {};
+  const mapa={};
   for(const f of allDetalle){
-    const key = f.nro+'|'+f.sucCodigo;
-    if(!mapa[key]) mapa[key] = {
-      nro:f.nro, nombre:f.nombre, sucCodigo:f.sucCodigo, sucNombre:f.sucNombre,
-      _periodos: {}
+    const key=f.nro+'|'+f.sucCodigo;
+    if(!mapa[key])mapa[key]={nro:f.nro,nombre:f.nombre,sucCodigo:f.sucCodigo,sucNombre:f.sucNombre,_periodos:{}};
+    const e=mapa[key];const p=f._periodo;
+    if(!e._periodos[p])e._periodos[p]={
+      c9LLTHS:'00:00',c9IMPHS:'00:00',c0090:0,c0091:0,c0100:0,c0120:0,c0125:0,c0155:0,
+      c014A:0,c014B:0,c014C:0,c014D:0,c7120:0,c8120:0,c9SAN:0,
+      aus:0,sup:0,_aus:new Set(),_sup:new Set()
     };
-    const e = mapa[key];
-    const p = f._periodo;
-    if(!e._periodos[p]) e._periodos[p] = {
-      tardHs:0, c0090:0, c0091:0, c0100:0, c0120:0, c0125:0, c0155:0,
-      c014A:0, c014B:0, c014C:0, c014D:0, c7120:0, c8120:0, c9IMP:0, c9LLT:0, c9SAN:0,
-      aus:0, sup:0, _aus:new Set(), _sup:new Set()
-    };
-    const ep = e._periodos[p];
-    if(f.ausentismo) ep._aus.add(f.fecha);
-    if(f.suplencia)  ep._sup.add(f.fecha);
-    ['c0090','c0091','c0100','c0120','c0125','c0155','c014A','c014B','c014C','c014D','c7120','c8120','c9IMP','c9LLT','c9SAN'].forEach(k=>ep[k]+=f[k]||0);
-    if(f.c9LLT>0) ep.tardHs += f.c9LLT;
+    const ep=e._periodos[p];
+    if(f.ausentismo)ep._aus.add(f.fecha);
+    if(f.suplencia)ep._sup.add(f.fecha);
+    ['c0090','c0091','c0100','c0120','c0125','c0155','c014A','c014B','c014C','c014D','c7120','c8120','c9SAN'].forEach(k=>ep[k]+=f[k]||0);
+    ep.c9LLTHS=addHM(ep.c9LLTHS,f.c9LLTHS);ep.c9IMPHS=addHM(ep.c9IMPHS,f.c9IMPHS);
+    // c9LLTHS ya acumulado arriba
   }
-
-  allResumen = Object.values(mapa).map(e => {
-    const row = {...e};
-    periodos.forEach(p => {
-      if(e._periodos[p]){
-        e._periodos[p].aus = e._periodos[p]._aus.size;
-        e._periodos[p].sup = e._periodos[p]._sup.size;
-      }
-    });
+  allResumen=Object.values(mapa).map(e=>{
+    const row={...e};
+    periodos.forEach(p=>{if(e._periodos[p]){e._periodos[p].aus=e._periodos[p]._aus.size;e._periodos[p].sup=e._periodos[p]._sup.size;}});
     return row;
   });
-
   poblarFiltros();
   document.getElementById('app').style.display='block';
   document.getElementById('btn-export').style.display='block';
   document.getElementById('periodo-badge').style.display='block';
-  document.getElementById('b-res').textContent = allResumen.length;
+  document.getElementById('b-res').textContent=allResumen.length;
   applyResumenAcumulado();
 }
 
 function applyResumenAcumulado(){
-  const q = document.getElementById('rs').value.toLowerCase();
-  const suc = document.getElementById('r-suc').value;
-  const periodos = periodosActivos;
-
-  // Colores por período
-  const perColors = ['#f0a500','#3ecf8e','#4d9de0','#b44be8','#f05252','#e87d30'];
-
-  filtRes = allResumen.filter(r => {
-    if(suc && r.sucCodigo!==suc) return false;
-    if(q && !(r.nro.includes(q)||r.nombre.toLowerCase().includes(q))) return false;
+  const q=document.getElementById('rs').value.toLowerCase();
+  const suc=document.getElementById('r-suc').value;
+  const periodos=periodosActivos;
+  const perColors=['#f0a500','#3ecf8e','#4d9de0','#b44be8','#f05252','#e87d30'];
+  filtRes=allResumen.filter(r=>{
+    if(suc&&r.sucCodigo!==suc)return false;
+    if(q&&!(r.nro.includes(q)||r.nombre.toLowerCase().includes(q)))return false;
     return true;
   });
-
-  // KPIs totalizados
-  const totals = {};
-  periodos.forEach(p => {
-    totals[p] = {c0100:0,c0120:0,aus:0,sup:0,tardHs:0};
-    filtRes.forEach(r => {
-      const ep = r._periodos[p];
-      if(!ep) return;
-      totals[p].c0100  += ep.c0100;
-      totals[p].c0120  += ep.c0120;
-      totals[p].aus    += ep.aus;
-      totals[p].sup    += ep.sup;
-      totals[p].tardHs += ep.tardHs;
+  const totals={};
+  periodos.forEach(p=>{
+    totals[p]={c0100:0,c0120:0,aus:0,sup:0,c9LLTHS:'00:00'};
+    filtRes.forEach(r=>{
+      const ep=r._periodos[p];if(!ep)return;
+      totals[p].c0100+=ep.c0100;totals[p].c0120+=ep.c0120;
+      totals[p].aus+=ep.aus;totals[p].sup+=ep.sup;
+      totals[p].c9LLTHS=addHM(totals[p].c9LLTHS,ep.c9LLTHS||'00:00');
     });
   });
-
-  const kpiHtml = periodos.map((p,i) => `
+  const kpiHtml=periodos.map((p,i)=>`
     <div class="kpi" style="border-top:3px solid ${perColors[i]}">
       <div class="kv" style="color:${perColors[i]};font-size:13px">${p}</div>
       <div style="display:flex;gap:16px;margin-top:6px;flex-wrap:wrap">
         <div><div class="kv cr" style="font-size:16px">${totals[p].aus}</div><div class="kl">Ausent.</div></div>
-        <div><div class="kv" style="font-size:16px;color:var(--accent)">${fh(totals[p].tardHs)}</div><div class="kl">9LLT</div></div>
+        <div><div class="kv" style="font-size:16px;color:var(--accent)">${fhm(totals[p].c9LLTHS)}</div><div class="kl">9LLTHS</div></div>
         <div><div class="kv" style="font-size:16px;color:#e87d30">${fh(totals[p].c0100)}</div><div class="kl">FT 0100</div></div>
       </div>
     </div>`).join('');
-  document.getElementById('kpis').innerHTML = kpiHtml;
-
-  // Encabezado tabla con columnas por período
-  const perCols = ['Ausent.','Suplen.','9LLT','9SAN','FT 0100','FT 0120','PT 0090','PT 0091','7120','9IMP'];
-  const thead = document.getElementById('r-thead');
-  thead.innerHTML = `<th>N° Emple.</th><th>Nombre</th>${suc?'':'<th>Suc.</th>'}` +
-    periodos.map((p,i) =>
-      perCols.map(c => `<th style="border-top:2px solid ${perColors[i]}" title="${p}">${c}<br><span style="font-size:9px;color:${perColors[i]};font-family:var(--mono)">${p.replace(' ','&nbsp;')}</span></th>`).join('')
-    ).join('');
-
-  // Filas
-  document.getElementById('r-body').innerHTML = filtRes.map(r => {
-    const cells = periodos.map(p => {
-      const ep = r._periodos[p] || {};
-      return [
-        ep.aus||0, ep.sup||0,
-        fh(ep.tardHs||0), fh(ep.c9SAN||0),
-        fh(ep.c0100||0), fh(ep.c0120||0),
-        fh(ep.c0090||0), fh(ep.c0091||0),
-        fh(ep.c7120||0), fh(ep.c9IMP||0)
-      ].map(v => `<td class="nr">${v||'—'}</td>`).join('');
+  document.getElementById('kpis').innerHTML=kpiHtml;
+  const perCols=['Ausent.','Suplen.','9LLTHS','9SAN','FT 0100','FT 0120','PT 0090','PT 0091','7120','9IMPHS'];
+  const thead=document.getElementById('r-thead');
+  thead.innerHTML=`<th>N° Emple.</th><th>Nombre</th>${suc?'':'<th>Suc.</th>'}` +
+    periodos.map((p,i)=>perCols.map(c=>`<th style="border-top:2px solid ${perColors[i]}" title="${p}">${c}<br><span style="font-size:9px;color:${perColors[i]};font-family:var(--mono)">${p.replace(' ','&nbsp;')}</span></th>`).join('')).join('');
+  document.getElementById('r-body').innerHTML=filtRes.map(r=>{
+    const cells=periodos.map(p=>{
+      const ep=r._periodos[p]||{};
+      return [ep.aus||0,ep.sup||0,fhm(ep.c9LLTHS||'00:00'),fh(ep.c9SAN||0),fh(ep.c0100||0),fh(ep.c0120||0),fh(ep.c0090||0),fh(ep.c0091||0),fh(ep.c7120||0),fhm(ep.c9IMPHS||'00:00')].map(v=>`<td class="nr">${v||'—'}</td>`).join('');
     }).join('');
-    return `<tr>
-      <td class="mo">${r.nro}</td>
-      <td style="min-width:170px">${r.nombre}</td>
-      ${suc?'':'<td class="dm">'+r.sucCodigo+'</td>'}
-      ${cells}
-    </tr>`;
+    return `<tr><td class="mo">${r.nro}</td><td style="min-width:170px">${r.nombre}</td>${suc?'':'<td class="dm">'+r.sucCodigo+'</td>'}${cells}</tr>`;
   }).join('');
-
-  
-
   renderRankings();
-
 }
 
-// ══ ADMIN ══════════════════════════════════════════════════
 function abrirAdmin(){
   adminLogueado=false;
   document.getElementById('admin-body').innerHTML=renderAdminLogin();
@@ -1122,8 +816,7 @@ function abrirAdmin(){
 function cerrarAdmin(){document.getElementById('modal-admin').classList.remove('open');}
 
 function renderAdminLogin(){
-  return `
-    <div class="field-lbl">Contraseña de administrador</div>
+  return `<div class="field-lbl">Contraseña de administrador</div>
     <input type="password" class="fi-text" id="admin-pass-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')loginAdmin()">
     <div id="admin-login-err"></div>
     <div class="modal-footer" style="border:none;padding:0;margin-top:4px;justify-content:flex-end">
@@ -1133,24 +826,17 @@ function renderAdminLogin(){
 }
 
 async function loginAdmin(){
-  const raw = document.getElementById('admin-pass-input').value;
-  const hash = await sha256(raw);
-  // Verificar contra el servidor cargando periodos (si responde ok el hash es correcto)
-  // Lo validamos en el primer upload; acá lo guardamos
-  adminPass = hash;
-  adminLogueado = true;
-  renderAdminPanel();
+  const raw=document.getElementById('admin-pass-input').value;
+  const hash=await sha256(raw);
+  adminPass=hash;adminLogueado=true;renderAdminPanel();
 }
 
 async function renderAdminPanel(){
   showLoading('Cargando panel…');
-  const res = await gas('getPeriodos').catch(e=>({periodos:[]}));
+  const res=await gas('getPeriodos').catch(e=>({periodos:[]}));
   hideLoading();
-  periodosDisponibles = res.periodos || [];
-
-  const periodos = [...new Set(periodosDisponibles.map(p=>p.periodo))].sort().reverse();
-  const curPeriodo = periodos[0] || '';
-
+  periodosDisponibles=res.periodos||[];
+  const periodos=[...new Set(periodosDisponibles.map(p=>p.periodo))].sort().reverse();
   document.getElementById('admin-body').innerHTML=`
     <div class="field-lbl">Zona</div>
     <select id="admin-zona" class="fi" style="width:100%;margin-bottom:14px;font-size:12px">
@@ -1160,7 +846,7 @@ async function renderAdminPanel(){
       <option value="Río Negro">Río Negro</option>
     </select>
     <div class="field-lbl">Período activo</div>
-    ${periodos.length ? `
+    ${periodos.length?`
     <div class="periodo-sel-row">
       <select class="fi-text" id="admin-periodo-sel" style="margin-bottom:0;flex:1" onchange="onCambiarPeriodo(this)">
         ${periodos.map(p=>'<option value="'+p+'">'+p+'</option>').join('')}
@@ -1171,16 +857,15 @@ async function renderAdminPanel(){
     <div id="admin-nuevo-periodo" style="display:none;margin-bottom:8px">
       <div class="field-lbl">Nombre del nuevo período</div>
       <input type="text" class="fi-text" id="admin-nuevo-periodo-txt" placeholder="ej: Abril 2026">
-    </div>` : `
+    </div>`:`
     <div style="margin-bottom:10px">
       <input type="text" class="fi-text" id="admin-nuevo-periodo-txt" placeholder="ej: Marzo 2026" style="margin-bottom:0">
-      <div style="font-size:10px;color:var(--text-dim);margin-top:4px">No hay períodos todavía. Escribí el nombre y subí los archivos.</div>
+      <div style="font-size:10px;color:var(--text-dim);margin-top:4px">No hay períodos todavía.</div>
     </div>`}
     <div class="field-lbl" style="margin-top:6px">Sucursales cargadas</div>
     <div class="suc-list" id="admin-suc-list"></div>
     <div style="font-size:10px;color:var(--text-dim);margin-bottom:6px;font-family:var(--mono);background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:7px 10px">
       <span style="color:var(--accent)">Formato esperado:</span> <span style="color:var(--text-mid)">050 Mar 26.xlsx</span>
-      &nbsp;·&nbsp; 3 dígitos sucursal · 3 letras mes · 2 dígitos año
     </div>
     <div class="upload-drop" id="admin-drop" onclick="document.getElementById('file-input-admin').click()">
       <div class="upload-drop-txt">📂 Arrastrá o hacé clic para subir archivos .xlsx</div>
@@ -1188,274 +873,124 @@ async function renderAdminPanel(){
     </div>
     <input type="file" id="file-input-admin" accept=".xlsx,.xls" multiple onchange="subirArchivos(event)">
     <div id="admin-upload-status"></div>`;
-
-  // Drag & drop admin
-  const drop = document.getElementById('admin-drop');
+  const drop=document.getElementById('admin-drop');
   drop.addEventListener('dragover',e=>{e.preventDefault();drop.classList.add('drag-over')});
   drop.addEventListener('dragleave',()=>drop.classList.remove('drag-over'));
   drop.addEventListener('drop',e=>{e.preventDefault();drop.classList.remove('drag-over');subirArchivosDesde([...e.dataTransfer.files])});
-
-  // Listener nuevo período (manejado por onCambiarPeriodo en el select)
-
   renderSucList();
 }
 
 function onCambiarPeriodo(sel){
-  const isNuevo = sel.value === '__nuevo__';
-  document.getElementById('admin-nuevo-periodo').style.display = isNuevo ? 'block' : 'none';
-  if(isNuevo){
-    setTimeout(()=>{const t=document.getElementById('admin-nuevo-periodo-txt');if(t)t.focus();},50);
-    document.getElementById('admin-suc-list').innerHTML='<div style="font-size:11px;color:var(--text-dim);padding:8px 0">Ingresá el nombre y subí los archivos.</div>';
-  } else {
-    renderSucList();
-  }
+  const isNuevo=sel.value==='__nuevo__';
+  document.getElementById('admin-nuevo-periodo').style.display=isNuevo?'block':'none';
+  if(isNuevo){setTimeout(()=>{const t=document.getElementById('admin-nuevo-periodo-txt');if(t)t.focus();},50);document.getElementById('admin-suc-list').innerHTML='<div style="font-size:11px;color:var(--text-dim);padding:8px 0">Ingresá el nombre y subí los archivos.</div>';}
+  else{renderSucList();}
 }
 
 function renderSucList(){
-  const periodo = getPeriodoAdmin();
-  const sucs = periodosDisponibles.filter(p=>p.periodo===periodo);
-  const el = document.getElementById('admin-suc-list');
+  const periodo=getPeriodoAdmin();
+  const sucs=periodosDisponibles.filter(p=>p.periodo===periodo);
+  const el=document.getElementById('admin-suc-list');
   if(!sucs.length){el.innerHTML=`<div style="font-size:11px;color:var(--text-dim);padding:8px 0">Sin sucursales cargadas para este período.</div>`;return;}
-  el.innerHTML=sucs.map(s=>`
-    <div class="suc-item">
-      <span class="si-cod">${s.sucCodigo}</span>
-      <span class="si-nom">${s.sucNombre}</span>
-      <span class="si-rows">${s.filas} filas</span>
-      <span class="si-fecha">${String(s.fechaCarga).substring(0,10)}</span>
-      <button class="si-del" title="Eliminar esta sucursal" onclick="borrarSucursal('${s.sucCodigo}','${s.sucNombre}')">✕</button>
-    </div>`).join('');
+  el.innerHTML=sucs.map(s=>`<div class="suc-item"><span class="si-cod">${s.sucCodigo}</span><span class="si-nom">${s.sucNombre}</span><span class="si-rows">${s.filas} filas</span><span class="si-fecha">${String(s.fechaCarga).substring(0,10)}</span><button class="si-del" title="Eliminar" onclick="borrarSucursal('${s.sucCodigo}','${s.sucNombre}')">✕</button></div>`).join('');
 }
 
 function getPeriodoAdmin(){
-  const sel = document.getElementById('admin-periodo-sel');
-  // Si no hay selector (primer uso, sin períodos) usar directo el input
-  if(!sel){
-    const txt = document.getElementById('admin-nuevo-periodo-txt');
-    return txt?txt.value.trim():'';
-  }
-  if(sel.value==='__nuevo__'){
-    const txt = document.getElementById('admin-nuevo-periodo-txt');
-    return txt?txt.value.trim():'';
-  }
+  const sel=document.getElementById('admin-periodo-sel');
+  if(!sel){const txt=document.getElementById('admin-nuevo-periodo-txt');return txt?txt.value.trim():'';}
+  if(sel.value==='__nuevo__'){const txt=document.getElementById('admin-nuevo-periodo-txt');return txt?txt.value.trim():'';}
   return sel.value;
 }
 
-async function subirArchivos(evt){
-  await subirArchivosDesde([...evt.target.files]);
-  evt.target.value='';
-}
+async function subirArchivos(evt){await subirArchivosDesde([...evt.target.files]);evt.target.value='';}
 
 async function subirArchivosDesde(files){
-  const xlsxFiles = files.filter(f=>f.name.match(/\.xlsx?$/i));
-  if(!xlsxFiles.length) return;
-  const periodo = getPeriodoAdmin();
+  const xlsxFiles=files.filter(f=>f.name.match(/\.xlsx?$/i));
+  if(!xlsxFiles.length)return;
+  const periodo=getPeriodoAdmin();
   if(!periodo){alert('Especificá el período antes de subir archivos.');return;}
-
-  const statusEl = document.getElementById('admin-upload-status');
-
-  // Estado de cada archivo: waiting / uploading / done / error / conflict
-  const estados = xlsxFiles.map(f=>({name:f.name.replace(/\.xlsx?$/i,''), state:'waiting', pct:0, info:'en espera'}));
-
+  const statusEl=document.getElementById('admin-upload-status');
+  const estados=xlsxFiles.map(f=>({name:f.name.replace(/\.xlsx?$/i,''),state:'waiting',pct:0,info:'en espera'}));
   function renderStatus(){
-    const done = estados.filter(e=>e.state==='done'||e.state==='error').length;
-    const total = estados.length;
-    const overallPct = Math.round(done/total*100);
-    const activo = estados.find(e=>e.state==='uploading');
-    const conflicto = estados.find((e,i)=>e.state==='conflict' && i===estados.findIndex(x=>x.state==='conflict'));
-
-    let html = `<div style="margin-top:8px">`;
-
-    // Barra global
-    html += `<div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-bottom:4px">
-      <span>${total} archivo${total>1?'s':''}</span>
-      <span>${overallPct}% completado</span>
-    </div>
-    <div style="height:4px;background:var(--border);border-radius:99px;overflow:hidden;margin-bottom:10px">
-      <div style="height:100%;width:${overallPct}%;background:var(--accent2);border-radius:99px;transition:width .4s"></div>
-    </div>`;
-
-    // Archivo activo
-    if(activo){
-      html += `<div style="font-family:var(--mono);font-size:11px;color:var(--text);margin-bottom:4px">
-        <span style="color:var(--accent)">↑</span> ${activo.name}
-      </div>
-      <div style="height:3px;background:var(--border);border-radius:99px;overflow:hidden;margin-bottom:6px">
-        <div style="height:100%;width:${activo.pct}%;background:var(--accent);border-radius:99px;transition:width .3s"></div>
-      </div>
-      <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-bottom:8px">${activo.info}</div>`;
-    }
-
-    // Conflicto
-    if(conflicto){
-      const ci = estados.indexOf(conflicto);
-      html += `<div style="background:rgba(240,165,0,.1);border:1px solid var(--accent);border-radius:6px;padding:10px;margin-bottom:8px">
-        <div style="font-size:11px;color:var(--accent);margin-bottom:6px">⚠ <b>${conflicto.name}</b> ya existe</div>
-        <div style="display:flex;gap:6px">
-          <button onclick="window._resolveConflict(${ci},true)" style="flex:1;background:var(--accent3);color:#fff;border:none;border-radius:4px;padding:6px;font-family:var(--mono);font-size:11px;font-weight:600;cursor:pointer">Reemplazar</button>
-          <button onclick="window._resolveConflict(${ci},false)" style="flex:1;background:var(--surface2);color:var(--text-dim);border:1px solid var(--border2);border-radius:4px;padding:6px;font-family:var(--mono);font-size:11px;cursor:pointer">Saltar</button>
-        </div>
-      </div>`;
-    }
-
-    // Lista de estados
-    html += estados.map(e=>{
-      const icon = e.state==='done'?'<span style="color:var(--accent2)">✓</span>'
-        : e.state==='error'?'<span style="color:var(--accent3)">✗</span>'
-        : e.state==='uploading'?'<span style="color:var(--accent)">↑</span>'
-        : e.state==='conflict'?'<span style="color:var(--accent)">!</span>'
-        : '<span style="color:var(--text-dim)">○</span>';
-      const nameColor = e.state==='done'?'color:var(--text-dim)':'color:var(--text)';
-      return `<div style="display:flex;align-items:center;gap:8px;padding:3px 0;font-size:11px">
-        ${icon}
-        <span style="flex:1;font-family:var(--mono);${nameColor};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${e.name}</span>
-        <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim)">${e.info}</span>
-      </div>`;
-    }).join('');
-
-    html += `</div>`;
-    if(statusEl) statusEl.innerHTML = html;
+    const done=estados.filter(e=>e.state==='done'||e.state==='error').length;
+    const total=estados.length;
+    const overallPct=Math.round(done/total*100);
+    const activo=estados.find(e=>e.state==='uploading');
+    const conflicto=estados.find((e,i)=>e.state==='conflict'&&i===estados.findIndex(x=>x.state==='conflict'));
+    let html=`<div style="margin-top:8px">`;
+    html+=`<div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-bottom:4px"><span>${total} archivo${total>1?'s':''}</span><span>${overallPct}% completado</span></div>
+    <div style="height:4px;background:var(--border);border-radius:99px;overflow:hidden;margin-bottom:10px"><div style="height:100%;width:${overallPct}%;background:var(--accent2);border-radius:99px;transition:width .4s"></div></div>`;
+    if(activo){html+=`<div style="font-family:var(--mono);font-size:11px;color:var(--text);margin-bottom:4px"><span style="color:var(--accent)">↑</span> ${activo.name}</div><div style="height:3px;background:var(--border);border-radius:99px;overflow:hidden;margin-bottom:6px"><div style="height:100%;width:${activo.pct}%;background:var(--accent);border-radius:99px;transition:width .3s"></div></div><div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-bottom:8px">${activo.info}</div>`;}
+    if(conflicto){const ci=estados.indexOf(conflicto);html+=`<div style="background:rgba(240,165,0,.1);border:1px solid var(--accent);border-radius:6px;padding:10px;margin-bottom:8px"><div style="font-size:11px;color:var(--accent);margin-bottom:6px">⚠ <b>${conflicto.name}</b> ya existe</div><div style="display:flex;gap:6px"><button onclick="window._resolveConflict(${ci},true)" style="flex:1;background:var(--accent3);color:#fff;border:none;border-radius:4px;padding:6px;font-family:var(--mono);font-size:11px;font-weight:600;cursor:pointer">Reemplazar</button><button onclick="window._resolveConflict(${ci},false)" style="flex:1;background:var(--surface2);color:var(--text-dim);border:1px solid var(--border2);border-radius:4px;padding:6px;font-family:var(--mono);font-size:11px;cursor:pointer">Saltar</button></div></div>`;}
+    html+=estados.map(e=>{const icon=e.state==='done'?'<span style="color:var(--accent2)">✓</span>':e.state==='error'?'<span style="color:var(--accent3)">✗</span>':e.state==='uploading'?'<span style="color:var(--accent)">↑</span>':e.state==='conflict'?'<span style="color:var(--accent)">!</span>':'<span style="color:var(--text-dim)">○</span>';const nameColor=e.state==='done'?'color:var(--text-dim)':'color:var(--text)';return `<div style="display:flex;align-items:center;gap:8px;padding:3px 0;font-size:11px">${icon}<span style="flex:1;font-family:var(--mono);${nameColor};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${e.name}</span><span style="font-family:var(--mono);font-size:10px;color:var(--text-dim)">${e.info}</span></div>`;}).join('');
+    html+=`</div>`;if(statusEl)statusEl.innerHTML=html;
   }
-
   renderStatus();
-
-  for(let _fi=0; _fi<xlsxFiles.length; _fi++){
-    const f = xlsxFiles[_fi];
-    const fmtOk = /^\d{3}\s+[A-Za-z]{3}\s+\d{2}(\s.*)?(\.(xlsx?))$/i.test(f.name);
-
-    estados[_fi].state = 'uploading';
-    estados[_fi].pct = 0;
-    estados[_fi].info = '0%';
-    renderStatus();
-    showLoading(`Subiendo sucursal ${_fi+1} de ${xlsxFiles.length}…`);
-
-    try {
-      const filas = await leerXlsx(f);
-      if(!filas.length){
-        estados[_fi].state='error';
-        estados[_fi].info='Sin filas válidas';
-        renderStatus(); continue;
-      }
-      const sucCodigo = filas[0].sucCodigo;
-      const sucNombre = filas[0].sucNombre;
-
-      // Verificar si ya existe
-      const checkRes = await gas('uploadData',{pass:adminPass,periodo,sucCodigo,sucNombre,replace:false,rows:[]});
+  for(let _fi=0;_fi<xlsxFiles.length;_fi++){
+    const f=xlsxFiles[_fi];
+    estados[_fi].state='uploading';estados[_fi].pct=0;estados[_fi].info='0%';
+    renderStatus();showLoading(`Subiendo sucursal ${_fi+1} de ${xlsxFiles.length}…`);
+    try{
+      const filas=await leerXlsx(f);
+      if(!filas.length){estados[_fi].state='error';estados[_fi].info='Sin filas válidas';renderStatus();continue;}
+      const sucCodigo=filas[0].sucCodigo,sucNombre=filas[0].sucNombre;
+      const checkRes=await gas('uploadData',{pass:adminPass,periodo,sucCodigo,sucNombre,replace:false,rows:[]});
       if(!checkRes.ok){
         if(checkRes.error==='YA_EXISTE'){
           estados[_fi].state='conflict';
-          const conflictIdx = _fi;
-          const reemplazar = await new Promise(resolve=>{
-            window._resolveConflict=(idx,val)=>{ if(idx===conflictIdx) resolve(val); };
-            renderStatus(); // renderizar después de setear el handler
-          });
-          if(!reemplazar){
-            estados[_fi].state='done';
-            estados[_fi].info='saltado';
-            renderStatus(); continue;
-          }
-        } else if(checkRes.error==='Contraseña incorrecta'){
-          alert('Contraseña incorrecta.'); hideLoading(); return;
-        }
+          const conflictIdx=_fi;
+          const reemplazar=await new Promise(resolve=>{window._resolveConflict=(idx,val)=>{if(idx===conflictIdx)resolve(val);};renderStatus();});
+          if(!reemplazar){estados[_fi].state='done';estados[_fi].info='saltado';renderStatus();continue;}
+        }else if(checkRes.error==='Contraseña incorrecta'){alert('Contraseña incorrecta.');hideLoading();return;}
       }
-
-      // Subir en chunks
-      const CHUNK=500, total=filas.length;
-      const zona = getZonaAdmin();
-      let errorChunk=false;
+      const CHUNK=500,total=filas.length;
+      const zona=getZonaAdmin();let errorChunk=false;
       estados[_fi].state='uploading';
       for(let ci=0;ci<total;ci+=CHUNK){
-        const chunk=filas.slice(ci,ci+CHUNK);
-        const isFirst=ci===0;
+        const chunk=filas.slice(ci,ci+CHUNK);const isFirst=ci===0;
         const pct=Math.min(100,Math.round((ci+chunk.length)/total*100));
-        estados[_fi].pct=pct;
-        estados[_fi].info=`${(ci+chunk.length).toLocaleString('es-AR')} / ${total.toLocaleString('es-AR')}`;
+        estados[_fi].pct=pct;estados[_fi].info=`${(ci+chunk.length).toLocaleString('es-AR')} / ${total.toLocaleString('es-AR')}`;
         renderStatus();
         const res=await gas('uploadData',{pass:adminPass,periodo,sucCodigo,sucNombre,zona,replace:isFirst,isChunk:!isFirst,rows:chunk});
-        if(!res.ok){
-          estados[_fi].state='error';
-          estados[_fi].info=res.error;
-          renderStatus(); errorChunk=true; break;
-        }
+        if(!res.ok){estados[_fi].state='error';estados[_fi].info=res.error;renderStatus();errorChunk=true;break;}
       }
-      if(errorChunk) continue;
-      estados[_fi].state='done';
-      estados[_fi].info=`${total.toLocaleString('es-AR')} filas`;
-      renderStatus();
-
-    } catch(err){
-      estados[_fi].state='error';
-      estados[_fi].info=err.message;
-      renderStatus();
-    }
+      if(errorChunk)continue;
+      estados[_fi].state='done';estados[_fi].info=`${total.toLocaleString('es-AR')} filas`;renderStatus();
+    }catch(err){estados[_fi].state='error';estados[_fi].info=err.message;renderStatus();}
     hideLoading();
   }
-
-  // Refrescar lista de sucursales
-  const res2 = await gas('getPeriodos').catch(()=>({periodos:[]}));
-  periodosDisponibles = res2.periodos||[];
-  renderSucList();
-
-  const hayExitos = estados.some(e=>e.state==='done'&&e.info!=='saltado');
-  setTimeout(async()=>{
-    
-    cerrarAdmin();
-    if(hayExitos){
-      if(document.getElementById('app').style.display!=='none'){
-        await recargarDatos();
-      } else {
-        await iniciar();
-      }
-    }
-  }, hayExitos ? 1500 : 500);
+  const res2=await gas('getPeriodos').catch(()=>({periodos:[]}));
+  periodosDisponibles=res2.periodos||[];renderSucList();
+  const hayExitos=estados.some(e=>e.state==='done'&&e.info!=='saltado');
+  setTimeout(async()=>{cerrarAdmin();if(hayExitos){if(document.getElementById('app').style.display!=='none'){await recargarDatos();}else{await iniciar();}}},hayExitos?1500:500);
 }
 
-
-async function borrarSucursal(cod, nom){
-  const periodo = getPeriodoAdmin();
-  if(!confirm(`¿Borrar los datos de ${cod} — ${nom} del período ${periodo}?`)) return;
-
-  // Mostrar progreso en el panel Admin
-  const statusEl = document.getElementById('admin-upload-status');
-  if(statusEl) statusEl.innerHTML = `
-    <div style="display:flex;align-items:center;gap:10px;padding:10px 0;font-family:var(--mono);font-size:12px">
-      <div style="width:14px;height:14px;border:2px solid var(--border2);border-top-color:var(--accent3);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0"></div>
-      <span style="color:var(--text)">Eliminando <b>${cod} — ${nom}</b>…</span>
-    </div>`;
-
+async function borrarSucursal(cod,nom){
+  const periodo=getPeriodoAdmin();
+  if(!confirm(`¿Borrar los datos de ${cod} — ${nom} del período ${periodo}?`))return;
+  const statusEl=document.getElementById('admin-upload-status');
+  if(statusEl)statusEl.innerHTML=`<div style="display:flex;align-items:center;gap:10px;padding:10px 0;font-family:var(--mono);font-size:12px"><div style="width:14px;height:14px;border:2px solid var(--border2);border-top-color:var(--accent3);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0"></div><span style="color:var(--text)">Eliminando <b>${cod} — ${nom}</b>…</span></div>`;
   showLoading(`Eliminando ${cod} — ${nom}…`);
-  const res = await gas('clearSucursal',{pass:adminPass,periodo,sucCodigo:cod});
-  hideLoading();
-
-  if(statusEl) statusEl.innerHTML = res.ok
-    ? `<div style="font-family:var(--mono);font-size:12px;color:var(--accent2);padding:8px 0">✓ ${cod} — ${nom} eliminado correctamente</div>`
-    : `<div style="font-family:var(--mono);font-size:12px;color:var(--accent3);padding:8px 0">✗ Error: ${res.error}</div>`;
+  const res=await gas('clearSucursal',{pass:adminPass,periodo,sucCodigo:cod});hideLoading();
+  if(statusEl)statusEl.innerHTML=res.ok?`<div style="font-family:var(--mono);font-size:12px;color:var(--accent2);padding:8px 0">✓ ${cod} — ${nom} eliminado correctamente</div>`:`<div style="font-family:var(--mono);font-size:12px;color:var(--accent3);padding:8px 0">✗ Error: ${res.error}</div>`;
   if(!res.ok){alert('Error: '+res.error);return;}
-  const res2 = await gas('getPeriodos').catch(()=>({periodos:[]}));
-  periodosDisponibles = res2.periodos||[];
-  renderSucList();
+  const res2=await gas('getPeriodos').catch(()=>({periodos:[]}));
+  periodosDisponibles=res2.periodos||[];renderSucList();
 }
 
 async function confirmarBorrarPeriodo(){
-  const periodo = getPeriodoAdmin();
-  if(!periodo) return;
-  if(!confirm(`¿Borrar TODOS los datos del período "${periodo}"? Esta acción no se puede deshacer.`)) return;
+  const periodo=getPeriodoAdmin();if(!periodo)return;
+  if(!confirm(`¿Borrar TODOS los datos del período "${periodo}"?`))return;
   showLoading('Eliminando período…');
-  const res = await gas('clearPeriodo',{pass:adminPass,periodo});
-  hideLoading();
+  const res=await gas('clearPeriodo',{pass:adminPass,periodo});hideLoading();
   if(!res.ok){alert('Error: '+res.error);return;}
   alert(`Período "${periodo}" eliminado.`);
-  const res2 = await gas('getPeriodos').catch(()=>({periodos:[]}));
-  periodosDisponibles = res2.periodos||[];
-  cerrarAdmin();
-  // Volver al splash
-  document.getElementById('app').style.display='none';
-  document.getElementById('btn-export').style.display='none';
-  document.getElementById('periodo-badge').style.display='none';
-  document.getElementById('splash').style.display='flex';
-  renderSplash();
+  const res2=await gas('getPeriodos').catch(()=>({periodos:[]}));
+  periodosDisponibles=res2.periodos||[];cerrarAdmin();
+  document.getElementById('app').style.display='none';document.getElementById('btn-export').style.display='none';
+  document.getElementById('periodo-badge').style.display='none';document.getElementById('splash').style.display='flex';renderSplash();
 }
 
-// ══ PARSEO XLSX ════════════════════════════════════════════
 function leerXlsx(file){
   return new Promise((resolve,reject)=>{
     const reader=new FileReader();
@@ -1467,8 +1002,7 @@ function leerXlsx(file){
         resolve(parsearDetalle(rows,file.name));
       }catch(err){reject(err);}
     };
-    reader.onerror=reject;
-    reader.readAsArrayBuffer(file);
+    reader.onerror=reject;reader.readAsArrayBuffer(file);
   });
 }
 
@@ -1478,7 +1012,7 @@ function parsearDetalle(rows,fileName){
   if(hi<0)return[];
   const hdr=rows[hi];
   const ci=name=>hdr.findIndex(h=>String(h).trim().includes(name.trim()));
-  const C={nro:ci('N° Emple'),nombre:ci('Nombre'),fecha:ci('Fecha'),dia:ci('Día'),phtd:ci('PHTD'),horTeo:ci('Horario Teórico'),cantHs:ci('Cant. Hor'),entTeo:ci('Entrada Teórica'),salTeo:ci('Salida Teórica'),horaEnt:ci('Hora Entrada'),horaSal:ci('Hora Salida'),tardanza:ci('Llegada Tarde'),codAuse:ci('Cod.Ause'),ausentismo:ci('Ausentismo'),suplencia:ci('Suplencia'),subDiv:ci('Sub-División'),textoSubDiv:ci('Texto Sub-División'),centCost:ci('Cent.Cost'),c0090:ci('0090'),c0091:ci('0091'),c014A:ci('014A'),c014B:ci('014B'),c014C:ci('014C'),c014D:ci('014D'),c0155:ci('0155'),c0100:ci('0100'),c0120:ci('0120'),c7120:ci('7120'),c8120:ci('8120'),c9IMP:ci('9IMP'),c9LLT:ci('9LLT'),c9SAN:ci('9SAN')};
+  const C={nro:ci('N° Emple'),nombre:ci('Nombre'),fecha:ci('Fecha'),dia:ci('Día'),phtd:ci('PHTD'),horTeo:ci('Horario Teórico'),cantHs:ci('Cant. Hor'),entTeo:ci('Entrada Teórica'),salTeo:ci('Salida Teórica'),horaEnt:ci('Hora Entrada'),horaSal:ci('Hora Salida'),tardanza:ci('Llegada Tarde'),codAuse:ci('Cod.Ause'),ausentismo:ci('Ausentismo'),suplencia:ci('Suplencia'),subDiv:ci('Sub-División'),textoSubDiv:ci('Texto Sub-División'),centCost:ci('Cent.Cost'),c0090:ci('0090'),c0091:ci('0091'),c014A:ci('014A'),c014B:ci('014B'),c014C:ci('014C'),c014D:ci('014D'),c0155:ci('0155'),c0100:ci('0100'),c0120:ci('0120'),c7120:ci('7120'),c8120:ci('8120'),c9IMPHS:ci('9IMPHS'),c9LLTHS:ci('9LLTHS'),c9SAN:ci('9SAN')};
   const match=fileName.match(/^(\d+)[\s_-]/);const sucFallback=match?match[1].padStart(4,'0'):fileName.replace(/\.xlsx?$/i,'');
   const get=(r,c)=>c>=0?String(r[c]||'').trim():'';const getN=(r,c)=>c>=0?(parseFloat(r[c])||0):0;
   const filas=[];
@@ -1490,56 +1024,49 @@ function parsearDetalle(rows,fileName){
       c014A:getN(r,C.c014A),c014B:getN(r,C.c014B),c014C:getN(r,C.c014C),c014D:getN(r,C.c014D),
       c0155:getN(r,C.c0155),c0100:getN(r,C.c0100),c0120:getN(r,C.c0120),
       c7120:getN(r,C.c7120),c8120:getN(r,C.c8120),
-      c9IMP:getN(r,C.c9IMP),c9LLT:getN(r,C.c9LLT),c9SAN:getN(r,C.c9SAN)});
+      c9IMPHS:get(r,C.c9IMPHS),c9LLTHS:get(r,C.c9LLTHS),c9SAN:getN(r,C.c9SAN)});
   }
   return filas;
 }
 
-// ══ RESUMEN ════════════════════════════════════════════════
 function applyResumen(){
   pageRes=1;
   const q=document.getElementById('rs').value.toLowerCase();
   const suc=document.getElementById('r-suc').value;
   const multiSuc=!suc;
   filtRes=allResumen.filter(r=>{if(suc&&r.sucCodigo!==suc)return false;if(q&&!(r.nro.includes(q)||r.nombre.toLowerCase().includes(q)))return false;return true;});
-  filtRes.sort((a,b)=>(b.c0100-a.c0100)||(b.c0120-a.c0120)||(b.aus-a.aus)||(b.sup-a.sup)||(b.tardHs-a.tardHs)||(b.c9SAN-a.c9SAN));
-  const tAus=filtRes.reduce((s,r)=>s+r.aus,0),tSup=filtRes.reduce((s,r)=>s+r.sup,0),tTard=filtRes.reduce((s,r)=>s+(r.tardHs||r.c9LLT||0),0),tExt=filtRes.reduce((s,r)=>s+r.c7120,0),tDom=filtRes.reduce((s,r)=>s+r.c0091,0),t50=filtRes.reduce((s,r)=>s+r.c0100,0),t100=filtRes.reduce((s,r)=>s+r.c0120,0);
-  document.getElementById('kpis').innerHTML=`<div class="kpi"><div class="kv cy">${filtRes.length}</div><div class="kl">Empleados</div></div><div class="kpi"><div class="kv" style="color:#e87d30">${fh(t50)}</div><div class="kl">FT 0100</div></div><div class="kpi"><div class="kv cr">${fh(t100)}</div><div class="kl">FT 0120</div></div><div class="kpi"><div class="kv cr">${tAus}</div><div class="kl">Días ausentes</div></div><div class="kpi"><div class="kv cg">${tSup}</div><div class="kl">Suplencias</div></div><div class="kpi"><div class="kv" style="color:var(--accent)">${fh(tTard)}</div><div class="kl">9LLT</div></div><div class="kpi"><div class="kv cp">${fh(tExt)}</div><div class="kl">7120</div></div><div class="kpi"><div class="kv cb">${fh(tDom)}</div><div class="kl">PT 0091</div></div>`;
+  filtRes.sort((a,b)=>(b.c0100-a.c0100)||(b.c0120-a.c0120)||(b.aus-a.aus)||(b.sup-a.sup)||(hmToH(b.c9LLTHS||'00:00')-hmToH(a.c9LLTHS||'00:00'))||(b.c9SAN-a.c9SAN));
+  const tAus=filtRes.reduce((s,r)=>s+r.aus,0),tSup=filtRes.reduce((s,r)=>s+r.sup,0);
+  const tTardH=filtRes.reduce((s,r)=>s+hmToH(r.c9LLTHS||'00:00'),0);
+  const tTardStr=(()=>{const h=Math.floor(tTardH),mm=Math.round((tTardH-h)*60);return String(h).padStart(2,'0')+':'+String(mm).padStart(2,'0');})();
+  const tExt=filtRes.reduce((s,r)=>s+r.c7120,0),tDom=filtRes.reduce((s,r)=>s+r.c0091,0),t50=filtRes.reduce((s,r)=>s+r.c0100,0),t100=filtRes.reduce((s,r)=>s+r.c0120,0);
+  document.getElementById('kpis').innerHTML=`<div class="kpi"><div class="kv cy">${filtRes.length}</div><div class="kl">Empleados</div></div><div class="kpi"><div class="kv" style="color:#e87d30">${fh(t50)}</div><div class="kl">FT 0100</div></div><div class="kpi"><div class="kv cr">${fh(t100)}</div><div class="kl">FT 0120</div></div><div class="kpi"><div class="kv cr">${tAus}</div><div class="kl">Días ausentes</div></div><div class="kpi"><div class="kv cg">${tSup}</div><div class="kl">Suplencias</div></div><div class="kpi"><div class="kv" style="color:var(--accent)">${tTardStr}</div><div class="kl">9LLTHS</div></div><div class="kpi"><div class="kv cp">${fh(tExt)}</div><div class="kl">7120</div></div><div class="kpi"><div class="kv cb">${fh(tDom)}</div><div class="kl">PT 0091</div></div>`;
   renderEncabezadoResumen(multiSuc);renderResumenPage(multiSuc);renderRankings();
 }
 
 function renderEncabezadoResumen(ms){
-  document.getElementById('r-thead').innerHTML=`<th class="th-mo">N° Emple.</th><th class="th-tn">Nombre</th>${ms?'<th class="th-ts">Sucursal / Zona</th>':''}<th>Cant. Horas</th><th>Hs. Norm. PT 0090</th><th>Hs. Feriado PT 0091</th><th>Hs. Sáb FT 014A</th><th>Hs. Dom FT 014B</th><th>Hs. Sáb PT 014C</th><th>Hs. Acu. Dom FT 0155</th><th>Hs. al 50 FT 0100</th><th>Hs. al 100 FT 0120</th><th>Hs. Extras 7120</th><th>8120</th><th>Hs. Improduct. 9IMP</th><th>Llegadas Tarde 9LLT</th><th>Sal. Anticipada 9SAN</th><th>Ausentismo</th><th>Suplencia</th>`;
+  document.getElementById('r-thead').innerHTML=`<th class="th-mo">N° Emple.</th><th class="th-tn">Nombre</th>${ms?'<th class="th-ts">Sucursal / Zona</th>':''}<th>Cant. Horas</th><th>Hs. Norm. PT 0090</th><th>Hs. Feriado PT 0091</th><th>Hs. Sáb FT 014A</th><th>Hs. Dom FT 014B</th><th>Hs. Sáb PT 014C</th><th>Hs. Acu. Dom FT 0155</th><th>Hs. al 50 FT 0100</th><th>Hs. al 100 FT 0120</th><th>Hs. Extras 7120</th><th>HS. FIN DE SEMANA 8120</th><th>Hs. Improduct. 9IMPHS</th><th>Llegadas Tarde 9LLTHS</th><th>Sal. Anticipada 9SAN</th><th>Ausentismo</th><th>Suplencia</th>`;
 }
 
 function renderResumenPage(ms){
   if(ms===undefined)ms=!document.getElementById('r-suc').value;
-
-  // Definir semáforos al inicio — evita errores si filtRes está vacío
-  // Semáforo basado en promedio por columna
   const mkSem=(key,base)=>{
-    const vals = filtRes.map(r=>r[key]||0).filter(v=>v>0);
-    if(!vals.length) return ()=>base;
-    const avg = vals.reduce((s,v)=>s+v,0) / vals.length;
-    const tRojo   = avg * 2;  // más del doble del promedio → rojo
-    const tNaranja = avg;      // entre promedio y doble → naranja
-    return v => v > 0
-      ? (v >= tRojo   ? 'tard-red'
-       : v >= tNaranja ? 'tard-orange'
-       : 'tard-yellow')
-      : base;
+    const vals=filtRes.map(r=>r[key]||0).filter(v=>v>0);
+    if(!vals.length)return ()=>base;
+    const avg=vals.reduce((s,v)=>s+v,0)/vals.length;
+    const tRojo=avg*2,tNaranja=avg;
+    return v=>v>0?(v>=tRojo?'tard-red':v>=tNaranja?'tard-orange':'tard-yellow'):base;
   };
+  const mkSemHM=(_k,base)=>v=>{const mins=hmToH(v||'00:00')*60;if(mins===0)return base;if(mins>=20)return 'tard-red';if(mins>=10)return 'tard-orange';return 'tard-yellow';};
   const tc0090=mkSem('c0090','nr'),tc0091=mkSem('c0091','hb'),tc014A=mkSem('c014A','nr');
   const tc014B=mkSem('c014B','nr'),tc014C=mkSem('c014C','nr'),tc0155=mkSem('c0155','nr');
   const tc100=mkSem('c0100','hy'),tc120=mkSem('c0120','hr'),tc7120=mkSem('c7120','hp');
-  const tc8120=mkSem('c8120','nr'),tc9IMP=mkSem('c9IMP','nr');
-  const tcTard=mkSem('c9LLT','nr'),tc9SAN=mkSem('c9SAN','hb');
-
+  const tc8120=mkSem('c8120','nr'),tc9SAN=mkSem('c9SAN','hb');
+  const tc9IMP=mkSemHM('c9IMPHS','nr'),tcTard=mkSemHM('c9LLTHS','nr');
   const body=document.getElementById('r-body');
   if(!filtRes.length){body.innerHTML=`<tr><td colspan="20"><div class="empty"><div class="empty-icon">🔎</div>Sin resultados</div></td></tr>`;return;}
-
-  const fh = v => v ? v.toLocaleString('es-AR',{minimumFractionDigits:0,maximumFractionDigits:2}) : '—';
-  const page = filtRes.slice((pageRes-1)*PR, pageRes*PR);
+  const fh=v=>v?v.toLocaleString('es-AR',{minimumFractionDigits:0,maximumFractionDigits:2}):'—';
+  const page=filtRes.slice((pageRes-1)*PR,pageRes*PR);
   body.innerHTML=page.map(r=>`<tr>
     <td class="mo">${r.nro}</td>
     <td class="tn">${r.nombre}</td>
@@ -1555,105 +1082,45 @@ function renderResumenPage(ms){
     <td class="${tc120(r.c0120||0)}">${r.c0120>0?fh(r.c0120):'—'}</td>
     <td class="${tc7120(r.c7120||0)}">${r.c7120>0?fh(r.c7120):'—'}</td>
     <td class="${tc8120(r.c8120||0)}">${(r.c8120||0)>0?fh(r.c8120):'—'}</td>
-    <td class="${tc9IMP(r.c9IMP||0)}">${r.c9IMP>0?fh(r.c9IMP):'—'}</td>
-    <td class="${tcTard(r.c9LLT||0)}">${r.c9LLT>0?fh(r.c9LLT):'—'}</td>
+    <td class="${tc9IMP(r.c9IMPHS||'00:00')}">${fhm(r.c9IMPHS)}</td>
+    <td class="${tcTard(r.c9LLTHS||'00:00')}">${fhm(r.c9LLTHS)}</td>
     <td class="${tc9SAN(r.c9SAN||0)}">${r.c9SAN>0?fh(r.c9SAN):'—'}</td>
     <td class="${r.aus>0?'hr':'nr'}">${r.aus||'—'}</td>
     <td class="${r.sup>0?'hg':'nr'}">${r.sup||'—'}</td>
   </tr>`).join('');
 }
 
-// ══ RANKINGS ══════════════════════════════════════════════
-const RANK_DEFS=[{key:'c0100',label:'Top 10 — Hs. al 50 FT 0100',color:'#e87d30'},{key:'c0120',label:'Top 10 — Hs. al 100 FT 0120',color:'#f05252'},{key:'aus',label:'Top 10 — Ausentismo',color:'#f05252'},{key:'sup',label:'Top 10 — Suplencias',color:'#3ecf8e'},{key:'tardHs',label:'Top 10 — Llegadas Tarde 9LLT',color:'#f0a500'},{key:'c9SAN',label:'Top 10 — Sal. Anticipada 9SAN',color:'#4d9de0'}];
-
-function syncTableWidths(){
-  const main = document.getElementById('r-main-table');
-  const foot = document.getElementById('r-foot-table');
-  if(!main || !foot) return;
-
-  // Usar colgroup para forzar anchos iguales en ambas tablas
-  const ths = Array.from(main.querySelectorAll('thead th'));
-  if(!ths.length) return;
-
-  // Eliminar colgroups anteriores
-  main.querySelectorAll('colgroup').forEach(c=>c.remove());
-  foot.querySelectorAll('colgroup').forEach(c=>c.remove());
-
-  const widths = ths.map(th => th.getBoundingClientRect().width);
-
-  // Crear colgroup en tabla principal
-  const cgMain = document.createElement('colgroup');
-  widths.forEach(w => {
-    const col = document.createElement('col');
-    col.style.width = w + 'px';
-    cgMain.appendChild(col);
-  });
-  main.prepend(cgMain);
-
-  // Crear colgroup en tabla de totales
-  const cgFoot = document.createElement('colgroup');
-  widths.forEach(w => {
-    const col = document.createElement('col');
-    col.style.width = w + 'px';
-    cgFoot.appendChild(col);
-  });
-  foot.prepend(cgFoot);
-
-  // Sincronizar scroll horizontal (una sola vez)
-  const mainDiv = main.parentElement;
-  const footDiv = foot.parentElement;
-  if(mainDiv && footDiv && !mainDiv._syncSet){
-    mainDiv._syncSet = true;
-    mainDiv.addEventListener('scroll', () => { footDiv.scrollLeft = mainDiv.scrollLeft; }, {passive:true});
-    footDiv.addEventListener('scroll', () => { mainDiv.scrollLeft = footDiv.scrollLeft; }, {passive:true});
-  }
-}
+const RANK_DEFS=[
+  {key:'c0100',label:'Top 10 — Hs. al 50 FT 0100',color:'#e87d30'},
+  {key:'c0120',label:'Top 10 — Hs. al 100 FT 0120',color:'#f05252'},
+  {key:'aus',label:'Top 10 — Ausentismo',color:'#f05252'},
+  {key:'sup',label:'Top 10 — Suplencias',color:'#3ecf8e'},
+  {key:'c9LLTHS',label:'Top 10 — Llegadas Tarde 9LLTHS',color:'#f0a500',isHM:true},
+  {key:'c9SAN',label:'Top 10 — Sal. Anticipada 9SAN',color:'#4d9de0'}
+];
 
 function renderRankings(){
   const wrap=document.getElementById('rankings-wrap');
   if(!filtRes.length){wrap.innerHTML='';return;}
   wrap.innerHTML=RANK_DEFS.map(def=>{
-    const sorted=[...filtRes].sort((a,b)=>b[def.key]-a[def.key]).filter(r=>r[def.key]>0).slice(0,10);
+    const sorted=[...filtRes].sort((a,b)=>{
+      const va=def.isHM?hmToH(a[def.key]||'00:00'):(a[def.key]||0);
+      const vb=def.isHM?hmToH(b[def.key]||'00:00'):(b[def.key]||0);
+      return vb-va;
+    }).filter(r=>def.isHM?hmToH(r[def.key]||'00:00')>0:(r[def.key]||0)>0).slice(0,10);
     if(!sorted.length)return`<div class="ranking-block"><div class="rank-title"><div class="rank-dot" style="background:${def.color}"></div><span style="color:${def.color}">${def.label}</span></div><div style="font-size:10px;color:var(--text-dim);padding:4px 0">Sin datos</div></div>`;
-    return`<div class="ranking-block"><div class="rank-title"><div class="rank-dot" style="background:${def.color}"></div><span style="color:${def.color}">${def.label}</span></div>${sorted.map((r,i)=>`<div class="rank-row"><span class="rank-pos">${i+1}</span><span class="rank-name" title="${r.nombre}">${r.nombre.replace(/^(Sr\.|Sra\.|Srta\.) /,'')}</span><span class="rank-val" style="color:${def.color}">${fh(r[def.key])}</span></div>`).join('')}</div>`;
+    return`<div class="ranking-block"><div class="rank-title"><div class="rank-dot" style="background:${def.color}"></div><span style="color:${def.color}">${def.label}</span></div>${sorted.map((r,i)=>`<div class="rank-row"><span class="rank-pos">${i+1}</span><span class="rank-name" title="${r.nombre}">${r.nombre.replace(/^(Sr\.|Sra\.|Srta\.) /,'')}</span><span class="rank-val" style="color:${def.color}">${def.isHM?fhm(r[def.key]):fh(r[def.key])}</span></div>`).join('')}</div>`;
   }).join('');
 }
 
-// ══ DETALLE ════════════════════════════════════════════════
-function applyDetalle(){
-  if(!document.getElementById('d-suc')) return; // tab detalle eliminado
-  pageDet=1;
-  const q=document.getElementById('ds').value.toLowerCase();
-  const suc=document.getElementById('d-suc').value;
+function applyDetalle(){if(!document.getElementById('d-suc'))return;}
+function renderDetallePage(){}
 
-  const tipo=document.getElementById('d-tipo').value;
-  filtDet=allDetalle.filter(r=>{
-    if(suc&&r.sucCodigo!==suc)return false;if(dia&&r.dia.trim()!==dia.trim())return false;
-    if(tipo==='aus'&&!r.ausentismo)return false;if(tipo==='tard'&&(!r.tardanza||r.tardanza==='00:00'))return false;
-    if(tipo==='san'&&r.c9SAN<=0)return false;if(tipo==='ext'&&r.c7120<=0)return false;if(tipo==='dom'&&r.c0091<=0)return false;
-    if(q){const hay=r.nro+' '+r.nombre.toLowerCase()+' '+r.ausentismo.toLowerCase();if(!hay.includes(q))return false;}
-    return true;
-  });
-  const cAus=filtDet.filter(r=>r.ausentismo).length,cTard=filtDet.filter(r=>r.tardanza&&r.tardanza!=='00:00').length,tExt=filtDet.reduce((s,r)=>s+r.c7120,0),tSAN=filtDet.reduce((s,r)=>s+r.c9SAN,0),tDom=filtDet.reduce((s,r)=>s+r.c0091,0);
-  document.getElementById('d-stats').innerHTML=`<div class="sc"><span class="v cy">${filtDet.length.toLocaleString('es-AR')}</span><span class="l">registros</span></div><div class="sc"><span class="v cr">${cAus}</span><span class="l">con ausentismo</span></div><div class="sc"><span class="v" style="color:var(--accent)">${cTard}</span><span class="l">9LLT</span></div><div class="sc"><span class="v cp">${fh(tExt)}</span><span class="l">7120</span></div><div class="sc"><span class="v cb">${fh(tDom)}</span><span class="l">PT 0091</span></div><div class="sc"><span class="v" style="color:var(--accent4)">${fh(tSAN)}</span><span class="l">9SAN</span></div>`;
-  renderDetallePage();
-}
-
-function renderDetallePage(){
-  const start=(pageDet-1)*PD,slice=filtDet.slice(start,start+PD);
-  const body=document.getElementById('d-body');
-  if(!slice.length){body.innerHTML=`<tr><td colspan="22"><div class="empty"><div class="empty-icon">🔎</div>Sin resultados</div></td></tr>`;document.getElementById('d-pag').innerHTML='';return;}
-  body.innerHTML=slice.map(r=>`<tr style="${r.phtd==='9999'?'opacity:.38':''}"><td class="mo">${r.nro}</td><td style="min-width:170px">${r.nombre}</td><td class="dm">${r.sucCodigo}</td><td class="mo">${r.fecha}</td><td class="dm">${r.dia}</td><td class="dm">${r.horTeo}</td><td class="mo ${r.horaEnt?'':'dm'}">${r.horaEnt||'—'}</td><td class="mo ${r.horaSal?'':'dm'}">${r.horaSal||'—'}</td><td class="${r.tardanza&&r.tardanza!=='00:00'?'hy':'dm'}">${r.tardanza||'—'}</td><td>${r.ausentismo?`<span class="pill pill-r">${r.ausentismo}</span>`:'<span class="pill pill-dim">—</span>'}</td><td>${r.suplencia?`<span class="pill pill-g">${r.suplencia}</span>`:'—'}</td><td class="nr">${r.c0090>0?fh(r.c0090):'—'}</td><td class="${r.c0091>0?'hb':'nr'}">${r.c0091>0?fh(r.c0091):'—'}</td><td class="nr">${(r.c014A||0)>0?fh(r.c014A):'—'}</td><td class="nr">${(r.c014B||0)>0?fh(r.c014B):'—'}</td><td class="'nr'">${(r.c014C||0)>0?fh(r.c014C):'—'}</td><td class="nr">${(r.c014D||0)>0?fh(r.c014D):'—'}</td><td class="nr">${(r.c0155||0)>0?fh(r.c0155):'—'}</td><td class="nr">${r.c0100>0?fh(r.c0100):'—'}</td><td class="nr">${r.c0120>0?fh(r.c0120):'—'}</td><td class="${r.c7120>0?'hp':'nr'}">${r.c7120>0?fh(r.c7120):'—'}</td><td class="nr">${(r.c8120||0)>0?fh(r.c8120):'—'}</td><td class="${r.c9SAN>0?'hb':'nr'}">${r.c9SAN>0?fh(r.c9SAN):'—'}</td><td class="nr">${r.c9IMP>0?fh(r.c9IMP):'—'}</td></tr>`).join('');
-  renderPag('d-pag',filtDet.length,PD,pageDet,p=>{pageDet=p;renderDetallePage();});
-}
-
-// ══ EXPORTAR ══════════════════════════════════════════════
 function abrirModalExport(){
   const sucVal=document.getElementById('r-suc').value;
   const sucTxt=sucVal?document.getElementById('r-suc').options[document.getElementById('r-suc').selectedIndex].text:'Todas las sucursales';
-  document.getElementById('export-filtros-info').innerHTML=`<b>Período:</b> ${periodoActivo}<br><b>Sucursal:</b> ${sucTxt}<br><b>Empleados en resumen:</b> ${filtRes.length}<br><b>Filas en detalle:</b> ${filtDet.length.toLocaleString('es-AR')}`;
-  document.getElementById('modal-export').classList.add('open');
-  validarExp();
+  document.getElementById('export-filtros-info').innerHTML=`<b>Período:</b> ${periodoActivo}<br><b>Sucursal:</b> ${sucTxt}<br><b>Empleados en resumen:</b> ${filtRes.length}`;
+  document.getElementById('modal-export').classList.add('open');validarExp();
 }
 function cerrarModalExport(){document.getElementById('modal-export').classList.remove('open');}
 function toggleCheck(cbId,wrapId){const cb=document.getElementById(cbId);cb.checked=!cb.checked;syncCheck(wrapId,cbId);validarExp();}
@@ -1661,11 +1128,11 @@ function syncCheck(wrapId,cbId){document.getElementById(wrapId).classList.toggle
 function validarExp(){document.getElementById('btn-confirm-exp').disabled=!['exp-resumen','exp-detalle','exp-rankings','exp-kpis'].some(id=>document.getElementById(id).checked);}
 
 function exportarExcel(){
-  const incRes=document.getElementById('exp-resumen')?.checked??true,incDet=false,incRank=document.getElementById('exp-rankings')?.checked??true,incKpi=document.getElementById('exp-kpis')?.checked??true;
+  const incRes=document.getElementById('exp-resumen')?.checked??true;
+  const incRank=document.getElementById('exp-rankings')?.checked??true;
+  const incKpi=document.getElementById('exp-kpis')?.checked??true;
   const ms=!document.getElementById('r-suc').value;
-  const tR=parseFloat(document.getElementById('cfg-red')?.value)||1,tY=parseFloat(document.getElementById('cfg-yellow')?.value)||0.25;
   const wb=XLSX.utils.book_new();
-
   const XS={
     hdr:{font:{bold:true,color:{rgb:'FFFFFF'},sz:10,name:'Calibri'},fill:{fgColor:{rgb:'1E3A5F'}},alignment:{horizontal:'center',vertical:'center',wrapText:true},border:{top:{style:'thin',color:{rgb:'CCCCCC'}},bottom:{style:'thin',color:{rgb:'CCCCCC'}},left:{style:'thin',color:{rgb:'CCCCCC'}},right:{style:'thin',color:{rgb:'CCCCCC'}}}},
     total:{font:{bold:true,color:{rgb:'FFFFFF'},sz:10,name:'Calibri'},fill:{fgColor:{rgb:'2E6DA4'}},alignment:{horizontal:'right',vertical:'center'},border:{top:{style:'medium',color:{rgb:'1E3A5F'}},bottom:{style:'medium',color:{rgb:'1E3A5F'}},left:{style:'thin',color:{rgb:'CCCCCC'}},right:{style:'thin',color:{rgb:'CCCCCC'}}}},
@@ -1688,36 +1155,61 @@ function exportarExcel(){
     rows.forEach((row,R)=>{if(row.length>maxC)maxC=row.length;row.forEach((cell,C)=>{const ref=XLSX.utils.encode_cell({r:R,c:C});if(cell&&typeof cell==='object'&&'s' in cell){ws[ref]={v:cell.v,s:cell.s};if(typeof cell.v==='number')ws[ref].t='n';}else{ws[ref]={v:cell===null||cell===undefined?'':cell};}});});
     ws['!ref']=XLSX.utils.encode_range({s:{r:0,c:0},e:{r:rows.length-1,c:maxC-1}});return ws;
   }
-
   if(incRes&&filtRes.length){
-    const hdrs=['N° Empleado','Nombre',...(ms?['Cod. Suc.','Sucursal / Zona']:[]),'PT 0090','FT 0100','FT 0120','Ausent.(días)','Suplencias','9LLT\n(hs)','9SAN','7120','PT 0091','9IMP'];
+    const hdrs=['N° Empleado','Nombre',...(ms?['Cod. Suc.','Sucursal / Zona']:[]),'PT 0090','FT 0100','FT 0120','Ausent.(días)','Suplencias','9LLTHS\n(HH:MM)','9SAN','7120','PT 0091','9IMPHS'];
     const rows=[hdrs.map(h=>xc(h,XS.hdr))];
-    filtRes.forEach((r,i)=>{const a=i%2===1,cs=a?XS.cellAlt:XS.cell,cn=XS.num(a);const row=[xc(r.nro,{...cs,font:{...cs.font,name:'Courier New',sz:9}}),xc(r.nombre,cs)];if(ms)row.push(xc(r.sucCodigo,{...cs,alignment:{horizontal:'center',vertical:'center'}}),xc(r.sucNombre,cs));row.push(xcN(n2(r.c0090),cn),r.c0100>0?xcN(n2(r.c0100),{...cn,font:{...cn.font,color:{rgb:'A05000'},bold:true}}):xc('—',{...cn,font:{...cn.font,color:{rgb:'CCCCCC'}}}),r.c0120>0?xcN(n2(r.c0120),XS.aus(a)):xc('—',{...cn,font:{...cn.font,color:{rgb:'CCCCCC'}}}),r.aus>0?xcN(r.aus,XS.aus(a)):xc('—',{...cn,font:{...cn.font,color:{rgb:'CCCCCC'}}}),r.sup>0?xcN(r.sup,XS.sup(a)):xc('—',{...cn,font:{...cn.font,color:{rgb:'CCCCCC'}}}),r.tardHs>0?xcN(n2(r.tardHs),r.tardHs>=tR?XS.semRojo:XS.semAmar):xc('—',{...cn,font:{...cn.font,color:{rgb:'CCCCCC'}}}),r.c9SAN>0?xcN(n2(r.c9SAN),{...cn,font:{...cn.font,color:{rgb:'1A5C8A'}}}):xc('—',{...cn,font:{...cn.font,color:{rgb:'CCCCCC'}}}),r.c7120>0?xcN(n2(r.c7120),{...cn,font:{...cn.font,color:{rgb:'6B21A8'}}}):xc('—',{...cn,font:{...cn.font,color:{rgb:'CCCCCC'}}}),r.c0091>0?xcN(n2(r.c0091),{...cn,font:{...cn.font,color:{rgb:'1A5C8A'}}}):xc('—',{...cn,font:{...cn.font,color:{rgb:'CCCCCC'}}}),xcN(n2(r.c9IMP),cn));rows.push(row);});
-    const T={c0090:0,c0091:0,c0100:0,c0120:0,c7120:0,c9IMP:0,c9SAN:0,tardHs:0,aus:0,sup:0};filtRes.forEach(r=>{T.c0090+=r.c0090;T.c0091+=r.c0091;T.c0100+=r.c0100;T.c0120+=r.c0120;T.c7120+=r.c7120;T.c9IMP+=r.c9IMP;T.c9SAN+=r.c9SAN;T.tardHs+=r.tardHs;T.aus+=r.aus;T.sup+=r.sup;});
-    const totRow=[xc('TOTAL — '+filtRes.length+' empleados',XS.totalLbl),xc('',XS.total)];if(ms){totRow.push(xc('',XS.total),xc('',XS.total));}totRow.push(xcN(n2(T.c0090),XS.total),xcN(n2(T.c0100),XS.total),xcN(n2(T.c0120),XS.total),xcN(T.aus,XS.total),xcN(T.sup,XS.total),xcN(n2(T.tardHs),XS.total),xcN(n2(T.c9SAN),XS.total),xcN(n2(T.c7120),XS.total),xcN(n2(T.c0091),XS.total),xcN(n2(T.c9IMP),XS.total));rows.push(totRow);
+    filtRes.forEach((r,i)=>{
+      const a=i%2===1,cs=a?XS.cellAlt:XS.cell,cn=XS.num(a);
+      const row=[xc(r.nro,{...cs,font:{...cs.font,name:'Courier New',sz:9}}),xc(r.nombre,cs)];
+      if(ms)row.push(xc(r.sucCodigo,{...cs,alignment:{horizontal:'center',vertical:'center'}}),xc(r.sucNombre,cs));
+      const tardMins=hmToH(r.c9LLTHS||'00:00')*60;
+      const tardStyle=tardMins>=20?XS.semRojo:tardMins>=10?XS.semAmar:cn;
+      row.push(
+        xcN(n2(r.c0090),cn),
+        r.c0100>0?xcN(n2(r.c0100),{...cn,font:{...cn.font,color:{rgb:'A05000'},bold:true}}):xc('—',{...cn,font:{...cn.font,color:{rgb:'CCCCCC'}}}),
+        r.c0120>0?xcN(n2(r.c0120),XS.aus(a)):xc('—',{...cn,font:{...cn.font,color:{rgb:'CCCCCC'}}}),
+        r.aus>0?xcN(r.aus,XS.aus(a)):xc('—',{...cn,font:{...cn.font,color:{rgb:'CCCCCC'}}}),
+        r.sup>0?xcN(r.sup,XS.sup(a)):xc('—',{...cn,font:{...cn.font,color:{rgb:'CCCCCC'}}}),
+        r.c9LLTHS&&r.c9LLTHS!=='00:00'?xc(r.c9LLTHS,tardStyle):xc('—',{...cn,font:{...cn.font,color:{rgb:'CCCCCC'}}}),
+        r.c9SAN>0?xcN(n2(r.c9SAN),{...cn,font:{...cn.font,color:{rgb:'1A5C8A'}}}):xc('—',{...cn,font:{...cn.font,color:{rgb:'CCCCCC'}}}),
+        r.c7120>0?xcN(n2(r.c7120),{...cn,font:{...cn.font,color:{rgb:'6B21A8'}}}):xc('—',{...cn,font:{...cn.font,color:{rgb:'CCCCCC'}}}),
+        r.c0091>0?xcN(n2(r.c0091),{...cn,font:{...cn.font,color:{rgb:'1A5C8A'}}}):xc('—',{...cn,font:{...cn.font,color:{rgb:'CCCCCC'}}}),
+        r.c9IMPHS&&r.c9IMPHS!=='00:00'?xc(r.c9IMPHS,cn):xc('—',{...cn,font:{...cn.font,color:{rgb:'CCCCCC'}}})
+      );
+      rows.push(row);
+    });
+    const T={c0090:0,c0091:0,c0100:0,c0120:0,c7120:0,c9SAN:0,c9LLTHS:'00:00',c9IMPHS:'00:00',aus:0,sup:0};
+    filtRes.forEach(r=>{T.c0090+=r.c0090;T.c0091+=r.c0091;T.c0100+=r.c0100;T.c0120+=r.c0120;T.c7120+=r.c7120;T.c9SAN+=r.c9SAN;T.c9LLTHS=addHM(T.c9LLTHS,r.c9LLTHS||'00:00');T.c9IMPHS=addHM(T.c9IMPHS,r.c9IMPHS||'00:00');T.aus+=r.aus;T.sup+=r.sup;});
+    const totRow=[xc('TOTAL — '+filtRes.length+' empleados',XS.totalLbl),xc('',XS.total)];
+    if(ms){totRow.push(xc('',XS.total),xc('',XS.total));}
+    totRow.push(xcN(n2(T.c0090),XS.total),xcN(n2(T.c0100),XS.total),xcN(n2(T.c0120),XS.total),xcN(T.aus,XS.total),xcN(T.sup,XS.total),xc(T.c9LLTHS,XS.total),xcN(n2(T.c9SAN),XS.total),xcN(n2(T.c7120),XS.total),xcN(n2(T.c0091),XS.total),xc(T.c9IMPHS,XS.total));
+    rows.push(totRow);
     const ws=aoaStyled(rows);ws['!rows']=[{hpt:30},...filtRes.map(()=>({hpt:18})),{hpt:22}];ws['!cols']=[{wch:13},{wch:32},...(ms?[{wch:9},{wch:24}]:[]),...Array(11).fill({wch:13})];ws['!freeze']={xSplit:0,ySplit:1,topLeftCell:'A2',activeCell:'A2',sqref:'A2'};
     XLSX.utils.book_append_sheet(wb,ws,'Resumen');
   }
-  if(incDet&&filtDet.length){
-    const hdrs=['N° Empleado','Nombre','Suc.','Zona','Fecha','Día','Horario','H. Entrada','H. Salida','9LLT','Ausentismo','Suplencia','PT 0090','PT 0091','FT 0100','FT 0120','7120','9SAN','9IMP'];
-    const rows=[hdrs.map(h=>xc(h,XS.hdr))];
-    filtDet.forEach((r,i)=>{const a=i%2===1,cs=a?XS.cellAlt:XS.cell,cn=XS.num(a);const tt=r.tardanza&&r.tardanza!=='00:00';rows.push([xc(r.nro,{...cs,font:{...cs.font,name:'Courier New',sz:9}}),xc(r.nombre,cs),xc(r.sucCodigo,{...cs,alignment:{horizontal:'center',vertical:'center'}}),xc(r.sucNombre,cs),xc(r.fecha,{...cs,alignment:{horizontal:'center',vertical:'center'}}),xc(r.dia,{...cs,alignment:{horizontal:'center',vertical:'center'}}),xc(r.horTeo,{...cs,font:{...cs.font,sz:9}}),xc(r.horaEnt||'—',{...cs,alignment:{horizontal:'center',vertical:'center'}}),xc(r.horaSal||'—',{...cs,alignment:{horizontal:'center',vertical:'center'}}),tt?xc(r.tardanza,{...cs,font:{...cs.font,bold:true,color:{rgb:'A05000'}},fill:{fgColor:{rgb:a?'FFF3E0':'FFF8F0'}},alignment:{horizontal:'center',vertical:'center'}}):xc('—',{...cn,font:{...cn.font,color:{rgb:'CCCCCC'}}}),r.ausentismo?xc(r.ausentismo,{...cs,font:{...cs.font,bold:true,color:{rgb:'C0392B'}},fill:{fgColor:{rgb:a?'FDECEA':'FFF5F5'}}}):xc('—',{...cn,font:{...cn.font,color:{rgb:'CCCCCC'}}}),r.suplencia?xc(r.suplencia,{...cs,font:{...cs.font,bold:true,color:{rgb:'1A7A4A'}},fill:{fgColor:{rgb:a?'EAF7EF':'F0FBF5'}}}):xc('—',{...cn,font:{...cn.font,color:{rgb:'CCCCCC'}}}),r.c0090>0?xcN(n2(r.c0090),cn):xc('—',{...cn,font:{...cn.font,color:{rgb:'CCCCCC'}}}),r.c0091>0?xcN(n2(r.c0091),{...cn,font:{...cn.font,color:{rgb:'1A5C8A'}}}):xc('—',{...cn,font:{...cn.font,color:{rgb:'CCCCCC'}}}),r.c0100>0?xcN(n2(r.c0100),{...cn,font:{...cn.font,color:{rgb:'A05000'},bold:true}}):xc('—',{...cn,font:{...cn.font,color:{rgb:'CCCCCC'}}}),r.c0120>0?xcN(n2(r.c0120),XS.aus(a)):xc('—',{...cn,font:{...cn.font,color:{rgb:'CCCCCC'}}}),r.c7120>0?xcN(n2(r.c7120),{...cn,font:{...cn.font,color:{rgb:'6B21A8'}}}):xc('—',{...cn,font:{...cn.font,color:{rgb:'CCCCCC'}}}),r.c9SAN>0?xcN(n2(r.c9SAN),{...cn,font:{...cn.font,color:{rgb:'1A5C8A'}}}):xc('—',{...cn,font:{...cn.font,color:{rgb:'CCCCCC'}}}),xcN(n2(r.c9IMP),cn)]);});
-    const ws=aoaStyled(rows);ws['!rows']=[{hpt:28},...filtDet.map(()=>({hpt:16}))];ws['!cols']=[{wch:13},{wch:30},{wch:6},{wch:22},{wch:12},{wch:11},{wch:16},{wch:10},{wch:10},{wch:10},{wch:26},{wch:16},{wch:10},{wch:10},{wch:9},{wch:9},{wch:10},{wch:10},{wch:11}];ws['!freeze']={xSplit:0,ySplit:1,topLeftCell:'A2',activeCell:'A2',sqref:'A2'};
-    XLSX.utils.book_append_sheet(wb,ws,'Detalle');
-  }
   if(incRank&&filtRes.length){
-    const RD=[{key:'c0100',label:'Top 10 — Hs. al 50 FT 0100',color:'B35000'},{key:'c0120',label:'Top 10 — Hs. al 100 FT 0120',color:'C0392B'},{key:'aus',label:'Top 10 — Ausentismo',color:'A93226'},{key:'sup',label:'Top 10 — Suplencias',color:'1A7A4A'},{key:'tardHs',label:'Top 10 — Llegadas Tarde',color:'A05000'},{key:'c9SAN',label:'Top 10 — Salida Anticipada',color:'1A5C8A'}];
-    const rows=[];RD.forEach(def=>{rows.push([xc(def.label,XS.rankHdr(def.color)),xc('N° Empleado',XS.rankHdr(def.color)),xc('Nombre',XS.rankHdr(def.color)),xc('Sucursal',XS.rankHdr(def.color)),xc('Valor',XS.rankHdr(def.color))]);const sorted=[...filtRes].sort((a,b)=>b[def.key]-a[def.key]).filter(r=>r[def.key]>0).slice(0,10);if(!sorted.length){rows.push([xc('Sin datos',{font:{sz:10,name:'Calibri',color:{rgb:'999999'},italic:true},fill:{fgColor:{rgb:'FAFAFA'}},border:{bottom:{style:'thin',color:{rgb:'EEEEEE'}}}}),xc(''),xc(''),xc(''),xc('')]);}else{sorted.forEach((r,i)=>{const a=i%2===1,cs=a?XS.cellAlt:XS.cell,cn=XS.num(a);rows.push([xc(i+1,{...cn,font:{...cn.font,bold:true,color:{rgb:def.color}},alignment:{horizontal:'center',vertical:'center'}}),xc(r.nro,{...cs,font:{...cs.font,name:'Courier New',sz:9}}),xc(r.nombre,cs),xc(r.sucNombre,{...cs,font:{...cs.font,sz:9,color:{rgb:'555555'}}}),xcN(n2(r[def.key]),{...cn,font:{...cn.font,bold:true,color:{rgb:def.color}}})]);});}rows.push([xc(''),xc(''),xc(''),xc(''),xc('')]);});
+    const RD=[{key:'c0100',label:'Top 10 — Hs. al 50 FT 0100',color:'B35000'},{key:'c0120',label:'Top 10 — Hs. al 100 FT 0120',color:'C0392B'},{key:'aus',label:'Top 10 — Ausentismo',color:'A93226'},{key:'sup',label:'Top 10 — Suplencias',color:'1A7A4A'},{key:'c9LLTHS',label:'Top 10 — Llegadas Tarde 9LLTHS',color:'A05000',isHM:true},{key:'c9SAN',label:'Top 10 — Salida Anticipada',color:'1A5C8A'}];
+    const rows=[];
+    RD.forEach(def=>{
+      rows.push([xc(def.label,XS.rankHdr(def.color)),xc('N° Empleado',XS.rankHdr(def.color)),xc('Nombre',XS.rankHdr(def.color)),xc('Sucursal',XS.rankHdr(def.color)),xc('Valor',XS.rankHdr(def.color))]);
+      const sorted=[...filtRes].sort((a,b)=>{const va=def.isHM?hmToH(a[def.key]||'00:00'):(a[def.key]||0);const vb=def.isHM?hmToH(b[def.key]||'00:00'):(b[def.key]||0);return vb-va;}).filter(r=>def.isHM?hmToH(r[def.key]||'00:00')>0:(r[def.key]||0)>0).slice(0,10);
+      if(!sorted.length){rows.push([xc('Sin datos',{font:{sz:10,name:'Calibri',color:{rgb:'999999'},italic:true},fill:{fgColor:{rgb:'FAFAFA'}}}),xc(''),xc(''),xc(''),xc('')]);}
+      else{sorted.forEach((r,i)=>{const a=i%2===1,cs=a?XS.cellAlt:XS.cell,cn=XS.num(a);rows.push([xc(i+1,{...cn,font:{...cn.font,bold:true,color:{rgb:def.color}},alignment:{horizontal:'center',vertical:'center'}}),xc(r.nro,{...cs,font:{...cs.font,name:'Courier New',sz:9}}),xc(r.nombre,cs),xc(r.sucNombre,{...cs,font:{...cs.font,sz:9,color:{rgb:'555555'}}}),def.isHM?xc(r[def.key]||'—',{...cn,font:{...cn.font,bold:true,color:{rgb:def.color}}}):xcN(n2(r[def.key]),{...cn,font:{...cn.font,bold:true,color:{rgb:def.color}}})]);});}
+      rows.push([xc(''),xc(''),xc(''),xc(''),xc('')]);
+    });
     const ws=aoaStyled(rows);ws['!cols']=[{wch:32},{wch:13},{wch:30},{wch:22},{wch:12}];XLSX.utils.book_append_sheet(wb,ws,'Rankings');
   }
   if(incKpi&&filtRes.length){
-    const T={c0090:0,c0091:0,c0100:0,c0120:0,c7120:0,c9IMP:0,c9SAN:0,tardHs:0,aus:0,sup:0};filtRes.forEach(r=>{T.c0090+=r.c0090;T.c0091+=r.c0091;T.c0100+=r.c0100;T.c0120+=r.c0120;T.c7120+=r.c7120;T.c9IMP+=r.c9IMP;T.c9SAN+=r.c9SAN;T.tardHs+=r.tardHs;T.aus+=r.aus;T.sup+=r.sup;});
+    const tLLT=filtRes.reduce((s,r)=>s+hmToH(r.c9LLTHS||'00:00'),0);
+    const tLLTStr=(()=>{const h=Math.floor(tLLT),mm=Math.round((tLLT-h)*60);return String(h).padStart(2,'0')+':'+String(mm).padStart(2,'0');})();
+    const T={c0090:0,c0091:0,c0100:0,c0120:0,c7120:0,c9SAN:0,aus:0,sup:0};
+    filtRes.forEach(r=>{T.c0090+=r.c0090;T.c0091+=r.c0091;T.c0100+=r.c0100;T.c0120+=r.c0120;T.c7120+=r.c7120;T.c9SAN+=r.c9SAN;T.aus+=r.aus;T.sup+=r.sup;});
     const sucTxt=document.getElementById('r-suc').value?document.getElementById('r-suc').options[document.getElementById('r-suc').selectedIndex].text:'Todas las sucursales';
-    const kpis=[{l:'Período',v:periodoActivo,t:true},{l:'Sucursal / Filtro',v:sucTxt,t:true},{l:'Empleados',v:filtRes.length},{l:'PT 0090',v:n2(T.c0090)},{l:'FT 0100',v:n2(T.c0100)},{l:'FT 0120',v:n2(T.c0120)},{l:'Días Ausentismo',v:T.aus},{l:'Suplencias',v:T.sup},{l:'9LLT',v:n2(T.tardHs)},{l:'9SAN',v:n2(T.c9SAN)},{l:'7120',v:n2(T.c7120)},{l:'PT 0091',v:n2(T.c0091)},{l:'9IMP',v:n2(T.c9IMP)},null,{l:'Umbral rojo tardanza (hs)',v:tR},{l:'Umbral amarillo tardanza (hs)',v:tY}];
-    const rows=[[xc('Indicador',XS.hdr),xc('Valor',XS.hdr)]];kpis.forEach(k=>{if(!k){rows.push([xc(''),xc('')]);return;}rows.push([xc(k.l,XS.kpiLbl),k.t?xc(k.v,{...XS.kpiVal,alignment:{horizontal:'left',vertical:'center'}}):xcN(k.v,XS.kpiVal)]);});
+    const kpis=[{l:'Período',v:periodoActivo,t:true},{l:'Sucursal / Filtro',v:sucTxt,t:true},{l:'Empleados',v:filtRes.length},{l:'PT 0090',v:n2(T.c0090)},{l:'FT 0100',v:n2(T.c0100)},{l:'FT 0120',v:n2(T.c0120)},{l:'Días Ausentismo',v:T.aus},{l:'Suplencias',v:T.sup},{l:'9LLTHS (HH:MM)',v:tLLTStr,t:true},{l:'9SAN',v:n2(T.c9SAN)},{l:'7120',v:n2(T.c7120)},{l:'PT 0091',v:n2(T.c0091)}];
+    const rows=[[xc('Indicador',XS.hdr),xc('Valor',XS.hdr)]];
+    kpis.forEach(k=>{if(!k){rows.push([xc(''),xc('')]);return;}rows.push([xc(k.l,XS.kpiLbl),k.t?xc(k.v,{...XS.kpiVal,alignment:{horizontal:'left',vertical:'center'}}):xcN(k.v,XS.kpiVal)]);});
     const ws=aoaStyled(rows);ws['!cols']=[{wch:30},{wch:20}];XLSX.utils.book_append_sheet(wb,ws,'KPIs');
   }
-
   if(!wb.SheetNames.length){alert('Seleccioná al menos una sección.');return;}
   const sucVal=document.getElementById('r-suc').value||'todas';
   const hoy=new Date();const fecha=`${hoy.getFullYear()}${String(hoy.getMonth()+1).padStart(2,'0')}${String(hoy.getDate()).padStart(2,'0')}`;
@@ -1725,42 +1217,35 @@ function exportarExcel(){
   cerrarModalExport();
 }
 
-// ══ UTILS ══════════════════════════════════════════════════
-async function gas(action, params={}){
-  // GET para lecturas, POST para escrituras (uploadData, clearSucursal, clearPeriodo)
-  const writeActions = ['uploadData','clearSucursal','clearPeriodo'];
+async function gas(action,params={}){
+  const writeActions=['uploadData','clearSucursal','clearPeriodo'];
   if(writeActions.includes(action)){
-    const body = { action, ...params };
-    const res = await fetch(GAS_URL, {
-      method: 'POST',
-      body: JSON.stringify(body)
-    });
-    const data = await res.json();
-    if(!data.ok && data.error) throw new Error(data.error);
+    const body={action,...params};
+    const res=await fetch(GAS_URL,{method:'POST',body:JSON.stringify(body)});
+    const data=await res.json();
+    if(!data.ok&&data.error)throw new Error(data.error);
     return data;
-  } else {
-    const url = new URL(GAS_URL);
-    url.searchParams.set('action', action);
-    Object.entries(params).forEach(([k,v]) => url.searchParams.set(k, v));
-    const res = await fetch(url.toString());
-    const data = await res.json();
-    if(!data.ok && data.error) throw new Error(data.error);
+  }else{
+    const url=new URL(GAS_URL);
+    url.searchParams.set('action',action);
+    Object.entries(params).forEach(([k,v])=>url.searchParams.set(k,v));
+    const res=await fetch(url.toString());
+    const data=await res.json();
+    if(!data.ok&&data.error)throw new Error(data.error);
     return data;
   }
 }
 
 async function sha256(msg){
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+  const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(msg));
   return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
 }
 
 function parseTard(t){if(!t||t==='00:00')return 0;const m=String(t).match(/(\d+):(\d+)/);if(m)return parseInt(m[1])+parseInt(m[2])/60;return parseFloat(t)||0;}
 function fh(n){if(!n||n===0)return'—';return parseFloat(n).toLocaleString('es-AR',{minimumFractionDigits:0,maximumFractionDigits:2});}
 function n2(v){return v?parseFloat(parseFloat(v).toFixed(2)):0;}
-
 function showLoading(msg){document.getElementById('loading').style.display='flex';document.getElementById('loading-msg').textContent=msg||'Cargando…';}
 function hideLoading(){document.getElementById('loading').style.display='none';}
-
 function renderPag(id,total,ps,cur,onPage){
   const el=document.getElementById(id),tot=Math.ceil(total/ps);
   if(tot<=1){el.innerHTML=`<span style="font-family:var(--mono);font-size:10px;color:var(--text-dim)">${total.toLocaleString('es-AR')} registros</span>`;return;}
@@ -1773,28 +1258,16 @@ function renderPag(id,total,ps,cur,onPage){
   el.innerHTML=h;
 }
 function pgRange(cur,tot){const d=2,r=[];for(let i=Math.max(2,cur-d);i<=Math.min(tot-1,cur+d);i++)r.push(i);r.unshift(1);if(tot>1)r.push(tot);return[...new Set(r)].sort((a,b)=>a-b);}
-
 function togglePanel(){
-  const panel = document.querySelector('.res-panel');
-  const btn = document.getElementById('btn-panel-toggle');
-  if(!panel) return;
-  const visible = panel.style.display !== 'none';
-  panel.style.display = visible ? 'none' : 'flex';
-  btn.textContent = visible ? '☰ Ver rankings y semáforo' : '✕ Ocultar panel';
+  const panel=document.querySelector('.res-panel');const btn=document.getElementById('btn-panel-toggle');if(!panel)return;
+  const visible=panel.style.display!=='none';panel.style.display=visible?'none':'flex';
+  btn.textContent=visible?'☰ Ver rankings y semáforo':'✕ Ocultar panel';
 }
-
-function isMobile(){ return window.innerWidth <= 480; }
-
-// Mostrar botón panel en móvil
-window.addEventListener('resize', () => {
-  const btn = document.getElementById('btn-panel-toggle');
-  if(btn) btn.style.display = isMobile() ? 'flex' : 'none';
-});
-
+function isMobile(){return window.innerWidth<=480;}
+window.addEventListener('resize',()=>{const btn=document.getElementById('btn-panel-toggle');if(btn)btn.style.display=isMobile()?'flex':'none';});
 function switchTab(name){
   document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',(name==='resumen'?0:1)===i));
   document.getElementById('tab-resumen').classList.toggle('active',name==='resumen');
-
 }
 </script>
 </body>
