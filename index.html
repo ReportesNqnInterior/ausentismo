@@ -1272,8 +1272,8 @@ async function subirArchivosDesde(files){
   const periodo = getPeriodoAdmin();
   if(!periodo){alert('Especificá el período antes de subir archivos.');return;}
 
-  const statusEl = document.getElementById('drawer-status');
-  abrirDrawer();
+  const statusEl = document.getElementById('admin-upload-status');
+  statusEl.style.cssText = 'margin-top:12px;max-height:300px;overflow-y:auto;border-top:1px solid var(--border);padding-top:12px';
 
   // Estado de cada archivo: waiting / uploading / done / error / conflict
   const estados = xlsxFiles.map(f=>({name:f.name.replace(/\.xlsx?$/i,''), state:'waiting', pct:0, info:'en espera'}));
@@ -1352,7 +1352,6 @@ async function subirArchivosDesde(files){
     estados[_fi].pct = 0;
     estados[_fi].info = '0%';
     renderStatus();
-    showLoading(`Subiendo sucursal ${_fi+1} de ${xlsxFiles.length}…`);
 
     try {
       const filas = await leerXlsx(f);
@@ -1380,7 +1379,7 @@ async function subirArchivosDesde(files){
             renderStatus(); continue;
           }
         } else if(checkRes.error==='Contraseña incorrecta'){
-          alert('Contraseña incorrecta.'); hideLoading(); return;
+          alert('Contraseña incorrecta.'); return;
         }
       }
 
@@ -1413,7 +1412,6 @@ async function subirArchivosDesde(files){
       estados[_fi].info=err.message;
       renderStatus();
     }
-    hideLoading();
   }
 
   // Refrescar lista de sucursales
@@ -1423,7 +1421,6 @@ async function subirArchivosDesde(files){
 
   const hayExitos = estados.some(e=>e.state==='done'&&e.info!=='saltado');
   setTimeout(async()=>{
-    cerrarDrawer();
     cerrarAdmin();
     if(hayExitos){
       if(document.getElementById('app').style.display!=='none'){
@@ -1432,7 +1429,7 @@ async function subirArchivosDesde(files){
         await iniciar();
       }
     }
-  }, hayExitos ? 1500 : 500);
+  }, hayExitos ? 2500 : 500);
 }
 
 
